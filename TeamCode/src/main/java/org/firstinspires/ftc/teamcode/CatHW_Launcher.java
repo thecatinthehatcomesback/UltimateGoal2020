@@ -3,16 +3,17 @@ package org.firstinspires.ftc.teamcode;
 import android.util.Log;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * CatHW_Tail.java
+ * CatHW_Launcher.java
  *
  *
  * A "hardware" class containing common code accessing hardware specific to the movement and
- * rotation of the tail/stacker.
+ * rotation of the Launcher.
  *
  *
  * This is NOT an OpMode.  This class is used to define all the other hardware classes.
@@ -21,15 +22,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *
  * @author FTC Team #10273, The Cat in the Hat Comes Back
  */
-public class CatHW_Tail extends CatHW_Subsystem
+public class CatHW_Launcher extends CatHW_Subsystem
 {
-    /* OpMode members. */
-    private static final double GRABBER_OPEN = 1.0;
-    private static final double GRABBER_CLOSE = -1.0;
 
     // Motors:
-    public DcMotor tailLift     = null;
-    public Servo grabberServo   = null;
+    public DcMotor launcher     = null;
+    public Servo stopper   = null;
+    public Servo aimer   = null;
+    private double launchPower = 0.52;
 
     /* local OpMode members. */
     // Timers:
@@ -37,7 +37,7 @@ public class CatHW_Tail extends CatHW_Subsystem
 
 
     /* Constructor */
-    public CatHW_Tail(CatHW_Async mainHardware) {
+    public CatHW_Launcher(CatHW_Async mainHardware) {
         super(mainHardware);
     }
 
@@ -48,34 +48,55 @@ public class CatHW_Tail extends CatHW_Subsystem
     public void init() {
 
         // Define and Initialize Motors and Servos: //
-        tailLift        = hwMap.dcMotor.get("tail_lift");
-        grabberServo    = hwMap.servo.get("grabber_servo");
+        launcher        = hwMap.get(DcMotorEx.class, "launcher");
+        stopper    = hwMap.servo.get("ringStopper");
+        aimer    = hwMap.servo.get("aimer");
 
         // Set Motor and Servo Directions: //
-        tailLift.setDirection(DcMotorSimple.Direction.REVERSE);
+        launcher.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Set Motor and Servo Modes: //
-        tailLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 
 
     //----------------------------------------------------------------------------------------------
-    // Stacker Methods:
+    // launcher Methods:
     //----------------------------------------------------------------------------------------------
 
     /**
-     * Closes the wobble grabber.
+     *  Turning On and Off the launched wheel
      */
-    public void closeGrabber() {
-        grabberServo.setPosition(GRABBER_CLOSE);
+    public void powerOn() {
+        launcher.setPower(launchPower);
+    }
+
+    public void powerOff() {
+        launcher.setPower(0.0);
+    }
+
+    public double getPower () {
+        return launchPower;
+    }
+
+    public void increasePower () {
+        launchPower = launchPower + 0.02;
+    }
+
+    public void decreasePower () {
+        launchPower = launchPower - 0.02;
     }
 
     /**
-     * Opens the wobble grabber.
+     * Opens and Closes stopper.
      */
-    public void openGrabber() {
-        grabberServo.setPosition(GRABBER_OPEN);
+    public void openLauncher () {
+        stopper.setPosition(0.0);
+    }
+
+    public void closeLauncher () {
+        stopper.setPosition(1.0);
     }
 
 
@@ -85,9 +106,9 @@ public class CatHW_Tail extends CatHW_Subsystem
     //----------------------------------------------------------------------------------------------
     @Override
     public boolean isDone() {
-        Log.d("catbot", String.format("tail lift power %.2f,", tailLift.getPower()));
+        Log.d("catbot", String.format("launcher power %.2f,", launcher.getPower()));
         /* isDone stuff for CatHW_Jaws */
         double TIMEOUT = 3.0;
-        return !(tailLift.isBusy() && (runtime.seconds() < TIMEOUT));
+        return !(launcher.isBusy() && (runtime.seconds() < TIMEOUT));
     }
 }// End of class bracket

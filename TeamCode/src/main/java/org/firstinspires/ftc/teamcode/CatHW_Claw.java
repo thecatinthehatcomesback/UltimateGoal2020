@@ -25,7 +25,7 @@ public class CatHW_Claw  extends CatHW_Subsystem
 
 
     /* Constructor */
-    public CatHW_Claw(CatHW_Async mainHardware) {
+    public CatHW_Claw (CatHW_Async mainHardware) {
         super(mainHardware);
     }
 
@@ -33,7 +33,7 @@ public class CatHW_Claw  extends CatHW_Subsystem
     /**
      * Initialize standard Hardware interfaces for the Claw subsystem.
      */
-    public void init() {
+    public void init () {
         rightFoundationClaw = hwMap.servo.get("right_claw_servo");
         leftFoundationClaw  = hwMap.servo.get("left_claw_servo");
         capstoneClaw = hwMap.servo.get("capstone_servo");
@@ -51,7 +51,7 @@ public class CatHW_Claw  extends CatHW_Subsystem
     /**
      * Bring the foundation claws down and latch onto the foundation.
      */
-    public void extendClaws() {
+    public void extendClaws () {
         rightFoundationClaw.setPosition(0.43);
         leftFoundationClaw.setPosition(.18);
     }
@@ -59,7 +59,7 @@ public class CatHW_Claw  extends CatHW_Subsystem
     /**
      * Lift the foundation claws to folded position.
      */
-    public void retractClaws() {
+    public void retractClaws () {
         // Right starts at 1 and moves to .40 for a total movement of .57
         rightFoundationClaw.setPosition(1);
         // Left starts at 0 and moves to .18 for a total movement of .18

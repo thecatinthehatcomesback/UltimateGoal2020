@@ -130,10 +130,6 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
 
             // Tail/Stacker lift motor controls:
             robot.tail.tailLift.setPower(gamepad2.right_stick_y);
-            robot.tail.tailLift2.setPower(gamepad2.right_stick_y);
-
-            // Extend controls:
-            robot.tail.tailExtend.setPower(-gamepad2.left_stick_y);
 
             // Grabber controls:
             if (gamepad2.left_bumper) {
