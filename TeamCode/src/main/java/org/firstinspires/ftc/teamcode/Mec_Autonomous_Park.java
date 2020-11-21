@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -68,7 +67,7 @@ public class Mec_Autonomous_Park extends LinearOpMode
             }
 
             // Look for SkyStone positions:
-            robot.eyes.findSkyStone();
+            //robot.eyes.findSkyStone();
 
             if (gamepad1.dpad_up && (delayTimer.seconds() > 0.8)) {
                 // Increases the amount of time we wait.
@@ -104,9 +103,9 @@ public class Mec_Autonomous_Park extends LinearOpMode
             LED code:
              */
             if (CatHW_Async.isRedAlliance) {
-                robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_LAVA_PALETTE);
+                //robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_LAVA_PALETTE);
             } else {
-                robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_OCEAN_PALETTE);
+                //robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_OCEAN_PALETTE);
             }
 
             /*
@@ -114,7 +113,7 @@ public class Mec_Autonomous_Park extends LinearOpMode
              */
             telemetry.addData("Delay Timer: ", timeDelay);
 
-
+/*
             skyStonePos = robot.eyes.giveSkyStonePos();
             if (skyStonePos == CatHW_Vision.skyStonePos.OUTSIDE && !isRedAlliance){
                 skyStonePos = CatHW_Vision.skyStonePos.CENTER;
@@ -136,7 +135,7 @@ public class Mec_Autonomous_Park extends LinearOpMode
             } else {
                 telemetry.addData("Alliance: ", "Blue");
             }
-
+*/
             telemetry.addData("isParkAtWall ", isParkAtWall);
             telemetry.update();
 

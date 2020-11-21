@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode;
 import android.util.Log;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.ReadWriteFile;
 
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
-import org.openftc.revextensions2.ExpansionHubEx;
-import org.openftc.revextensions2.RevBulkData;
+//import org.openftc.revextensions2.ExpansionHubEx;
+//import org.openftc.revextensions2.RevBulkData;
 
 import java.io.File;
 
@@ -27,11 +29,13 @@ import java.io.File;
 public class CatOdoPositionUpdate
 {
     // Odometry wheels:
-    private DcMotor verticalEncoderLeft;
-    private DcMotor verticalEncoderRight;
-    private DcMotor horizontalEncoder;
+    private DcMotorEx verticalEncoderLeft;
+    private DcMotorEx verticalEncoderRight;
+    private DcMotorEx horizontalEncoder;
     // Expansion hubs:
-    private ExpansionHubEx expansionHub;
+    public HardwareMap hwMap = null;
+
+    //private ExpansionHubEx expansionHub;
 
     // Position variables used for storage and calculations:
     private double verticalRightEncoderWheelPosition = 0;
@@ -61,7 +65,8 @@ public class CatOdoPositionUpdate
     private int leftEncoderValue = 0;
     private int rightEncoderValue = 0;
     private int horizontalEncoderValue = 0;
-    private RevBulkData bulkData;
+    //private RevBulkData bulkData;
+
     private ElapsedTime time = new ElapsedTime();
 
     private double count_per_in;
@@ -74,29 +79,30 @@ public class CatOdoPositionUpdate
      * @param horizontalEncoder horizontal odometry encoder, perpendicular to the other two odometry
      *                          encoder wheels
      */
-    public CatOdoPositionUpdate(ExpansionHubEx inExpansionHub, DcMotor verticalEncoderLeft,
+    public CatOdoPositionUpdate(HardwareMap hwMap, DcMotor verticalEncoderLeft,
                                 DcMotor verticalEncoderRight, DcMotor horizontalEncoder,
                                 double COUNTS_PER_INCH) {
+
         count_per_in = COUNTS_PER_INCH;
-        expansionHub = inExpansionHub;
-        this.verticalEncoderLeft = verticalEncoderLeft;
-        this.verticalEncoderRight = verticalEncoderRight;
-        this.horizontalEncoder = horizontalEncoder;
+        this.hwMap = hwMap;
+        this.verticalEncoderLeft = (DcMotorEx) verticalEncoderLeft;
+        this.verticalEncoderRight = (DcMotorEx) verticalEncoderRight;
+        this.horizontalEncoder = (DcMotorEx) horizontalEncoder;
 
         robotEncoderWheelDistance = Double.parseDouble(ReadWriteFile.readFile(wheelBaseSeparationFile).trim()) * COUNTS_PER_INCH;
         this.horizontalEncoderTickPerDegreeOffset = Double.parseDouble(ReadWriteFile.readFile(horizontalTickOffsetFile).trim());
         time.reset();
     }
 
-    public CatOdoPositionUpdate(ExpansionHubEx inExpansionHub, DcMotor verticalEncoderLeft,
+    public CatOdoPositionUpdate(HardwareMap hwMap, DcMotor verticalEncoderLeft,
                                 DcMotor verticalEncoderRight, DcMotor horizontalEncoder,
                                 double COUNTS_PER_INCH, double startingX, double startingY,
                                 double startingOrientation) {
         count_per_in = COUNTS_PER_INCH;
-        expansionHub = inExpansionHub;
-        this.verticalEncoderLeft = verticalEncoderLeft;
-        this.verticalEncoderRight = verticalEncoderRight;
-        this.horizontalEncoder = horizontalEncoder;
+        this.hwMap = hwMap;
+        this.verticalEncoderLeft = (DcMotorEx) verticalEncoderLeft;
+        this.verticalEncoderRight = (DcMotorEx) verticalEncoderRight;
+        this.horizontalEncoder = (DcMotorEx) horizontalEncoder;
 
         this.robotGlobalXCoordinatePosition = startingX;
         this.robotGlobalYCoordinatePosition = startingY;
@@ -113,10 +119,16 @@ public class CatOdoPositionUpdate
      */
     public void globalCoordinatePositionUpdate() {
         // Do a bulk read of encoders:
-        bulkData = expansionHub.getBulkInputData();
-        leftEncoderValue = bulkData.getMotorCurrentPosition(verticalEncoderLeft);
-        rightEncoderValue = bulkData.getMotorCurrentPosition(verticalEncoderRight);
-        horizontalEncoderValue = bulkData.getMotorCurrentPosition(horizontalEncoder);
+
+        //bulkData = expansionHub.getBulkInputData();
+        ///TODO fix the bulk get as it might not work correctly right now
+
+        verticalEncoderLeft = hwMap.get(DcMotorEx.class, "m1");
+        leftEncoderValue = verticalEncoderLeft.getCurrentPosition();
+        verticalEncoderRight = hwMap.get(DcMotorEx.class, "m1");
+        rightEncoderValue = verticalEncoderRight.getCurrentPosition();
+        horizontalEncoder = hwMap.get(DcMotorEx.class, "m1");
+        horizontalEncoderValue = horizontalEncoder.getCurrentPosition();
         // Get current positions:
         verticalLeftEncoderWheelPosition = (leftEncoderValue *
                 verticalLeftEncoderPositionMultiplier);

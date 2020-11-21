@@ -30,6 +30,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
     public Servo stopper   = null;
     public Servo aimer   = null;
     private double launchPower = 0.52;
+    private boolean isOn = false;
 
     /* local OpMode members. */
     // Timers:
@@ -49,7 +50,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
 
         // Define and Initialize Motors and Servos: //
         launcher        = hwMap.get(DcMotorEx.class, "launcher");
-        stopper    = hwMap.servo.get("ringStopper");
+        stopper    = hwMap.servo.get("ring_stopper");
         aimer    = hwMap.servo.get("aimer");
 
         // Set Motor and Servo Directions: //
@@ -68,11 +69,36 @@ public class CatHW_Launcher extends CatHW_Subsystem
     /**
      *  Turning On and Off the launched wheel
      */
+
+    public void togglePower () {
+        if (isOn) {
+            powerOff();
+        } else {
+            powerOn();
+        }
+    }
+
     public void powerOn() {
+        isOn = true;
         launcher.setPower(launchPower);
     }
 
+    public void updatePower () {
+        if (isOn) {
+            launcher.setPower(launchPower);
+        }
+    }
+
+    public void presetPowerShot () {
+        launchPower = 0.47;
+    }
+
+    public void presetGoal () {
+        launchPower = 0.52;
+    }
+
     public void powerOff() {
+        isOn = false;
         launcher.setPower(0.0);
     }
 
@@ -98,8 +124,16 @@ public class CatHW_Launcher extends CatHW_Subsystem
     public void closeLauncher () {
         stopper.setPosition(1.0);
     }
+    /**
+     * right and left for the aimer.
+     */
+    public void aimL () {
+        aimer.setPosition(1.0);
+    }
 
-
+    public void aimR () {
+        aimer.setPosition(0.0);
+    }
 
     //----------------------------------------------------------------------------------------------
     // isDone Method:

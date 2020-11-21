@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-
-import org.openftc.revextensions2.ExpansionHubEx;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * CatOdoAllUpdates.java
@@ -38,8 +37,8 @@ public class CatOdoAllUpdates implements Runnable
     public void stop(){ isRunning = false; }
 
     /* Constructor */
-    public CatOdoAllUpdates(ExpansionHubEx inExpansionHub, DcMotor verticalEncoderLeft, DcMotor verticalEncoderRight, DcMotor horizontalEncoder, double COUNTS_PER_INCH) {
-        positionUpdate = new CatOdoPositionUpdate(inExpansionHub, verticalEncoderLeft, verticalEncoderRight, horizontalEncoder, COUNTS_PER_INCH);
+    public CatOdoAllUpdates(HardwareMap hwMap, DcMotor verticalEncoderLeft, DcMotor verticalEncoderRight, DcMotor horizontalEncoder, double COUNTS_PER_INCH) {
+        positionUpdate = new CatOdoPositionUpdate(hwMap, verticalEncoderLeft, verticalEncoderRight, horizontalEncoder, COUNTS_PER_INCH);
         powerUpdate = new CatOdoPowerUpdate(positionUpdate);
         //positionUpdate.reverseLeftEncoder();
     }
@@ -47,20 +46,20 @@ public class CatOdoAllUpdates implements Runnable
     /**
      * TODO:  Add Javadoc.
      *
-     * @param inExpansionHubIn
+     * //@param inExpansionHubIn
      * @param verticalEncoderLeftIn
      * @param verticalEncoderRightIn
      * @param horizontalEncoderIn
      * @param COUNTS_PER_INCHIn
      * @return
      */
-    public static CatOdoAllUpdates getInstanceAndInit(ExpansionHubEx inExpansionHubIn,
+    public static CatOdoAllUpdates getInstanceAndInit(HardwareMap hwMap,
                                                       DcMotor verticalEncoderLeftIn,
                                                       DcMotor verticalEncoderRightIn,
                                                       DcMotor horizontalEncoderIn,
                                                       double COUNTS_PER_INCHIn) {
         if (singleInstance == null) {
-            singleInstance = new CatOdoAllUpdates(inExpansionHubIn, verticalEncoderLeftIn,
+            singleInstance = new CatOdoAllUpdates(hwMap, verticalEncoderLeftIn,
                     verticalEncoderRightIn,horizontalEncoderIn,COUNTS_PER_INCHIn);
         }
 

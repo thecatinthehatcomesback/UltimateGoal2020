@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -48,9 +46,9 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         if (CatHW_Async.isRedAlliance) {
-            robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_LAVA_PALETTE);
+            //robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_LAVA_PALETTE);
         } else {
-            robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_OCEAN_PALETTE);
+            //robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_OCEAN_PALETTE);
         }
 
         // Go! (Presses PLAY)
@@ -65,6 +63,11 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
         boolean alreadyStone = true;
         boolean endGame = false;
         boolean under10Sec = false;
+
+        ElapsedTime buttontime = new ElapsedTime();
+        buttontime.reset();
+        double launchPower = 0.56;
+        boolean launchOn = false;
 
         robot.tail.openGrabber();
 
@@ -117,27 +120,70 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
             }
 
             // Open/Close Foundation Fingers:
-            foundationHooks(gamepad1);
 
             // Capstone servo:
-            capstone(gamepad1);
+
 
 
 
             //--------------------------------------------------------------------------------------
             // Driver 2 Controls:
             //--------------------------------------------------------------------------------------
-
+            if(gamepad2.dpad_up && buttontime.milliseconds()>250) {
+                robot.launcher.increasePower();
+                buttontime.reset();
+            }
+            if(gamepad2.dpad_down && buttontime.milliseconds() > 250){
+                robot.launcher.decreasePower();
+                buttontime.reset();
+            }
+            if (gamepad2.x) {
+                robot.launcher.presetPowerShot();
+            }
+            if (gamepad2.y) {
+                robot.launcher.presetGoal();
+            }
+            if(gamepad2.guide && buttontime.milliseconds() > 250){
+                robot.launcher.togglePower();
+                buttontime.reset();
+            }
+            if(gamepad2.dpad_left) {
+                robot.launcher.aimL();
+            } else if(gamepad2.dpad_right) {
+                robot.launcher.aimR();
+            }
+            robot.launcher.updatePower();
+            if(gamepad2.b){
+                robot.launcher.openLauncher();
+            } else {
+                robot.launcher.closeLauncher();
+            }
             // Tail/Stacker lift motor controls:
-            robot.tail.tailLift.setPower(gamepad2.right_stick_y);
+            robot.tail.setTailPower(gamepad2.left_stick_y);
 
-            // Grabber controls:
+            // Open and closing the Grabber
+            if (gamepad2.a && buttontime.milliseconds() > 250) {
+                robot.tail.toggleGrab();
+                buttontime.reset();
+            }
+
+
+
+            // Intake controls:
             if (gamepad2.left_bumper) {
-                robot.tail.closeGrabber();
+                robot.jaws.setTransferPower(1.0);
+            }else if (gamepad2.right_bumper) {
+                robot.jaws.setTransferPower(-1.0);
+            }else {
+                robot.jaws.setTransferPower(0.0);
             }
-            if (gamepad2.right_bumper) {
-                robot.tail.openGrabber();
+
+            if (gamepad1.right_trigger > 0.05 && gamepad1.right_trigger > gamepad1.left_trigger) {
+                robot.jaws.setTransferPower(-1.0);
+            } else if (gamepad2.right_trigger > 0.05 && gamepad2.right_trigger > gamepad2.left_trigger) {
+                robot.jaws.setTransferPower(-1.0);
             }
+
 
 
             // If driver 1 isn't using jaws, let driver 2 set Jaws Control:
@@ -146,10 +192,10 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
             }
 
             // Open/Close Foundation Fingers:
-            foundationHooks(gamepad2);
+
+
 
             // Capstone servo
-            capstone(gamepad2);
 
 
 
@@ -160,14 +206,16 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
             // TODO:  Add lights...
             //  Code to add green blink if it picks up a stone
 
+            /*
             if (robot.jaws.hasStone() && !alreadyStone) {
                 robot.lights.blink(4, RevBlinkinLedDriver.BlinkinPattern.YELLOW, 150);
                 alreadyStone = true;
             }
             if (alreadyStone && !robot.jaws.hasStone()) {
                 alreadyStone = false;
-            }
+            }*/
 
+            /*
             // Blink at TeleOp Endgame:
             if (!endGame && elapsedGameTime.seconds() > 90) {
                 robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.GREEN);
@@ -184,7 +232,7 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
                 robot.lights.blink(3, RevBlinkinLedDriver.BlinkinPattern.HOT_PINK, 200);
                 robot.lights.blink(10, RevBlinkinLedDriver.BlinkinPattern.HOT_PINK, 125);
             }
-
+            */
 
 
             //--------------------------------------------------------------------------------------
@@ -196,10 +244,10 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
             telemetry.addData("Right Back Power:", "%.2f", rightBack);
             //telemetry.addData("Intake Power:","%.2f", robot.jaws.leftJawMotor.getPower());
 
-            telemetry.addData("Encoder lf/lr rf/rr", "%5d %5d   %5d %5d",
+            telemetry.addData("Encoder left right horiz", "%5d  %5d   %5d",
                     robot.driveClassic.leftFrontMotor.getCurrentPosition(),
-                    robot.driveClassic.leftRearMotor.getCurrentPosition(),
                     robot.driveClassic.rightFrontMotor.getCurrentPosition(),
+                    robot.driveClassic.leftRearMotor.getCurrentPosition(),
                     robot.driveClassic.rightRearMotor.getCurrentPosition());
             telemetry.update();
         }
@@ -213,34 +261,6 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
     // Multiple Driver Control Methods:
     //----------------------------------------------------------------------------------------------
 
-    /**
-     * Open and close the foundation hooks.
-     *
-     * @param controller whose buttons are to be used.
-     */
-    private void foundationHooks(Gamepad controller) {
-        // Open/Close Foundation Fingers:
-        if (controller.b) {
-            robot.claw.retractClaws();
-        }
 
-        if (controller.a) {
-            robot.claw.extendClaws();
-        }
-    }
 
-    /**
-     * Release and hold the capstone.
-     *
-     * @param controller whose buttons are to be used.
-     */
-    private void capstone(Gamepad controller) {
-        // Capstone servo
-        if (controller.x) {
-            robot.claw.releaseCapstone();
-        }
-        if (controller.y) {
-            robot.claw.grabCapstone();
-        }
-    }
 }

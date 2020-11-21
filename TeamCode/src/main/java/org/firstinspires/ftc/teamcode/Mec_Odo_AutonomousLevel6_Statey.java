@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
@@ -5,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+*/
 /**
  * Mec_Odo_AutonomousLevel6_Statey.java
  *
@@ -24,11 +26,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *
  *
  * @author FTC Team #10273, The Cat in the Hat Comes Back.
- */
+ *//*
+
 @Autonomous(name="State Odo Autonomous", group="CatAuto")
 public class Mec_Odo_AutonomousLevel6_Statey extends LinearOpMode
 {
-    /* Declare OpMode members. */
+    */
+/* Declare OpMode members. *//*
+
     CatHW_Async robot  = new CatHW_Async();    // All the hardware classes init here.
     private ElapsedTime delayTimer = new ElapsedTime();
     private double timeDelay;
@@ -42,16 +47,20 @@ public class Mec_Odo_AutonomousLevel6_Statey extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException {
 
-        /*
+        */
+/*
         Initialize the setDrivePowers system variables.  The init() methods of our hardware class
         does all the work:
-         */
+         *//*
+
         robot.init(hardwareMap, this, true);
 
 
-        /*
+        */
+/*
         Init Delay Option Select:
-         */
+         *//*
+
         // After init is pushed but before Start we can change the delay using dpad up/down //
         delayTimer.reset();
         // Runs a loop to change certain settings while we wait to start
@@ -115,17 +124,21 @@ public class Mec_Odo_AutonomousLevel6_Statey extends LinearOpMode
                 delayTimer.reset();
             }
 
-            /**
+            */
+/**
              * LED code:
-             */
+             *//*
+
             if (robot.isRedAlliance) {
                 robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_LAVA_PALETTE);
             } else {
                 robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_OCEAN_PALETTE);
             }
-            /**
+            */
+/**
              * Telemetry while waiting for PLAY:
-             */
+             *//*
+
             telemetry.addData("Delay Timer: ", timeDelay);
 
             skyStonePos = robot.eyes.giveSkyStonePos();
@@ -154,26 +167,34 @@ public class Mec_Odo_AutonomousLevel6_Statey extends LinearOpMode
             telemetry.addData("isFoundation ", isFoundation);
             telemetry.update();
 
-            /**
+            */
+/**
              * We don't need a "waitForStart()" since we've been running our own
              * loop all this time so that we can make some changes.
-             */
+             *//*
+
         }
-        /**
+        */
+/**
          * Runs after hit start:
          * DO STUFF FOR the OPMODE!!!
-         */
+         *//*
 
-        /**
+
+        */
+/**
          * Init the IMU after play so that it is not offset after
          * remaining idle for a minute or two...
-         */
+         *//*
+
         robot.driveClassic.IMU_Init();
 
         // Time Delay:
         robot.robotWait(timeDelay);
 
-        /* Go! */
+        */
+/* Go! *//*
+
         if (isBuildZone) {
             driveBuildZone();
         } else {
@@ -187,7 +208,7 @@ public class Mec_Odo_AutonomousLevel6_Statey extends LinearOpMode
             //move away from wall
             robot.tail.openGrabber();
             robot.driveOdo.quickDrive(0, 6, .9, 0,  1);
-            robot.jaws.intakeJawsRed();
+            //robot.jaws.intakeJawsRed();
             if (isFoundation) {
                 //2 skystones, move foundation and park
                 switch (skyStonePos) {
@@ -522,7 +543,8 @@ public class Mec_Odo_AutonomousLevel6_Statey extends LinearOpMode
                         robot.jaws.outputJaws();
                         robot.driveOdo.quickDrive(-28, 40, .9, -83, 2);
 
-                        /*
+                        */
+/*
                         //drive to stone
                         robot.driveOdo.quickDrive(-19, 32, .9, 30, 2);
                         //pick up stone
@@ -561,7 +583,8 @@ public class Mec_Odo_AutonomousLevel6_Statey extends LinearOpMode
                         robot.driveOdo.quickDrive(-42, 42, .9, -83, 4);
                         robot.jaws.outputJaws();
                         robot.driveOdo.quickDrive(-28, 42, .9, -83, 2);
-*/
+*//*
+
                         break;
                 }
             }
@@ -684,7 +707,8 @@ public class Mec_Odo_AutonomousLevel6_Statey extends LinearOpMode
 
 
 
-        /*
+        */
+/*
         // drive to the isFoundation slowly
         robot.driveOdo.quickDrive( isRedAlliance ? -20 : 17,-35,.45,isRedAlliance ? 8 : -8,.2,4);
         //lower the isFoundation claws
@@ -711,6 +735,7 @@ public class Mec_Odo_AutonomousLevel6_Statey extends LinearOpMode
             robot.driveOdo.quickDrive(isRedAlliance ? -5 : 5, -30, .8, isRedAlliance ? 90 : -90, .2, 2);
             robot.driveOdo.quickDrive(isRedAlliance ? 22 : -26, isRedAlliance ? -33 : -28, .8, isRedAlliance ? 90 : -90, .2, 2);
         }
-*/
+*//*
+
     }
-}
+}*/

@@ -4,8 +4,6 @@ import android.util.Log;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.openftc.revextensions2.ExpansionHubEx;
-
 /**
  * CatHW_DriveOdo.java
  *
@@ -79,7 +77,7 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
     public DcMotor leftOdometry    = null;
     public DcMotor rightOdometry   = null;
     public DcMotor backOdometry    = null;
-    public ExpansionHubEx expansionHub = null;
+    //public ExpansionHubEx expansionHub = null;
 
     // Access to Update Thread
     CatOdoAllUpdates updatesThread;
@@ -101,21 +99,21 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
         super.init();
 
         // Define and Initialize Motors and Expansion Hub: //
-        leftOdometry     = hwMap.dcMotor.get("left_rear_motor");
-        rightOdometry    = hwMap.dcMotor.get("tail_lift2");
-        backOdometry     = hwMap.dcMotor.get("right_jaw_motor");
-        expansionHub     = hwMap.get(ExpansionHubEx.class, "Expansion Hub 2");
+        leftOdometry     = hwMap.dcMotor.get("left_front_motor");
+        rightOdometry    = hwMap.dcMotor.get("right_front_motor");
+        backOdometry     = hwMap.dcMotor.get("left_rear_motor");
+        //expansionHub     = hwMap.get(ExpansionHubEx.class, "Expansion Hub 2");
 
         // Set odometry directions: //
         //leftOdometry.setDirection(DcMotor.Direction.REVERSE);
         rightOdometry.setDirection(DcMotor.Direction.FORWARD);
-        // backOdometry.setDirection(DcMotor.Direction.FORWARD);
+        // backOdometry.setDirection(DcMotor.Direction.REVERSE);
 
         // Set odometry modes: //
         resetOdometryEncoders();
 
         // Odometry Setup: //
-        updatesThread = updatesThread.getInstanceAndInit(expansionHub, leftOdometry, rightOdometry,
+        updatesThread = updatesThread.getInstanceAndInit(hwMap, leftOdometry, rightOdometry,
                 backOdometry, ODO_COUNTS_PER_INCH);
         Thread allUpdatesThread = new Thread(updatesThread);
         updatesThread.resetThreads();

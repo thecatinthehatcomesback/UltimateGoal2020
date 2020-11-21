@@ -32,6 +32,7 @@ public class CatHW_Tail extends CatHW_Subsystem
     public Servo grabberServo   = null;
 
     /* local OpMode members. */
+    private boolean isGrab = false;
     // Timers:
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -64,11 +65,26 @@ public class CatHW_Tail extends CatHW_Subsystem
     // Stacker Methods:
     //----------------------------------------------------------------------------------------------
 
+
+    public void setTailPower (double tailPower) {
+        tailLift.setPower(tailPower);
+    }
+
+    //Toggle Power
+    public void toggleGrab () {
+        if (isGrab) {
+            closeGrabber();
+        } else {
+            openGrabber();
+        }
+    }
+
     /**
      * Closes the wobble grabber.
      */
     public void closeGrabber() {
         grabberServo.setPosition(GRABBER_CLOSE);
+        isGrab = false;
     }
 
     /**
@@ -76,6 +92,7 @@ public class CatHW_Tail extends CatHW_Subsystem
      */
     public void openGrabber() {
         grabberServo.setPosition(GRABBER_OPEN);
+        isGrab = true;
     }
 
 

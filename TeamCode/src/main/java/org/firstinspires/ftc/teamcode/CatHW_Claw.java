@@ -1,7 +1,9 @@
+/*
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
+*/
 /**
  * CatHW_Claw.java
  *
@@ -15,24 +17,31 @@ import com.qualcomm.robotcore.hardware.Servo;
  *
  *
  * @author FTC Team #10273, The Cat in the Hat Comes Back
- */
+ *//*
+
 public class CatHW_Claw  extends CatHW_Subsystem
 {
-    /* Public OpMode members. */
+    */
+/* Public OpMode members. *//*
+
     public Servo rightFoundationClaw = null;
     public Servo leftFoundationClaw  = null;
     public Servo capstoneClaw        = null;
 
 
-    /* Constructor */
+    */
+/* Constructor *//*
+
     public CatHW_Claw (CatHW_Async mainHardware) {
         super(mainHardware);
     }
 
 
-    /**
+    */
+/**
      * Initialize standard Hardware interfaces for the Claw subsystem.
-     */
+     *//*
+
     public void init () {
         rightFoundationClaw = hwMap.servo.get("right_claw_servo");
         leftFoundationClaw  = hwMap.servo.get("left_claw_servo");
@@ -48,17 +57,21 @@ public class CatHW_Claw  extends CatHW_Subsystem
     // Claw Methods:
     //----------------------------------------------------------------------------------------------
 
-    /**
+    */
+/**
      * Bring the foundation claws down and latch onto the foundation.
-     */
+     *//*
+
     public void extendClaws () {
         rightFoundationClaw.setPosition(0.43);
         leftFoundationClaw.setPosition(.18);
     }
 
-    /**
+    */
+/**
      * Lift the foundation claws to folded position.
-     */
+     *//*
+
     public void retractClaws () {
         // Right starts at 1 and moves to .40 for a total movement of .57
         rightFoundationClaw.setPosition(1);
@@ -66,16 +79,20 @@ public class CatHW_Claw  extends CatHW_Subsystem
         leftFoundationClaw.setPosition(0);
     }
 
-    /**
+    */
+/**
      * Raises the servo to release the capstone.
-     */
+     *//*
+
     public void releaseCapstone(){
         capstoneClaw.setPosition(0.1);
     }
 
-    /**
+    */
+/**
      * Locks onto the capstone.
-     */
+     *//*
+
     public void grabCapstone(){
         capstoneClaw.setPosition(0.7);
     }
@@ -90,4 +107,4 @@ public class CatHW_Claw  extends CatHW_Subsystem
         // There's nothing to do, so isDone() always true.
         return true;
     }
-}
+}*/

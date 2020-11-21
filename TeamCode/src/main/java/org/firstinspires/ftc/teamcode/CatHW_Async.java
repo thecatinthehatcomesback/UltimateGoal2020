@@ -33,12 +33,13 @@ public class CatHW_Async
 
     /** Other Hardware subSystems */
     CatHW_Jaws jaws = null;
-    CatHW_Claw claw = null;
+    //CatHW_Claw claw = null;
     CatHW_DriveClassic driveClassic = null;
     CatHW_DriveOdo driveOdo = null;
     CatHW_Tail tail = null;
-    CatHW_Vision eyes = null;
-    CatHW_Lights lights = null;
+    CatHW_Launcher launcher = null;
+    //CatHW_Vision eyes = null;
+    //CatHW_Lights lights = null;
 
     /* Constructor */
     public CatHW_Async() {}
@@ -73,13 +74,18 @@ public class CatHW_Async
 
         opMode.telemetry.addData("Initialize", "Claw...");
         opMode.telemetry.update();
-        claw = new CatHW_Claw(this);
-        claw.init();
+        //claw = new CatHW_Claw(this);
+        //claw.init();
+
+        opMode.telemetry.addData("Initialize", "Launcher...");
+        opMode.telemetry.update();
+        launcher = new CatHW_Launcher(this);
+        launcher.init();
 
         opMode.telemetry.addData("Initialize", "Lights...");
         opMode.telemetry.update();
-        lights = CatHW_Lights.getInstanceAndInit(this);
-        lights.init();
+        //lights = CatHW_Lights.getInstanceAndInit(this);
+        //lights.init();
 
         if (isInitOdo) {
             opMode.telemetry.addData("Initialize", "DriveOdo...");
@@ -94,8 +100,8 @@ public class CatHW_Async
 
         opMode.telemetry.addData("Initialize", "Eyes...");
         opMode.telemetry.update();
-        eyes = new CatHW_Vision(this);
-        eyes.initVision(hwMap);
+        //eyes = new CatHW_Vision(this);
+        //eyes.initVision(hwMap);
 
         opMode.telemetry.addData("Initialize", "All Done...  BOOM!");
         opMode.telemetry.update();

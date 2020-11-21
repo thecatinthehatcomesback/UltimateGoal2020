@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -65,8 +64,8 @@ public class CatHW_DriveBase  extends CatHW_Subsystem
     private Orientation angles;
 
     // LED stuff:
-    public RevBlinkinLedDriver lights = null;
-    public RevBlinkinLedDriver.BlinkinPattern pattern;
+    //public RevBlinkinLedDriver lights = null;
+    //public RevBlinkinLedDriver.BlinkinPattern pattern;
 
     // Motors:
     public DcMotor leftFrontMotor = null;
@@ -112,9 +111,9 @@ public class CatHW_DriveBase  extends CatHW_Subsystem
 
 
         // Blinkin LED stuff: //
-        lights = hwMap.get(RevBlinkinLedDriver.class, "blinky");
-        pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
-        lights.setPattern(pattern);
+        //lights = hwMap.get(RevBlinkinLedDriver.class, "blinky");
+        //pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
+        //lights.setPattern(pattern);
     }
 
 
