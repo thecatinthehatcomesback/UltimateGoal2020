@@ -121,6 +121,7 @@ public class CatOdoPositionUpdate
         // Do a bulk read of encoders:
 
         //bulkData = expansionHub.getBulkInputData();
+
         ///TODO fix the bulk get as it might not work correctly right now
 
         verticalEncoderLeft = hwMap.get(DcMotorEx.class, "m1");
