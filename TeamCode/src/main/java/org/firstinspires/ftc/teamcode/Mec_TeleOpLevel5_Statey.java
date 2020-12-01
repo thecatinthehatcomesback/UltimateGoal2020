@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
  * Mec_TeleOpLevel5_Statey.java
@@ -37,6 +40,10 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
         // Informs driver the robot is trying to init
         telemetry.addData("Status", "Initializing...");
         telemetry.update();
+
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        Telemetry dashboardTelemetry = dashboard.getTelemetry();
+
         // Initialize the hardware
         robot.init(hardwareMap, this, false);
         // Finished!  Now tell the driver...
@@ -66,8 +73,6 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
 
         ElapsedTime buttontime = new ElapsedTime();
         buttontime.reset();
-        double launchPower = 0.56;
-        boolean launchOn = false;
 
         robot.tail.openGrabber();
 
@@ -242,6 +247,7 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
             telemetry.addData("Right Front Power:", "%.2f", rightFront);
             telemetry.addData("Left Back Power:", "%.2f", leftBack);
             telemetry.addData("Right Back Power:", "%.2f", rightBack);
+            telemetry.addData("Launch Power","%.2f", robot.launcher.getLaunchPower());
             //telemetry.addData("Intake Power:","%.2f", robot.jaws.leftJawMotor.getPower());
 
             telemetry.addData("Encoder left right horiz", "%5d  %5d   %5d",
@@ -250,6 +256,16 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
                     robot.driveClassic.leftRearMotor.getCurrentPosition(),
                     robot.driveClassic.rightRearMotor.getCurrentPosition());
             telemetry.update();
+
+            dashboardTelemetry.addData("Launcher", "power (%.2f)", robot.launcher.getLaunchPower());
+            dashboardTelemetry.addData("rpm vel","%.1f" ,robot.launcher.launcher.getVelocity()* 60 / 28);
+            // dashboardTelemetry.addData("PID    ","%.5f  %.5f  %.5f  %.5f",coef.p,coef.i,coef.d,coef.f);
+            // dashboardTelemetry.addData("PID set","%.5f  %.5f  %.5f  %.5f",RobotConstants.LAUNCH_PID.p,RobotConstants.LAUNCH_PID.i,RobotConstants.LAUNCH_PID.d,RobotConstants.LAUNCH_PID.f);
+            dashboardTelemetry.addData("High","%4d ",2800);
+            dashboardTelemetry.addData("Low","%4d ",1800);
+
+
+            dashboardTelemetry.update();
         }
 
         robot.driveOdo.updatesThread.stop();

@@ -26,10 +26,11 @@ public class CatHW_Launcher extends CatHW_Subsystem
 {
 
     // Motors:
-    public DcMotor launcher     = null;
+    public DcMotorEx launcher     = null;
     public Servo stopper   = null;
     public Servo aimer   = null;
-    private double launchPower = 0.52;
+    /// TODO make 0.58 a constaint
+    private double launchPower = 0.58;
     private boolean isOn = false;
 
     /* local OpMode members. */
@@ -93,8 +94,12 @@ public class CatHW_Launcher extends CatHW_Subsystem
         launchPower = 0.47;
     }
 
+    public double getLaunchPower () {
+        return launchPower;
+    }
+
     public void presetGoal () {
-        launchPower = 0.52;
+        launchPower = 0.58;
     }
 
     public void powerOff() {
