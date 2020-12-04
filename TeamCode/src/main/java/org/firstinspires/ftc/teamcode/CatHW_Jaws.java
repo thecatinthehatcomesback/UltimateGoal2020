@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -49,7 +48,7 @@ public class CatHW_Jaws extends CatHW_Subsystem
         intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         transferMotor = hwMap.dcMotor.get("transfer");
-        transferMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        transferMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Set motor modes: //
         transferMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

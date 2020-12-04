@@ -167,7 +167,7 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
             robot.tail.setTailPower(gamepad2.left_stick_y);
 
             // Open and closing the Grabber
-            if (gamepad2.a && buttontime.milliseconds() > 250) {
+            if (gamepad2.a && buttontime.milliseconds() > 1000) {
                 robot.tail.toggleGrab();
                 buttontime.reset();
             }
@@ -176,17 +176,29 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
 
             // Intake controls:
             if (gamepad2.left_bumper) {
-                robot.jaws.setTransferPower(1.0);
-            }else if (gamepad2.right_bumper) {
                 robot.jaws.setTransferPower(-1.0);
+            }else if (gamepad2.right_bumper) {
+                if (gamepad2.b) {
+                    robot.jaws.setTransferPower(0.6);
+                } else {
+                    robot.jaws.setTransferPower(1.0);
+                }
             }else {
                 robot.jaws.setTransferPower(0.0);
             }
 
             if (gamepad1.right_trigger > 0.05 && gamepad1.right_trigger > gamepad1.left_trigger) {
-                robot.jaws.setTransferPower(-1.0);
+                if (gamepad2.b) {
+                    robot.jaws.setTransferPower(0.6);
+                } else {
+                    robot.jaws.setTransferPower(1.0);
+                }
             } else if (gamepad2.right_trigger > 0.05 && gamepad2.right_trigger > gamepad2.left_trigger) {
-                robot.jaws.setTransferPower(-1.0);
+                if (gamepad2.b) {
+                    robot.jaws.setTransferPower(0.6);
+                } else {
+                    robot.jaws.setTransferPower(1.0);
+                }
             }
 
 
@@ -260,7 +272,7 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
             dashboardTelemetry.addData("Launcher", "power (%.2f)", robot.launcher.getLaunchPower());
             dashboardTelemetry.addData("rpm vel","%.1f" ,robot.launcher.launcher.getVelocity()* 60 / 28);
             // dashboardTelemetry.addData("PID    ","%.5f  %.5f  %.5f  %.5f",coef.p,coef.i,coef.d,coef.f);
-            // dashboardTelemetry.addData("PID set","%.5f  %.5f  %.5f  %.5f",RobotConstants.LAUNCH_PID.p,RobotConstants.LAUNCH_PID.i,RobotConstants.LAUNCH_PID.d,RobotConstants.LAUNCH_PID.f);
+            dashboardTelemetry.addData("PID set","%.5f  %.5f  %.5f  %.5f",RobotConstants.LAUNCH_PID.p,RobotConstants.LAUNCH_PID.i,RobotConstants.LAUNCH_PID.d,RobotConstants.LAUNCH_PID.f);
             dashboardTelemetry.addData("High","%4d ",2800);
             dashboardTelemetry.addData("Low","%4d ",1800);
 
