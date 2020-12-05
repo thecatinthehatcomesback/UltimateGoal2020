@@ -45,7 +45,7 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
         Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
         // Initialize the hardware
-        robot.init(hardwareMap, this, false);
+        robot.init(hardwareMap, this, true);
         // Finished!  Now tell the driver...
         telemetry.addData("Status", "Initialized...  BOOM!");
         telemetry.update();
@@ -262,11 +262,14 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
             telemetry.addData("Launch Power","%.2f", robot.launcher.getLaunchPower());
             //telemetry.addData("Intake Power:","%.2f", robot.jaws.leftJawMotor.getPower());
 
-            telemetry.addData("Encoder left right horiz", "%5d  %5d   %5d",
-                    robot.driveClassic.leftFrontMotor.getCurrentPosition(),
-                    robot.driveClassic.rightFrontMotor.getCurrentPosition(),
-                    robot.driveClassic.leftRearMotor.getCurrentPosition(),
-                    robot.driveClassic.rightRearMotor.getCurrentPosition());
+            telemetry.addData("X Position", "%.2f", robot.driveOdo.updatesThread.positionUpdate.returnXInches());
+            telemetry.addData("Y Position", "%.2f", robot.driveOdo.updatesThread.positionUpdate.returnYInches());
+            telemetry.addData("Orientation (Degrees)", "%.2f",robot.driveOdo.updatesThread.positionUpdate.returnOrientation());
+            //telemetry.addData("Encoder left right horiz", "%5d  %5d   %5d",
+            //      robot.driveClassic.leftFrontMotor.getCurrentPosition(),
+            //        robot.driveClassic.rightFrontMotor.getCurrentPosition(),
+            //      robot.driveClassic.leftRearMotor.getCurrentPosition(),
+            //    robot.driveClassic.rightRearMotor.getCurrentPosition());
             telemetry.update();
 
             dashboardTelemetry.addData("Launcher", "power (%.2f)", robot.launcher.getLaunchPower());
