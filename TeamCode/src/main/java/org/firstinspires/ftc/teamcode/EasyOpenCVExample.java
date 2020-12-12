@@ -39,6 +39,9 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
+import static org.opencv.imgproc.Imgproc.THRESH_BINARY;
+import static org.opencv.imgproc.Imgproc.threshold;
+
 @TeleOp
 public class EasyOpenCVExample extends LinearOpMode
 {
@@ -68,7 +71,7 @@ public class EasyOpenCVExample extends LinearOpMode
             @Override
             public void onOpened()
             {
-                webcam.startStreaming(320,240, OpenCvCameraRotation.UPSIDE_DOWN);
+                webcam.startStreaming(320,240, OpenCvCameraRotation.UPRIGHT);
                 FtcDashboard.getInstance().startCameraStream(webcam, 10);
             }
         });
@@ -99,6 +102,8 @@ public class EasyOpenCVExample extends LinearOpMode
     {
         public static int regionWidth = 80;
         public static int regionHeight = 80;
+        //public static int fourRingThreshHold = 150;
+        //public static int oneRingThreshHold = 135;
         /*
          * An enum to define the skystone position
          */
@@ -123,8 +128,8 @@ public class EasyOpenCVExample extends LinearOpMode
         static int REGION_WIDTH = regionWidth;
         static int REGION_HEIGHT = regionHeight;
 
-        final int FOUR_RING_THRESHOLD = 150;
-        final int ONE_RING_THRESHOLD = 135;
+        final int FOUR_RING_THRESHOLD = 80;
+        final int ONE_RING_THRESHOLD = 55;
 
         Point region1_pointA = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,
@@ -148,13 +153,20 @@ public class EasyOpenCVExample extends LinearOpMode
         /*
          * This function takes the RGB frame, converts to YCrCb,
          * and extracts the Cb channel to the 'Cb' variable
-         */
-        void inputToCb(Mat input)
+
+        /*void inputToCb(Mat input)
         {
             Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-            Core.extractChannel(YCrCb, Cb, 2);
+            Core.extractChannel(YCrCb, Cb, 0);
+            Imgproc.cvtColor(input,hsv, Imgproc.COLOR_RGB2HSV);
+        }*/
+        void inputToCb(Mat input)
+        {
+            Imgproc.cvtColor(input, hsv, Imgproc.COLOR_RGB2HSV);
+            Core.extractChannel(hsv, Cb, 1);
             Imgproc.cvtColor(input,hsv, Imgproc.COLOR_RGB2HSV);
         }
+
 
         @Override
         public void init(Mat firstFrame)
@@ -186,7 +198,7 @@ public class EasyOpenCVExample extends LinearOpMode
                 position = RingPosition.FOUR;
             }else if (avg1 > ONE_RING_THRESHOLD){
                 position = RingPosition.ONE;
-            }else{
+            }else {
                 position = RingPosition.NONE;
             }
 
