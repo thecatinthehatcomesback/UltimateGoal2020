@@ -62,7 +62,7 @@ public class CatOdoPositionUpdate
     private File horizontalTickOffsetFile = AppUtil.getInstance().getSettingsFile(
             "horizontalTickOffset.txt");
 
-    private int verticalLeftEncoderPositionMultiplier = -1;
+    private int verticalLeftEncoderPositionMultiplier = 1;
     private int verticalRightEncoderPositionMultiplier = 1;
     private int horizontalEncoderPositionMultiplier = -1;
     private int leftEncoderValue = 0;
@@ -170,7 +170,7 @@ public class CatOdoPositionUpdate
         Log.d("catbot", String.format("OdoTicks L/R/B  :%7d  :%7d  :%7d   X: %5.2f  Y: %5.2f  theta: %5.2f Velocity: %5.2f RotVelocity: %5.2f",
                 returnVerticalLeftEncoderPosition(),
                 returnVerticalRightEncoderPosition(),
-                returnNormalEncoderPosition(),
+                returnHorizontalEncoderPosition(),
                 returnXInches(),
                 returnYInches(),
                 returnOrientation(),
@@ -229,33 +229,10 @@ public class CatOdoPositionUpdate
         return (rightEncoderValue * verticalRightEncoderPositionMultiplier);
     }
 
-    public int returnNormalEncoderPosition() {
+    public int returnHorizontalEncoderPosition() {
         return (horizontalEncoderValue * horizontalEncoderPositionMultiplier);
     }
 
-    public void reverseLeftEncoder() {
-        if (verticalLeftEncoderPositionMultiplier == 1) {
-            verticalLeftEncoderPositionMultiplier = -1;
-         } else {
-            verticalLeftEncoderPositionMultiplier = 1;
-        }
-    }
-
-    public void reverseRightEncoder() {
-        if (verticalRightEncoderPositionMultiplier == 1) {
-            verticalRightEncoderPositionMultiplier = -1;
-        } else {
-            verticalRightEncoderPositionMultiplier = 1;
-        }
-    }
-
-    public void reverseNormalEncoder() {
-        if (horizontalEncoderPositionMultiplier == 1) {
-            horizontalEncoderPositionMultiplier = -1;
-        } else {
-            horizontalEncoderPositionMultiplier = 1;
-        }
-    }
 
     public void setAngleOffset(double offset){
         robotOrientationRadians += Math.toRadians(offset);

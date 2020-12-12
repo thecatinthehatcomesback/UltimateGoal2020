@@ -140,7 +140,7 @@ public class Test_TeleOp extends LinearOpMode
             telemetry.addData("OdoTicks", "L/R/B  :%7d  :%7d  :%7d",
                     robot.driveOdo.updatesThread.positionUpdate.returnVerticalLeftEncoderPosition(),
                     robot.driveOdo.updatesThread.positionUpdate.returnVerticalRightEncoderPosition(),
-                    robot.driveOdo.updatesThread.positionUpdate.returnNormalEncoderPosition() );
+                    robot.driveOdo.updatesThread.positionUpdate.returnHorizontalEncoderPosition() );
             //Display Global (x, y, theta) coordinates
             telemetry.addData("X Position", robot.driveOdo.updatesThread.positionUpdate.returnXInches());
             telemetry.addData("Y Position", robot.driveOdo.updatesThread.positionUpdate.returnYInches());

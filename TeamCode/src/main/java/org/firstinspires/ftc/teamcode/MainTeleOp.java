@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
- * Mec_TeleOpLevel5_Statey.java
+ * MainTeleOp.java
  *
  *
  * A Linear opMode class that is used as our TeleOp method for the driver controlled period.
@@ -16,8 +16,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  *
  * @author FTC Team #10273, The Cat in the Hat Comes Back
  */
-@TeleOp(name = "State TeleOp", group = "CatTeleOp")
-public class Mec_TeleOpLevel5_Statey extends LinearOpMode
+@TeleOp(name = "MainTeleOp", group = "CatTeleOp")
+public class MainTeleOp extends LinearOpMode
 {
     /* Declare OpMode members. */
     private ElapsedTime elapsedGameTime = new ElapsedTime();
@@ -28,7 +28,7 @@ public class Mec_TeleOpLevel5_Statey extends LinearOpMode
 
 
     /* Constructor */
-    public Mec_TeleOpLevel5_Statey() {
+    public MainTeleOp() {
         robot = new CatHW_Async();
     }
 
