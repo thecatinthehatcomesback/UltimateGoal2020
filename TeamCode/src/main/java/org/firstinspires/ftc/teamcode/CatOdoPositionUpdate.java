@@ -31,10 +31,15 @@ import java.io.File;
  */
 public class CatOdoPositionUpdate
 {
+
+    //----------------------------------------------------------------------------------------------
+    // Attributes:
+    //----------------------------------------------------------------------------------------------
+
     // Odometry wheels:
-    private DcMotorEx verticalEncoderLeft;
-    private DcMotorEx verticalEncoderRight;
-    private DcMotorEx horizontalEncoder;
+    private DcMotorEx verticalEncoderLeft = null;
+    private DcMotorEx verticalEncoderRight = null;
+    private DcMotorEx horizontalEncoder = null;
     // Expansion hubs:
     public HardwareMap hwMap = null;
 
@@ -53,18 +58,19 @@ public class CatOdoPositionUpdate
     private double prevNormalEncoderWheelPosition = 0;
 
     // Algorithm constants:
-    private double robotEncoderWheelDistance;
-    private double horizontalEncoderTickPerDegreeOffset;
+    private double robotEncoderWheelDistance = 0;
+    private double horizontalEncoderTickPerDegreeOffset = 0;
 
     // Files to access the algorithm constants:
-    private File wheelBaseSeparationFile = AppUtil.getInstance().getSettingsFile(
+    private final File wheelBaseSeparationFile = AppUtil.getInstance().getSettingsFile(
             "wheelBaseSeparation.txt");
-    private File horizontalTickOffsetFile = AppUtil.getInstance().getSettingsFile(
+    private final File horizontalTickOffsetFile = AppUtil.getInstance().getSettingsFile(
             "horizontalTickOffset.txt");
 
-    private int verticalLeftEncoderPositionMultiplier = 1;
-    private int verticalRightEncoderPositionMultiplier = 1;
-    private int horizontalEncoderPositionMultiplier = -1;
+    private final int verticalLeftEncoderPositionMultiplier = 1;
+    private final int verticalRightEncoderPositionMultiplier = 1;
+    private final int horizontalEncoderPositionMultiplier = 1;
+
     private int leftEncoderValue = 0;
     private int rightEncoderValue = 0;
     private int horizontalEncoderValue = 0;
@@ -72,11 +78,14 @@ public class CatOdoPositionUpdate
 
     private ElapsedTime time = new ElapsedTime();
 
-    private double count_per_in;
+    private double count_per_in = 0;
 
     public boolean isUpdated = false;
+
+
     /**
      * Constructor for GlobalCoordinatePosition Thread
+     *
      * @param verticalEncoderLeft left odometry encoder, facing the vertical direction
      * @param verticalEncoderRight right odometry encoder, facing the vertical direction
      * @param horizontalEncoder horizontal odometry encoder, perpendicular to the other two odometry
@@ -97,6 +106,18 @@ public class CatOdoPositionUpdate
         time.reset();
     }
 
+    /**
+     * Second constructor.
+     *
+     * @param hwMap
+     * @param verticalEncoderLeft
+     * @param verticalEncoderRight
+     * @param horizontalEncoder
+     * @param COUNTS_PER_INCH
+     * @param startingX
+     * @param startingY
+     * @param startingOrientation
+     */
     public CatOdoPositionUpdate(HardwareMap hwMap, DcMotor verticalEncoderLeft,
                                 DcMotor verticalEncoderRight, DcMotor horizontalEncoder,
                                 double COUNTS_PER_INCH, double startingX, double startingY,
@@ -115,24 +136,33 @@ public class CatOdoPositionUpdate
         this.horizontalEncoderTickPerDegreeOffset = Double.parseDouble(ReadWriteFile.readFile(horizontalTickOffsetFile).trim());
     }
 
+
+
+    //----------------------------------------------------------------------------------------------
+    // Class Methods:
+    //----------------------------------------------------------------------------------------------
+
     /**
      * Updates the global (x, y, theta) coordinate position of the robot using the odometry encoders
      */
     public void globalCoordinatePositionUpdate() {
         // Do a bulk read of encoders:
-        ExpansionHubEx expansionHub     = hwMap.get(ExpansionHubEx.class, "Expansion Hub 2");
-        ExpansionHubEx controlHub     = hwMap.get(ExpansionHubEx.class, "Control Hub 1");
+        //ExpansionHubEx expansionHub = hwMap.get(ExpansionHubEx.class, "Expansion Hub 2");
+        ExpansionHubEx controlHub   = hwMap.get(ExpansionHubEx.class, "Control Hub 1");
 
         RevBulkData bulkDataControl = controlHub.getBulkInputData();
-        RevBulkData bulkDataExpansion = expansionHub.getBulkInputData();
+        //RevBulkData bulkDataExpansion = expansionHub.getBulkInputData();
 
-        leftEncoderValue = bulkDataExpansion.getMotorCurrentPosition(verticalEncoderLeft);
+        //TODO check the bulk data later for where odo ports are
+        leftEncoderValue = bulkDataControl.getMotorCurrentPosition(verticalEncoderLeft);
         rightEncoderValue = bulkDataControl.getMotorCurrentPosition(verticalEncoderRight);
-        horizontalEncoderValue = bulkDataExpansion.getMotorCurrentPosition(horizontalEncoder);
+        horizontalEncoderValue = bulkDataControl.getMotorCurrentPosition(horizontalEncoder);
+
         // Get current positions:
         verticalLeftEncoderWheelPosition = (leftEncoderValue * verticalLeftEncoderPositionMultiplier);
         verticalRightEncoderWheelPosition = (rightEncoderValue * verticalRightEncoderPositionMultiplier);
 
+        // Find the difference between old and new odo values:
         double leftChange = verticalLeftEncoderWheelPosition - previousVerticalLeftEncoderWheelPosition;
         double rightChange = verticalRightEncoderWheelPosition - previousVerticalRightEncoderWheelPosition;
 
@@ -151,19 +181,19 @@ public class CatOdoPositionUpdate
         double p = ((rightChange + leftChange) / 2);
         double n = horizontalChange;
 
-        //Calculate and update the position values
+        // Calculate and update the position values:
         double robotXChangeCounts = (p*Math.sin(robotOrientationRadiansHalf) + n*Math.cos(robotOrientationRadiansHalf));
         double robotYChangeCounts = (p*Math.cos(robotOrientationRadiansHalf) - n*Math.sin(robotOrientationRadiansHalf));
         robotGlobalXCoordinatePosition = robotGlobalXCoordinatePosition + robotXChangeCounts;
         robotGlobalYCoordinatePosition = robotGlobalYCoordinatePosition + robotYChangeCounts;
-
+        // Assign the "new" odo values to the old values for next check:
         previousVerticalLeftEncoderWheelPosition = verticalLeftEncoderWheelPosition;
         previousVerticalRightEncoderWheelPosition = verticalRightEncoderWheelPosition;
         prevNormalEncoderWheelPosition = normalEncoderWheelPosition;
 
+        // Calculate velocity:
         double velocityTimer = time.seconds();
         time.reset();
-
         double rotVelocity = (changeInRobotOrientation *(180/Math.PI))/velocityTimer;
         double velocity = (Math.sqrt(Math.pow(robotXChangeCounts,2) + Math.pow(robotYChangeCounts,2))/count_per_in)/velocityTimer;
 
@@ -221,6 +251,7 @@ public class CatOdoPositionUpdate
      */
     public double returnOrientation() { return Math.toDegrees(robotOrientationRadians); }
 
+    // TODO:  Do we really need these??  Can't we just change encoder direction????
     public int returnVerticalLeftEncoderPosition() {
         return (leftEncoderValue * verticalLeftEncoderPositionMultiplier);
     }

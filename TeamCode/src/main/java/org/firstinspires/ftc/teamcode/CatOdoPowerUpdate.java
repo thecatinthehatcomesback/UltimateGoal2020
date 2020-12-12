@@ -20,6 +20,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class CatOdoPowerUpdate
 {
+    //----------------------------------------------------------------------------------------------
+    // Attributes:
+    //----------------------------------------------------------------------------------------------
+
     private CatOdoPositionUpdate positionUpdate;
 
     private ElapsedTime powerTime = new ElapsedTime();
@@ -40,7 +44,7 @@ public class CatOdoPowerUpdate
 
 
     /* Constructor */
-    CatOdoPowerUpdate(CatOdoPositionUpdate inPositionUpdate) {
+    public CatOdoPowerUpdate(CatOdoPositionUpdate inPositionUpdate) {
         positionUpdate = inPositionUpdate;
     }
 
@@ -83,7 +87,8 @@ public class CatOdoPowerUpdate
         targetY = y;
         maxPower = power;
         currentPower = minPower;
-        distanceToTarget = distance(positionUpdate.returnXInches(), positionUpdate.returnYInches(), targetX, targetY);
+        distanceToTarget = distanceBetween(positionUpdate.returnXInches(), positionUpdate.returnYInches(),
+                targetX, targetY);
 
     }
 
@@ -126,7 +131,7 @@ public class CatOdoPowerUpdate
         double currentTime = powerTime.milliseconds();
 
         // Distance left to target calculation.
-        distanceToTarget = distance(currentX, currentY, targetX, targetY);
+        distanceToTarget = distanceBetween(currentX, currentY, targetX, targetY);
 
         if (currentPower >= (1 * (distanceToTarget / rampDownDistance))) {
             // Ramp down if within the rampDownDistance.
@@ -138,17 +143,21 @@ public class CatOdoPowerUpdate
         }
 
         // Checks to make sure we are within our minimum and maximum power ranges.
-        if(currentPower < (minPower*calcMinPowerScale())){
+        if (currentPower < (minPower*calcMinPowerScale()))
             currentPower = minPower*calcMinPowerScale();
-        }
-        if(currentPower > maxPower){
+        // Makes sure power doesn't exceed max power.
+        if (currentPower > maxPower)
             currentPower = maxPower;
-        }
 
         // Finally!  Give the power!
         return currentPower;
     }
 
+    /**
+     * calculating the minimum amount of power to set the motors to when begining to move.
+     *
+     * @return minimum motor power
+     */
     private double calcMinPowerScale(){
 
         double minPowerScale;
@@ -157,12 +166,14 @@ public class CatOdoPowerUpdate
         double relativeAngleToTarget    = absAngleToTarget - Math.toRadians(positionUpdate.returnOrientation());
 
         //calculate a min power between 1 and 1.75 based off sin
-        minPowerScale = (minPowerStrafeScale*(Math.abs(Math.sin(2*relativeAngleToTarget))))+1;
+        minPowerScale = (minPowerStrafeScale * (Math.abs(Math.sin(2*relativeAngleToTarget)))) + 1;
 
-        //if it is between 45 and 135 set it to the strafe scale
-        if (Math.abs(relativeAngleToTarget)% Math.PI > Math.PI/4 && Math.abs(relativeAngleToTarget)%Math.PI < 3*Math.PI/4){
-         minPowerScale = 1 + minPowerStrafeScale;
+        // If it is between 45 and 135 degrees, set it to the strafe scale:
+        if (((Math.abs(relativeAngleToTarget) % Math.PI) > (Math.PI/4)) &&
+                ((Math.abs(relativeAngleToTarget) % Math.PI) < (3*Math.PI / 4))) {
+            minPowerScale = 1 + minPowerStrafeScale;
         }
+
         return minPowerScale;
     }
 
@@ -176,7 +187,7 @@ public class CatOdoPowerUpdate
      * @param targetY Set by the setTarget method inside the CatHW_DriveOdo.translateDrive
      * @return distance
      */
-    private double distance(double currentX, double currentY, double targetX, double targetY) {
+    private double distanceBetween(double currentX, double currentY, double targetX, double targetY) {
         return Math.sqrt((targetX - currentX) *(targetX - currentX) + (targetY - currentY)*(targetY - currentY));
     }
 

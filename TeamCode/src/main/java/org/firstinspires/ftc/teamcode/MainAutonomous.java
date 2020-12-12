@@ -147,6 +147,7 @@ public class MainAutonomous extends LinearOpMode
         // Time Delay:
         robot.robotWait(timeDelay);
 
+        robot.driveOdo.quickDrive(0,24,0.4,0,3.0);
 
         /* Go! */
         while(opModeIsActive()){

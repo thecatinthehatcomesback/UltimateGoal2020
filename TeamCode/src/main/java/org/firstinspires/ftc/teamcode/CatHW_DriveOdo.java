@@ -99,15 +99,15 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
         super.init();
 
         // Define and Initialize Motors and Expansion Hub: //
-        leftOdometry     = hwMap.dcMotor.get("left_front_motor");
+        leftOdometry     = hwMap.dcMotor.get("right_rear_motor");
         rightOdometry    = hwMap.dcMotor.get("right_front_motor");
-        backOdometry     = hwMap.dcMotor.get("left_rear_motor");
+        backOdometry     = hwMap.dcMotor.get("intake_motor");
         //expansionHub     = hwMap.get(ExpansionHubEx.class, "Expansion Hub 2");
 
         // Set odometry directions: //
-        //leftOdometry.setDirection(DcMotor.Direction.REVERSE);
+        leftOdometry.setDirection(DcMotor.Direction.FORWARD);
         rightOdometry.setDirection(DcMotor.Direction.FORWARD);
-        // backOdometry.setDirection(DcMotor.Direction.REVERSE);
+        backOdometry.setDirection(DcMotor.Direction.FORWARD);
 
         // Set odometry modes: //
         resetOdometryEncoders();
@@ -172,7 +172,7 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
      * @param timeoutS is how much time needs to pass before the robot moves onto the next step.
      *                 This is used/useful for stall outs.
      */
-    public void translateDrive(double x, double y, double power, double theta, double timeoutS){
+    public void translateDrive(double x, double y, double power, double theta, double timeoutS) {
 
         currentMethod = DRIVE_METHOD.TRANSLATE;
         timeout = timeoutS;
@@ -183,11 +183,11 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
         targetTheta = theta;
 
         // Power update Thread:
-        if (isNonStop){
+        if (isNonStop) {
             //if the last drive was nonstop
             isNonStop = false;
             updatesThread.powerUpdate.setNonStopTarget(x, y, power);
-        }else {
+        } else {
             //if the last drive was normal
             updatesThread.powerUpdate.setTarget(x, y, power);
         }

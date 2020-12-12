@@ -60,7 +60,7 @@ public class CatOdoAllUpdates implements Runnable
                                                       double COUNTS_PER_INCHIn) {
         if (singleInstance == null) {
             singleInstance = new CatOdoAllUpdates(hwMap, verticalEncoderLeftIn,
-                    verticalEncoderRightIn,horizontalEncoderIn,COUNTS_PER_INCHIn);
+                    verticalEncoderRightIn, horizontalEncoderIn, COUNTS_PER_INCHIn);
         }
 
         return singleInstance;
