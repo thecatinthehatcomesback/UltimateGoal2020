@@ -38,7 +38,7 @@ public class CatHW_Async
     CatHW_DriveOdo driveOdo = null;
     CatHW_Tail tail = null;
     CatHW_Launcher launcher = null;
-    //CatHW_Vision eyes = null;
+    CatHW_Vision eyes = null;
     //CatHW_Lights lights = null;
 
     /* Constructor */
@@ -100,8 +100,8 @@ public class CatHW_Async
 
         opMode.telemetry.addData("Initialize", "Eyes...");
         opMode.telemetry.update();
-        //eyes = new CatHW_Vision(this);
-        //eyes.initVision(hwMap);
+        eyes = new CatHW_Vision(this);
+        eyes.initVision(hwMap);
 
         opMode.telemetry.addData("Initialize", "All Done...  BOOM!");
         opMode.telemetry.update();

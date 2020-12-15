@@ -46,6 +46,7 @@ public class MainAutonomous extends LinearOpMode
     private boolean isRedAlliance = true;
 
 
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -119,6 +120,7 @@ public class MainAutonomous extends LinearOpMode
             } else {
                 telemetry.addData("Alliance: ", "Blue");
             }
+            telemetry.addData("Num of Rings", "%s",robot.eyes.getNumRings().toString());
 
             telemetry.update();
 

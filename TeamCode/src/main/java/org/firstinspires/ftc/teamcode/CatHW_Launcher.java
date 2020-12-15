@@ -58,7 +58,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
         launcher.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Set Motor and Servo Modes: //
-        launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //coef = launchWheel.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
         RobotConstants.LAUNCH_PID.p = 30;
         RobotConstants.LAUNCH_PID.i = 1;
