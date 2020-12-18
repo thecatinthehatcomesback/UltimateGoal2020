@@ -164,7 +164,6 @@ public class EasyOpenCVExample extends LinearOpMode
         {
             Imgproc.cvtColor(input, hsv, Imgproc.COLOR_RGB2HSV);
             Core.extractChannel(hsv, Cb, 1);
-            Imgproc.cvtColor(input,hsv, Imgproc.COLOR_RGB2HSV);
         }
 
 

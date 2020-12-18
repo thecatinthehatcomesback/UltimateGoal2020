@@ -63,7 +63,7 @@ public class CatHW_Vision extends CatHW_Subsystem
         static int REGION_HEIGHT = regionHeight;
 
         final int FOUR_RING_THRESHOLD = 80;
-        final int ONE_RING_THRESHOLD = 55;
+        final int ONE_RING_THRESHOLD = 50;
 
         Point region1_pointA = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,
@@ -92,7 +92,7 @@ public class CatHW_Vision extends CatHW_Subsystem
             FOUR
         }
         private Deque<numRings> ringValues;
-        public numRings avgValue;
+        public numRings avgValue = numRings.ONE;
 
         @Override
         public void init(Mat firstFrame)
@@ -129,12 +129,7 @@ public class CatHW_Vision extends CatHW_Subsystem
                 position = numRings.NONE;
             }
 
-            Imgproc.rectangle(
-                    input, // Buffer to draw on
-                    region1_pointA, // First point which defines the rectangle
-                    region1_pointB, // Second point which defines the rectangle
-                    GREEN, // The color the rectangle is drawn in
-                    -1); // Negative thickness means solid fill
+
 
             if (ringValues.size() > 29) {
                 // Make sure we keep the size at a reasonable level

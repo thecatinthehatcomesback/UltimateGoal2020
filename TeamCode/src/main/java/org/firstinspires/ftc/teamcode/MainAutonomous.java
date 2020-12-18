@@ -8,9 +8,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 */
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
  * MainAutonomous.java
@@ -55,6 +58,8 @@ public class MainAutonomous extends LinearOpMode
         Initialize the setDrivePowers system variables.  The init() methods of our hardware class
         does all the work:
          */
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
         robot.init(hardwareMap, this, true);
 
@@ -121,6 +126,10 @@ public class MainAutonomous extends LinearOpMode
                 telemetry.addData("Alliance: ", "Blue");
             }
             telemetry.addData("Num of Rings", "%s",robot.eyes.getNumRings().toString());
+            dashboardTelemetry.addData("Num of Rings", "%s",robot.eyes.getNumRings().toString());
+            dashboardTelemetry.addData("Analysis", "%d", robot.eyes.pipeline.getAnalysis());
+
+            dashboardTelemetry.update();
 
             telemetry.update();
 
