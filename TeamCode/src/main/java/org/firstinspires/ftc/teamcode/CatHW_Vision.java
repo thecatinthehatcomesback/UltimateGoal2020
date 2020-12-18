@@ -155,7 +155,6 @@ public class CatHW_Vision extends CatHW_Subsystem
         {
             Imgproc.cvtColor(input, hsv, Imgproc.COLOR_RGB2HSV);
             Core.extractChannel(hsv, Cb, 1);
-            Imgproc.cvtColor(input,hsv, Imgproc.COLOR_RGB2HSV);
         }
 
 
