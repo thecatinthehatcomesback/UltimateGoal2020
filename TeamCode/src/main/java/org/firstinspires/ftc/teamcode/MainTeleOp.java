@@ -270,6 +270,8 @@ public class MainTeleOp extends LinearOpMode
             //        robot.driveClassic.rightFrontMotor.getCurrentPosition(),
             //      robot.driveClassic.leftRearMotor.getCurrentPosition(),
             //    robot.driveClassic.rightRearMotor.getCurrentPosition());
+            telemetry.addData("Counts", "%.2f",robot.driveOdo.updatesThread.positionUpdate.count_per_in);
+
             telemetry.update();
 
             dashboardTelemetry.addData("Launcher", "power (%.2f)", robot.launcher.getLaunchPower());

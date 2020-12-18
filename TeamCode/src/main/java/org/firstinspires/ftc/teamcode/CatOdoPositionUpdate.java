@@ -78,7 +78,7 @@ public class CatOdoPositionUpdate
 
     private ElapsedTime time = new ElapsedTime();
 
-    private double count_per_in = 0;
+    public double count_per_in = 0;
 
     public boolean isUpdated = false;
 
@@ -147,12 +147,9 @@ public class CatOdoPositionUpdate
      */
     public void globalCoordinatePositionUpdate() {
         // Do a bulk read of encoders:
-        //ExpansionHubEx expansionHub = hwMap.get(ExpansionHubEx.class, "Expansion Hub 2");
         ExpansionHubEx controlHub   = hwMap.get(ExpansionHubEx.class, "Control Hub 1");
 
         RevBulkData bulkDataControl = controlHub.getBulkInputData();
-        //RevBulkData bulkDataExpansion = expansionHub.getBulkInputData();
-
         //TODO check the bulk data later for where odo ports are
         leftEncoderValue = bulkDataControl.getMotorCurrentPosition(verticalEncoderLeft);
         rightEncoderValue = bulkDataControl.getMotorCurrentPosition(verticalEncoderRight);
