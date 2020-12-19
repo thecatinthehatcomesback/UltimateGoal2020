@@ -164,7 +164,14 @@ public class MainTeleOp extends LinearOpMode
                 robot.launcher.closeLauncher();
             }
             // Tail/Stacker lift motor controls:
-            robot.tail.setTailPower(gamepad2.left_stick_y);
+            if(-gamepad2.left_stick_y>.75){
+                robot.tail.setArmUp();
+            } else if(-gamepad2.left_stick_y<-.75){
+                robot.tail.setArmDown();
+            } else if(gamepad2.left_stick_x<-.75){
+                robot.tail.setArmMiddle();
+            }
+            robot.tail.checkMotor();
 
             // Open and closing the Grabber
             if (gamepad2.a && buttontime.milliseconds() > 1000) {
@@ -270,7 +277,7 @@ public class MainTeleOp extends LinearOpMode
             //        robot.driveClassic.rightFrontMotor.getCurrentPosition(),
             //      robot.driveClassic.leftRearMotor.getCurrentPosition(),
             //    robot.driveClassic.rightRearMotor.getCurrentPosition());
-            telemetry.addData("Counts", "%.2f",robot.driveOdo.updatesThread.positionUpdate.count_per_in);
+            telemetry.addData("Tail P/E/T", "%.2f %d %d", robot.tail.tailLift.getPower(),robot.tail.tailLift.getCurrentPosition(), robot.tail.tailLift.getTargetPosition());
 
             telemetry.update();
 

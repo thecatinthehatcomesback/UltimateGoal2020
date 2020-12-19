@@ -58,7 +58,7 @@ public class CatOdoPositionUpdate
     private double prevNormalEncoderWheelPosition = 0;
 
     // Algorithm constants:
-    private double robotEncoderWheelDistance = 0;
+    public double robotEncoderWheelDistance = 0;
     private double horizontalEncoderTickPerDegreeOffset = 0;
 
     // Files to access the algorithm constants:
@@ -67,7 +67,7 @@ public class CatOdoPositionUpdate
     private final File horizontalTickOffsetFile = AppUtil.getInstance().getSettingsFile(
             "horizontalTickOffset.txt");
 
-    private final int verticalLeftEncoderPositionMultiplier = 1;
+    private final int verticalLeftEncoderPositionMultiplier = -1;
     private final int verticalRightEncoderPositionMultiplier = 1;
     private final int horizontalEncoderPositionMultiplier = 1;
 

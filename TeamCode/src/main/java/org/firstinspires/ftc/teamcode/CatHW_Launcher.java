@@ -54,6 +54,8 @@ public class CatHW_Launcher extends CatHW_Subsystem
         stopper    = hwMap.servo.get("ring_stopper");
         aimer    = hwMap.servo.get("aimer");
 
+        closeLauncher();
+
         // Set Motor and Servo Directions: //
         launcher.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -129,7 +131,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
      * Opens and Closes stopper.
      */
     public void openLauncher () {
-        stopper.setPosition(0.0);
+        stopper.setPosition(0.01);
     }
 
     public void closeLauncher () {

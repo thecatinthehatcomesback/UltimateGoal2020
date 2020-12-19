@@ -158,7 +158,31 @@ public class MainAutonomous extends LinearOpMode
         // Time Delay:
         robot.robotWait(timeDelay);
 
-        robot.driveOdo.quickDrive(0,24,0.4,0,3.0);
+        robot.launcher.powerOn();
+        robot.driveOdo.quickDrive(4,48,0.5,12,5.0);
+        robot.launcher.openLauncher();
+        robot.launcher.openLauncher();
+        robot.launcher.openLauncher();
+        robot.launcher.openLauncher();
+
+        delayTimer.reset();
+        robot.robotWait(0.25);
+        robot.jaws.setTransferPower(.6);
+        robot.robotWait(6.0);
+        robot.jaws.setTransferPower(0);
+        robot.launcher.closeLauncher();
+        delayTimer.reset();
+        robot.launcher.powerOff();
+        robot.driveOdo.quickDrive(-4,84,0.5,-90,3.0);
+        robot.tail.setArmDown();
+        //robot.tail.waitUntilDone();
+        robot.robotWait(1);
+        robot.tail.openGrabber();
+        robot.robotWait(.5);
+        robot.driveOdo.quickDrive(-28,38,0.5,0,5.0);
+        robot.driveOdo.quickDrive(-27,28,0.5,0,5.0);
+        robot.tail.closeGrabber();
+
 
         /* Go! */
         while(opModeIsActive()){

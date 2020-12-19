@@ -73,6 +73,7 @@ public class Test_TeleOp extends LinearOpMode
         double leftBack;
         double rightBack;
         double SF;
+        double grabberPosistion = 0.0;
 
         // Run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -129,6 +130,21 @@ public class Test_TeleOp extends LinearOpMode
             }
             // DRIVE!!!
             robot.driveClassic.setDrivePowers(leftFront, rightFront, leftBack, rightBack);
+            //Tests Gripper
+            robot.tail.grabberServo.setPosition(grabberPosistion);
+            if(gamepad1.dpad_left && upButtonTimer.milliseconds()>200){
+
+                grabberPosistion = grabberPosistion - 0.01;
+                upButtonTimer.reset();
+
+            }
+            if(gamepad1.dpad_right && upButtonTimer.milliseconds()>200){
+
+                grabberPosistion = grabberPosistion + 0.01;
+                upButtonTimer.reset();
+
+
+            }
 
 
 
@@ -151,6 +167,7 @@ public class Test_TeleOp extends LinearOpMode
             telemetry.addData("Right Front Power:", "%.2f", rightFront);
             telemetry.addData("Left Back Power:", "%.2f", leftBack);
             telemetry.addData("Right Back Power:", "%.2f", rightBack);
+            telemetry.addData("Grabber Servo", "%.2f",grabberPosistion);
             telemetry.update();
         }
 

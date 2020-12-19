@@ -24,8 +24,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class CatHW_Tail extends CatHW_Subsystem
 {
     /* OpMode members. */
-    private static final double GRABBER_OPEN = 1.0;
-    private static final double GRABBER_CLOSE = -1.0;
+    private static final double GRABBER_OPEN = 0.52;
+    private static final double GRABBER_CLOSE = 0.2;
+    private static final int ARM_DOWN = 650;
+    private static final int ARM_MIDDLE = 200;
+    private static final int ARM_UP = 0;
 
     // Motors:
     public DcMotor tailLift     = null;
@@ -53,10 +56,13 @@ public class CatHW_Tail extends CatHW_Subsystem
         grabberServo    = hwMap.servo.get("grabber_servo");
 
         // Set Motor and Servo Directions: //
-        tailLift.setDirection(DcMotorSimple.Direction.REVERSE);
+        tailLift.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Set Motor and Servo Modes: //
-        tailLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        tailLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        tailLift.setTargetPosition(0);
+        tailLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
 
@@ -66,8 +72,25 @@ public class CatHW_Tail extends CatHW_Subsystem
     //----------------------------------------------------------------------------------------------
 
 
-    public void setTailPower (double tailPower) {
-        tailLift.setPower(tailPower);
+    //public void setTailPower (double tailPower) {
+       // tailLift.setPower(tailPower);
+    //}
+
+    public void setArmDown (){
+
+        tailLift.setTargetPosition(ARM_DOWN);
+        tailLift.setPower(0.3);
+    }
+    public void setArmMiddle(){
+
+        tailLift.setTargetPosition(ARM_MIDDLE);
+        tailLift.setPower(0.3);
+
+    }
+    public  void setArmUp(){
+
+        tailLift.setTargetPosition(ARM_UP);
+        tailLift.setPower(0.3);
     }
 
     //Toggle Power
@@ -95,6 +118,15 @@ public class CatHW_Tail extends CatHW_Subsystem
         isGrab = true;
     }
 
+    public void checkMotor(){
+        if(!tailLift.isBusy()){
+            if(tailLift.getTargetPosition() == ARM_UP){
+                tailLift.setPower(0);
+
+            }
+        }
+    }
+
 
 
     //----------------------------------------------------------------------------------------------
@@ -105,6 +137,8 @@ public class CatHW_Tail extends CatHW_Subsystem
         Log.d("catbot", String.format("tail lift power %.2f,", tailLift.getPower()));
         /* isDone stuff for CatHW_Jaws */
         double TIMEOUT = 3.0;
+        checkMotor();
         return !(tailLift.isBusy() && (runtime.seconds() < TIMEOUT));
+
     }
 }// End of class bracket
