@@ -173,15 +173,23 @@ public class MainAutonomous extends LinearOpMode
         robot.launcher.closeLauncher();
         delayTimer.reset();
         robot.launcher.powerOff();
-        robot.driveOdo.quickDrive(-4,84,0.5,-90,3.0);
+        robot.driveOdo.quickDrive(-4,86,0.5,-90,3.0);
         robot.tail.setArmDown();
         //robot.tail.waitUntilDone();
         robot.robotWait(1);
         robot.tail.openGrabber();
         robot.robotWait(.5);
-        robot.driveOdo.quickDrive(-28,38,0.5,0,5.0);
-        robot.driveOdo.quickDrive(-27,28,0.5,0,5.0);
+        robot.driveOdo.quickDrive(-28,37,0.5,0,5.0);
+        robot.driveOdo.quickDrive(-27,27,0.5,0,5.0);
         robot.tail.closeGrabber();
+        robot.robotWait(.5);
+        robot.tail.setArmUp();
+        robot.robotWait(1);
+        robot.driveOdo.quickDrive(-4,86,0.5,-90,3.0);
+        robot.tail.setArmDown();
+        robot.tail.openGrabber();
+
+
 
 
         /* Go! */
