@@ -56,8 +56,9 @@ public class CatHW_Launcher extends CatHW_Subsystem
 
         closeLauncher();
 
-        // Set Motor and Servo Directions: //
+        // Set Motor Directions: //
         launcher.setDirection(DcMotorSimple.Direction.REVERSE);
+        launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Set Motor and Servo Modes: //
         //launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
