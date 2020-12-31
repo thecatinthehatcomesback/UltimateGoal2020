@@ -30,7 +30,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
     public Servo stopper   = null;
     public Servo aimer   = null;
     /// TODO make 0.58 a constaint
-    private double launchPower = 0.58;
+    private double launchPower = 0.54;
     private boolean isOn = false;
 
     /* local OpMode members. */
@@ -108,7 +108,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
     }
 
     public void presetGoal () {
-        launchPower = 0.58;
+        launchPower = 0.54;
     }
 
     public void powerOff() {
