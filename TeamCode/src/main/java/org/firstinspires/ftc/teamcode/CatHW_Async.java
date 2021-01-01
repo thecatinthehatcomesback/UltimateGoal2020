@@ -39,7 +39,7 @@ public class CatHW_Async
     CatHW_Tail tail = null;
     CatHW_Launcher launcher = null;
     CatHW_Vision eyes = null;
-    //CatHW_Lights lights = null;
+    CatHW_Lights lights = null;
 
     /* Constructor */
     public CatHW_Async() {}
@@ -84,8 +84,8 @@ public class CatHW_Async
 
         opMode.telemetry.addData("Initialize", "Lights...");
         opMode.telemetry.update();
-        //lights = CatHW_Lights.getInstanceAndInit(this);
-        //lights.init();
+        lights = CatHW_Lights.getInstanceAndInit(this);
+        lights.init();
 
         if (isInitOdo) {
             opMode.telemetry.addData("Initialize", "DriveOdo...");

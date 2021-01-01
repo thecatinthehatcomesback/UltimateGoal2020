@@ -29,8 +29,10 @@ public class CatHW_Lights implements Runnable
     private ArrayList<LightPattern> patternList = new ArrayList<>();
 
     // Blinkin objects:
-    private RevBlinkinLedDriver lights = null;
-    private RevBlinkinLedDriver.BlinkinPattern pattern;
+    private RevBlinkinLedDriver lightsRight = null;
+    private RevBlinkinLedDriver lightsLeft = null;
+    private RevBlinkinLedDriver.BlinkinPattern patternRight;
+    private RevBlinkinLedDriver.BlinkinPattern patternLeft;
 
 
     // Hardware map:
@@ -56,8 +58,11 @@ public class CatHW_Lights implements Runnable
      */
     public void init() {
         // Blinkin LED stuff: //
-        lights           = hwMap.get(RevBlinkinLedDriver.class, "blinky");
-        pattern          = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
+        lightsRight         = hwMap.get(RevBlinkinLedDriver.class, "blinkyRight");
+        lightsLeft          = hwMap.get(RevBlinkinLedDriver.class, "blinkyLeft");
+        patternRight        = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
+        patternLeft         = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
+
 
         defaultPattern = new LightPattern(sleepTime,
                 RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE);
@@ -139,9 +144,13 @@ public class CatHW_Lights implements Runnable
             LightPattern current = readQueue();
 
             // Do stuff:
-            if (current.getPattern() != pattern){
-                lights.setPattern(current.getPattern());
-                pattern = current.getPattern();
+            if (current.getPattern() != patternRight){
+                lightsRight.setPattern(current.getPattern());
+                patternRight = current.getPattern();
+            }
+            if (current.getPattern() != patternLeft){
+                lightsLeft.setPattern(current.getPattern());
+                patternLeft = current.getPattern();
             }
 
             // Add delay here:

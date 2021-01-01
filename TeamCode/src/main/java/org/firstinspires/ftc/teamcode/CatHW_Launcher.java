@@ -32,7 +32,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
     /// TODO make 0.58 a constaint
     private double launchPower = 0.58;
     private boolean isOn = false;
-
+    private double aimerPosition =0.0;
     /* local OpMode members. */
     // Timers:
     private ElapsedTime runtime = new ElapsedTime();
@@ -147,6 +147,24 @@ public class CatHW_Launcher extends CatHW_Subsystem
 
     public void aimR () {
         aimer.setPosition(0.0);
+    }
+    public void ajustL () {
+        aimerPosition = aimerPosition + 0.01;
+        if (aimerPosition > 1.0){
+            aimerPosition = 1.0;
+        }
+        aimer.setPosition(aimerPosition);
+    }
+    public void ajustR () {
+        aimerPosition = aimerPosition - 0.01;
+        if (aimerPosition < 0.0){
+            aimerPosition = 0.0;
+        }
+        aimer.setPosition(aimerPosition);
+    }
+
+    public double getAimerPosition() {
+        return aimerPosition;
     }
 
     //----------------------------------------------------------------------------------------------

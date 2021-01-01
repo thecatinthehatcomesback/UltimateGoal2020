@@ -58,6 +58,15 @@ public class CatHW_Tail extends CatHW_Subsystem
         // Set Motor and Servo Directions: //
         tailLift.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        tailLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        tailLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        int prevEncoder = tailLift.getCurrentPosition();
+        tailLift.setPower(-0.05);
+        mainHW.robotWait (0.02);
+        while(Math.abs(prevEncoder - tailLift.getCurrentPosition()) > 10){
+           prevEncoder = tailLift.getCurrentPosition();
+           mainHW.robotWait(0.02);
+        }
         // Set Motor and Servo Modes: //
         tailLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
