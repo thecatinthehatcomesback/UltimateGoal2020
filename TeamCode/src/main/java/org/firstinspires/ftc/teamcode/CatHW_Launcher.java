@@ -148,6 +148,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
     public void aimR () {
         aimer.setPosition(0.0);
     }
+
     public void ajustL () {
         aimerPosition = aimerPosition + 0.01;
         if (aimerPosition > 1.0){

@@ -61,12 +61,15 @@ public class CatHW_Tail extends CatHW_Subsystem
         tailLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         tailLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         int prevEncoder = tailLift.getCurrentPosition();
-        tailLift.setPower(-0.05);
-        mainHW.robotWait (0.02);
+        tailLift.setPower(-0.15);
+        mainHW.opMode.sleep (300);
+        Log.d("catbot", String.format("tail lift power %.2f  current position %2d prev %2d", tailLift.getPower(), tailLift.getCurrentPosition(),prevEncoder));
         while(Math.abs(prevEncoder - tailLift.getCurrentPosition()) > 10){
            prevEncoder = tailLift.getCurrentPosition();
-           mainHW.robotWait(0.02);
+           mainHW.opMode.sleep(300);
+            Log.d("catbot", String.format("tail lift power %.2f  current position %2d prev %2d", tailLift.getPower(), tailLift.getCurrentPosition(),prevEncoder));
         }
+        tailLift.setPower(0.0);
         // Set Motor and Servo Modes: //
         tailLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
