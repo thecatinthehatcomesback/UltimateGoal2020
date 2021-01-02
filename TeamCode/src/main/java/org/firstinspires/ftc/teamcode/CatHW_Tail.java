@@ -26,7 +26,7 @@ public class CatHW_Tail extends CatHW_Subsystem
     /* OpMode members. */
     private static final double GRABBER_OPEN = 0.52;
     private static final double GRABBER_CLOSE = 0.2;
-    private static final int ARM_DOWN = 650;
+    private static final int ARM_DOWN = 680;
     private static final int ARM_MIDDLE = 200;
     private static final int ARM_UP = 0;
 
