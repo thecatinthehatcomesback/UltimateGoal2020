@@ -2,7 +2,11 @@ package org.firstinspires.ftc.teamcode;
 
 import android.util.Log;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
  * CatHW_DriveOdo.java
@@ -391,6 +395,19 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
                         leftRearMotor.getPower(), rightRearMotor.getPower(),
                         targetX, targetY, targetTheta,
                         getX, getY, getTheta, getPower));
+                FtcDashboard dashboard = FtcDashboard.getInstance();
+                TelemetryPacket packet = new TelemetryPacket();
+                double[] bxPoints = { 8, -8, -8, 8 };
+                double[] byPoints = { 8, 8, -8, -8 };
+                rotatePoints(bxPoints, byPoints,getTheta);
+                for (int i = 0; i < 4; i++) {
+                    bxPoints[i] += getY-52;
+                    byPoints[i] -= getX+56;
+                }
+                packet.fieldOverlay()
+                        .setStrokeWidth(1)
+                        .setStroke("red").strokePolygon(bxPoints,byPoints);
+                dashboard.sendTelemetryPacket(packet);
                 break;
         }
 
@@ -406,5 +423,13 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
             }
         }
         return isDone;
+    }
+    private static void rotatePoints(double[] xPoints, double[] yPoints, double angle) {
+        for (int i = 0; i < xPoints.length; i++) {
+            double x = xPoints[i];
+            double y = yPoints[i];
+            xPoints[i] = x * Math.cos(angle) - y * Math.sin(angle);
+            yPoints[i] = x * Math.sin(angle) + y * Math.cos(angle);
+        }
     }
 }

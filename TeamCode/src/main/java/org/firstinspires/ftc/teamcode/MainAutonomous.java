@@ -146,6 +146,7 @@ public class MainAutonomous extends LinearOpMode
              */
 
         }
+        CatHW_Vision.UltimateGoalPipeline.numRings numRings = robot.eyes.getNumRings();
 
             /**
          * Runs after hit start:
@@ -165,7 +166,7 @@ public class MainAutonomous extends LinearOpMode
         robot.robotWait(timeDelay);
 
         robot.launcher.powerOn();
-        robot.driveOdo.quickDrive(4,48,0.5,12,5.0);
+        robot.driveOdo.quickDrive(4,48,0.5,5,5.0);
         robot.launcher.openLauncher();
         robot.launcher.openLauncher();
         robot.launcher.openLauncher();
@@ -179,6 +180,24 @@ public class MainAutonomous extends LinearOpMode
         robot.launcher.closeLauncher();
         delayTimer.reset();
         robot.launcher.powerOff();
+
+        numRings = CatHW_Vision.UltimateGoalPipeline.numRings.ONE;
+        switch (numRings){
+            case NONE:
+                driveNone();
+                break;
+            case ONE:
+                driveOne();
+                break;
+            case FOUR:
+                driveFour();
+                break;
+        }
+
+
+        robot.driveOdo.updatesThread.stop();
+    }
+    public void driveNone(){
         robot.driveOdo.quickDrive(-4,86,0.5,-90,3.0);
         robot.tail.setArmDown();
         //robot.tail.waitUntilDone();
@@ -191,27 +210,34 @@ public class MainAutonomous extends LinearOpMode
         robot.robotWait(.5);
         robot.tail.setArmUp();
         robot.robotWait(1);
-        robot.driveOdo.quickDrive(-4,86,0.5,-90,3.0);
+        robot.driveOdo.quickDrive(-4,76,0.5,-90,4.0);
         robot.tail.setArmDown();
+        robot.robotWait(1);
         robot.tail.openGrabber();
+        robot.driveOdo.quickDrive(-12,76,0.5,-90,3.0);
+    }
+    public void driveOne(){
+        robot.driveOdo.quickDrive(-13,101,0.5,90,5.0);
+        robot.tail.setArmDown();
+        robot.robotWait(1);
+        robot.tail.openGrabber();
+        robot.robotWait(.5);
+        robot.driveOdo.quickDrive(-9,101,0.5,90,3.0);
+        robot.driveOdo.quickDrive(-38,60,0.5,0,5.0);
+        robot.driveOdo.quickDrive(-30,27,0.5,-15,5.0);
+        robot.tail.closeGrabber();
+        robot.robotWait(.5);
+        robot.tail.setArmUp();
+        robot.robotWait(1);
+        robot.driveOdo.quickDrive(-30,81,0.5,180,5.0);
+        robot.tail.setArmDown();
+        robot.robotWait(1);
+        robot.tail.openGrabber();
+        robot.driveOdo.quickDrive(-30,75,0.5,180,3.0);
+    }
+    public void driveFour(){
 
 
-
-
-        /* Go! */
-        while(opModeIsActive()){
-            telemetry.addData("X Position", "%.2f", robot.driveOdo.updatesThread.positionUpdate.returnXInches());
-            telemetry.addData("Y Position", "%.2f", robot.driveOdo.updatesThread.positionUpdate.returnYInches());
-            telemetry.addData("Orientation (Degrees)", "%.2f",robot.driveOdo.updatesThread.positionUpdate.returnOrientation());
-            telemetry.addData("encoder l/r/h","%5d  %5d  %5d",
-                    robot.driveOdo.updatesThread.positionUpdate.returnVerticalLeftEncoderPosition() ,
-                    robot.driveOdo.updatesThread.positionUpdate.returnVerticalRightEncoderPosition(),
-                    robot.driveOdo.updatesThread.positionUpdate.returnHorizontalEncoderPosition());
-            telemetry.update();
-        }
-
-
-        robot.driveOdo.updatesThread.stop();
     }
 
 }
