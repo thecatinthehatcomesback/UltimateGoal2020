@@ -173,9 +173,15 @@ public class MainAutonomous extends LinearOpMode
         robot.launcher.openLauncher();
 
         delayTimer.reset();
-        robot.robotWait(0.25);
+        while(delayTimer.seconds()<0.25){
+            robot.launcher.openLauncher();
+        }
+       //robot.robotWait(0.25);
         robot.jaws.setTransferPower(.6);
-        robot.robotWait(6.0);
+        while(delayTimer.seconds()<6.0){
+            robot.launcher.openLauncher();
+        }
+        //robot.robotWait(6.0);
         robot.jaws.setTransferPower(0);
         robot.launcher.closeLauncher();
         delayTimer.reset();
