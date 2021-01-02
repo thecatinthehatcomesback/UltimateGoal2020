@@ -1,10 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+
 import android.util.Log;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 
 /**
  * CatHW_Jaws.java
@@ -68,7 +72,9 @@ public class CatHW_Jaws extends CatHW_Subsystem
     public void setJawPower(double power) {
         intakeMotor.setPower(power);
     }
-
+    public double getJawPower() {
+        return intakeMotor.getPower();
+    }
 
     /**
      * Turn off both jaws motors.
