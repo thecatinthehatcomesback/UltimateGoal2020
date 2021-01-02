@@ -103,6 +103,12 @@ public class MainAutonomous extends LinearOpMode
                 delayTimer.reset();
             }
 
+            //Allow the intake to run in autonomous
+            robot.jaws.setJawPower(gamepad1.right_trigger - (gamepad1.left_trigger * 0.3));
+            if(robot.jaws.getJawPower() > 0.05){
+                robot.jaws.setTransferPower(0.6);
+            }
+
 
 
             /**

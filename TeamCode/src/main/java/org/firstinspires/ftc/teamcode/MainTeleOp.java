@@ -215,48 +215,11 @@ public class MainTeleOp extends LinearOpMode
                 robot.jaws.setJawPower(gamepad2.right_trigger - (gamepad2.left_trigger * 0.3));
             }
 
-            // Open/Close Foundation Fingers:
-
-
-
-            // Capstone servo
-
 
 
             //--------------------------------------------------------------------------------------
             // Automated Driver Control Enhancements:
             //--------------------------------------------------------------------------------------
-
-            // TODO:  Add lights...
-            //  Code to add green blink if it picks up a stone
-
-            /*
-            if (robot.jaws.hasStone() && !alreadyStone) {
-                robot.lights.blink(4, RevBlinkinLedDriver.BlinkinPattern.YELLOW, 150);
-                alreadyStone = true;
-            }
-            if (alreadyStone && !robot.jaws.hasStone()) {
-                alreadyStone = false;
-            }*/
-
-            /*
-            // Blink at TeleOp Endgame:
-            if (!endGame && elapsedGameTime.seconds() > 90) {
-                robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-                endGame = true;
-            }
-            // For when less than 10 seconds left in TeleOp Endgame.
-            if (!under10Sec && elapsedGameTime.seconds() > 110) {
-                under10Sec = true;
-                robot.lights.blink(1, RevBlinkinLedDriver.BlinkinPattern.HOT_PINK, 1200);
-                robot.lights.blink(1, RevBlinkinLedDriver.BlinkinPattern.HOT_PINK, 1000);
-                robot.lights.blink(1, RevBlinkinLedDriver.BlinkinPattern.HOT_PINK, 800);
-                robot.lights.blink(1, RevBlinkinLedDriver.BlinkinPattern.HOT_PINK, 600);
-                robot.lights.blink(2, RevBlinkinLedDriver.BlinkinPattern.HOT_PINK, 400);
-                robot.lights.blink(3, RevBlinkinLedDriver.BlinkinPattern.HOT_PINK, 200);
-                robot.lights.blink(10, RevBlinkinLedDriver.BlinkinPattern.HOT_PINK, 125);
-            }
-            */
 
 
             //--------------------------------------------------------------------------------------
@@ -267,7 +230,6 @@ public class MainTeleOp extends LinearOpMode
             telemetry.addData("Left Back Power:", "%.2f", leftBack);
             telemetry.addData("Right Back Power:", "%.2f", rightBack);
             telemetry.addData("Launch Power","%.2f", robot.launcher.getLaunchPower());
-            //telemetry.addData("Intake Power:","%.2f", robot.jaws.leftJawMotor.getPower());
 
             telemetry.addData("X Position", "%.2f", robot.driveOdo.updatesThread.positionUpdate.returnXInches());
             telemetry.addData("Y Position", "%.2f", robot.driveOdo.updatesThread.positionUpdate.returnYInches());
