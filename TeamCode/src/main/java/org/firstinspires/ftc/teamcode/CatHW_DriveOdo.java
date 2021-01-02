@@ -294,7 +294,7 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
 
                 // Check if ready to end without the isNonStop.
                 if (!isNonStop) {
-                    if ((Math.abs(targetY - getY) < 0.5 && Math.abs(targetX - getX) < 0.5) &&
+                    if ((Math.abs(targetY - getY) < .5 && Math.abs(targetX - getX) < .5) &&
                             (Math.abs(getTheta - targetTheta) < 5)) {
 
                         keepDriving = false;

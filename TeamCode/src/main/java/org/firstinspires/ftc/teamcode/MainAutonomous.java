@@ -107,6 +107,8 @@ public class MainAutonomous extends LinearOpMode
             robot.jaws.setJawPower(gamepad1.right_trigger - (gamepad1.left_trigger * 0.3));
             if(robot.jaws.getJawPower() > 0.05){
                 robot.jaws.setTransferPower(0.6);
+            }else{
+                robot.jaws.setTransferPower(0);
             }
 
 
@@ -183,8 +185,8 @@ public class MainAutonomous extends LinearOpMode
             robot.launcher.openLauncher();
         }
        //robot.robotWait(0.25);
-        robot.jaws.setTransferPower(.6);
-        while(delayTimer.seconds()<6.0){
+        robot.jaws.setTransferPower(.4);
+        while(delayTimer.seconds()<4.0){
             robot.launcher.openLauncher();
         }
         //robot.robotWait(6.0);
@@ -193,7 +195,7 @@ public class MainAutonomous extends LinearOpMode
         delayTimer.reset();
         robot.launcher.powerOff();
 
-        numRings = CatHW_Vision.UltimateGoalPipeline.numRings.ONE;
+        numRings = CatHW_Vision.UltimateGoalPipeline.numRings.NONE;
         switch (numRings){
             case NONE:
                 driveNone();
@@ -229,32 +231,32 @@ public class MainAutonomous extends LinearOpMode
         robot.driveOdo.quickDrive(-12,76,0.5,-90,3.0);
     }
     public void driveOne(){
-        robot.driveOdo.quickDrive(-13,101,0.5,90,5.0);
+        robot.driveOdo.quickDrive(-10,96,0.5,90,5.0);
         robot.tail.setArmDown();
         robot.robotWait(1);
         robot.tail.openGrabber();
         robot.robotWait(.5);
-        robot.driveOdo.quickDrive(-9,101,0.5,90,3.0);
-        robot.driveOdo.quickDrive(-40,60,0.5,0,5.0);
-        robot.driveOdo.quickDrive(-32,30,0.5,-15,5.0);
+        robot.driveOdo.quickDrive(-5,96,0.5,90,3.0);
+        robot.driveOdo.quickDrive(-40,60,0.6,0,5.0);
+        robot.driveOdo.quickDrive(-31,30,0.5,-15,5.0);
         robot.tail.closeGrabber();
         robot.robotWait(.5);
         robot.tail.setArmUp();
         robot.robotWait(1);
-        robot.driveOdo.quickDrive(-22,30,0.5,0,5.0);
+        robot.driveOdo.quickDrive(-22,30,0.6,0,5.0);
         robot.launcher.powerOn();
         robot.jaws.setJawPower(1.0);
         robot.jaws.setTransferPower(0.6);
-        robot.driveOdo.quickDrive(-22,34,0.5,0,5.0);
-        robot.robotWait(1.5);
-        robot.driveOdo.quickDrive(6,48,0.5,5,5.0);
+        robot.driveOdo.quickDrive(-22,34,0.6,0,5.0);
+        robot.robotWait(1.0);
+        robot.driveOdo.quickDrive(0,48,0.6,3,5.0);
         delayTimer.reset();
         while(delayTimer.seconds()<0.25){
             robot.launcher.openLauncher();
         }
         //robot.robotWait(0.25);
         robot.jaws.setTransferPower(.6);
-        while(delayTimer.seconds()<6.0){
+        while(delayTimer.seconds()<2.0){
             robot.launcher.openLauncher();
         }
         //robot.robotWait(6.0);
@@ -263,11 +265,11 @@ public class MainAutonomous extends LinearOpMode
         delayTimer.reset();
         robot.launcher.powerOff();
 
-        /*robot.driveOdo.quickDrive(-30,81,0.5,180,5.0);
+        robot.driveOdo.quickDrive(-30,81,0.6,180,5.0);
         robot.tail.setArmDown();
         robot.robotWait(1);
         robot.tail.openGrabber();
-        robot.driveOdo.quickDrive(-30,75,0.5,180,3.0);*/
+        robot.driveOdo.quickDrive(-30,75,0.6,180,3.0);
     }
     public void driveFour(){
 
