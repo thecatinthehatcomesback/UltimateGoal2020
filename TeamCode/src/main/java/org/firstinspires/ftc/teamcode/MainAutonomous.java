@@ -300,13 +300,15 @@ public class MainAutonomous extends LinearOpMode
         robot.robotWait(.5);
         robot.driveOdo.quickDrive(5,105,1.0,-180,5.0);
 
-        //
+        //drives to pick up second wobble goal
         robot.driveOdo.quickDrive(-40,60,0.7,0,5.0);
         robot.driveOdo.quickDrive(-30,28,0.6,-20,7.0);
         robot.tail.closeGrabber();
         robot.robotWait(.5);
         robot.tail.setArmUp();
         robot.robotWait(1.0);
+
+        //drives to pick up rings then shoots them
         robot.driveOdo.quickDrive(-17,32,0.6,0,5.0);
         robot.jaws.setJawPower(1.0);
         robot.jaws.setTransferPower(0.6);
@@ -326,6 +328,8 @@ public class MainAutonomous extends LinearOpMode
         robot.launcher.closeLauncher();
         delayTimer.reset();
         robot.launcher.powerOff();
+
+        //drives to drop off second wobble goal and backs up to the line
         robot.driveOdo.quickDrive(5,105,1.0,-180,5.0);
         robot.tail.setArmDown();
         robot.robotWait(1);
