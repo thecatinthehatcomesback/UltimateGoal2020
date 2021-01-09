@@ -24,8 +24,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class CatHW_Tail extends CatHW_Subsystem
 {
     /* OpMode members. */
-    private static final double GRABBER_OPEN = 0.56;
-    private static final double GRABBER_CLOSE = 0.2;
+    private static final double GRABBER_OPEN = 0.7;
+    private static final double GRABBER_CLOSE = 0.25;
     private static final int ARM_DOWN = 680;
     private static final int ARM_MIDDLE = 200;
     private static final int ARM_UP = 0;
