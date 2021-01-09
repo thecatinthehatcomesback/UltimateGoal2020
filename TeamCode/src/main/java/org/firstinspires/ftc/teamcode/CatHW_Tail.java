@@ -64,7 +64,8 @@ public class CatHW_Tail extends CatHW_Subsystem
         tailLift.setPower(-0.15);
         mainHW.opMode.sleep (300);
         Log.d("catbot", String.format("tail lift power %.2f  current position %2d prev %2d", tailLift.getPower(), tailLift.getCurrentPosition(),prevEncoder));
-        while(Math.abs(prevEncoder - tailLift.getCurrentPosition()) > 10){
+        runtime.reset();
+        while((Math.abs(prevEncoder - tailLift.getCurrentPosition()) > 10)&& (runtime.seconds()<3.0)){
            prevEncoder = tailLift.getCurrentPosition();
            mainHW.opMode.sleep(300);
             Log.d("catbot", String.format("tail lift power %.2f  current position %2d prev %2d", tailLift.getPower(), tailLift.getCurrentPosition(),prevEncoder));

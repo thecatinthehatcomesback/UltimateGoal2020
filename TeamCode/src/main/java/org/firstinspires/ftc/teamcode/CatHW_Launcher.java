@@ -132,11 +132,10 @@ public class CatHW_Launcher extends CatHW_Subsystem
      * Opens and Closes stopper.
      */
     public void closeLauncher () {
-        stopper.setPosition(0.9);
+        stopper.setPosition(0.45);
     }
 
-    public void openLauncher () {
-        stopper.setPosition(0.1);
+    public void openLauncher () { stopper.setPosition(0.7);
     }
     /**
      * right and left for the aimer.
