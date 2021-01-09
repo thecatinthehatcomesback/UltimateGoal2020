@@ -195,7 +195,7 @@ public class MainAutonomous extends LinearOpMode
         delayTimer.reset();
         robot.launcher.powerOff();
 
-        numRings = CatHW_Vision.UltimateGoalPipeline.numRings.ONE;
+        numRings = CatHW_Vision.UltimateGoalPipeline.numRings.FOUR;
         switch (numRings){
             case NONE:
                 driveNone();
@@ -279,7 +279,7 @@ public class MainAutonomous extends LinearOpMode
         robot.robotWait(.5);
         robot.driveOdo.quickDrive(-9,125,0.5,-90,5.0);
         robot.driveOdo.quickDrive(-40,60,0.6,0,5.0);
-        robot.driveOdo.quickDrive(-24,28,0.5,-20,7.0);
+        robot.driveOdo.quickDrive(-20,28,0.5,-20,7.0);
         robot.tail.closeGrabber();
         robot.robotWait(.5);
         robot.tail.setArmUp();
@@ -289,7 +289,7 @@ public class MainAutonomous extends LinearOpMode
         robot.jaws.setJawPower(1.0);
         robot.jaws.setTransferPower(0.6);
         robot.driveOdo.quickDrive(-14,34,0.6,0,5.0);
-        robot.driveOdo.quickDrive(0,48,0.6,3,5.0);
+        robot.driveOdo.quickDrive(4,48,0.5,5,5.0);
         delayTimer.reset();
         while(delayTimer.seconds()<0.25){
             robot.launcher.openLauncher();

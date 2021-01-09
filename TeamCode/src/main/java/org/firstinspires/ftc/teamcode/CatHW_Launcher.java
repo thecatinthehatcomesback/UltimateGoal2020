@@ -30,7 +30,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
     public Servo stopper   = null;
     public Servo aimer   = null;
     /// TODO make 0.58 a constaint
-    private double launchPower = 0.54;
+    private double launchPower = 0.50;
     private boolean isOn = false;
     private double aimerPosition =0.0;
     /* local OpMode members. */
@@ -131,12 +131,12 @@ public class CatHW_Launcher extends CatHW_Subsystem
     /**
      * Opens and Closes stopper.
      */
-    public void openLauncher () {
-        stopper.setPosition(0.01);
+    public void closeLauncher () {
+        stopper.setPosition(0.9);
     }
 
-    public void closeLauncher () {
-        stopper.setPosition(1.0);
+    public void openLauncher () {
+        stopper.setPosition(0.1);
     }
     /**
      * right and left for the aimer.
