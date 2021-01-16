@@ -117,10 +117,10 @@ public class OdoPositionTest extends LinearOpMode
      */
     private void driveAndTwist() {
         //go to block and pick it up
-        robot.driveOdo.quickDrive(0, 72, .9, 90,  4);
+        //robot.driveOdo.quickDrive(0, 72, .9, 90,  4);
         //robot.driveOdo.quickDrive(0, 72, .9, 90, .4, 4);
         // robot.driveOdo.quickDrive(0, 0, .9, 90, .4, 4);
-        robot.driveOdo.quickDrive(0, 0, .9, 0,  4);
+        //robot.driveOdo.quickDrive(0, 0, .9, 0,  4);
         // robot.driveOdo.quickDrive(0, 72, .9, 90, .3, 4);
         //robot.driveOdo.quickDrive(0, 0, .9, 0, .3, 4);
         //Display Global (x, y, theta) coordinates
@@ -141,10 +141,10 @@ public class OdoPositionTest extends LinearOpMode
     private void bigSquare() {
 
         //go to block and pick it up
-        robot.driveOdo.quickDrive(0, 96, .9, 0,  4);
+        /*robot.driveOdo.quickDrive(0, 96, .9, 0,  4);
         robot.driveOdo.quickDrive(70, 96, .9, 0,  4);
         robot.driveOdo.quickDrive(70, 0, .9, 0,  4);
-        robot.driveOdo.quickDrive(0, 0, .9, 0,  4);
+        robot.driveOdo.quickDrive(0, 0, .9, 0,  4);*/
         robot.robotWait(1.5);
         //attemt to improve
         //robot.driveOdo.quickDrive(0, 0, .4, 0, 0, 4);
