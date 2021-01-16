@@ -67,14 +67,9 @@ public class CatOdoPositionUpdate
     private final File horizontalTickOffsetFile = AppUtil.getInstance().getSettingsFile(
             "horizontalTickOffset.txt");
 
-    private final int verticalLeftEncoderPositionMultiplier = -1;
-    private final int verticalRightEncoderPositionMultiplier = 1;
-    private final int horizontalEncoderPositionMultiplier = 1;
-
     private int leftEncoderValue = 0;
     private int rightEncoderValue = 0;
     private int horizontalEncoderValue = 0;
-    //private RevBulkData bulkData;
 
     private ElapsedTime time = new ElapsedTime();
 
@@ -156,8 +151,8 @@ public class CatOdoPositionUpdate
         horizontalEncoderValue = bulkDataControl.getMotorCurrentPosition(horizontalEncoder);
 
         // Get current positions:
-        verticalLeftEncoderWheelPosition = (leftEncoderValue * verticalLeftEncoderPositionMultiplier);
-        verticalRightEncoderWheelPosition = (rightEncoderValue * verticalRightEncoderPositionMultiplier);
+        verticalLeftEncoderWheelPosition = leftEncoderValue;
+        verticalRightEncoderWheelPosition = rightEncoderValue;
 
         // Find the difference between old and new odo values:
         double leftChange = verticalLeftEncoderWheelPosition - previousVerticalLeftEncoderWheelPosition;
@@ -170,7 +165,7 @@ public class CatOdoPositionUpdate
                 (changeInRobotOrientation / 2);
 
         // Get the components of the motion:
-        normalEncoderWheelPosition = (horizontalEncoderValue* horizontalEncoderPositionMultiplier);
+        normalEncoderWheelPosition = horizontalEncoderValue;
         double rawHorizontalChange = normalEncoderWheelPosition - prevNormalEncoderWheelPosition;
         double horizontalChange = rawHorizontalChange - (changeInRobotOrientation *
                 horizontalEncoderTickPerDegreeOffset);
@@ -191,8 +186,10 @@ public class CatOdoPositionUpdate
         // Calculate velocity:
         double velocityTimer = time.seconds();
         time.reset();
-        double rotVelocity = (changeInRobotOrientation *(180/Math.PI))/velocityTimer;
-        double velocity = (Math.sqrt(Math.pow(robotXChangeCounts,2) + Math.pow(robotYChangeCounts,2))/count_per_in)/velocityTimer;
+
+        double rotVelocity = (changeInRobotOrientation * (180/Math.PI)) / velocityTimer;
+        double velocity = (Math.sqrt(Math.pow(robotXChangeCounts,2) +
+                Math.pow(robotYChangeCounts,2))/count_per_in)/velocityTimer;
 
         Log.d("catbot", String.format("OdoTicks L/R/B  :%7d  :%7d  :%7d   X: %5.2f  Y: %5.2f  theta: %5.2f Velocity: %5.2f RotVelocity: %5.2f",
                 returnVerticalLeftEncoderPosition(),
@@ -212,6 +209,10 @@ public class CatOdoPositionUpdate
 
     public double returnYInches() { return robotGlobalYCoordinatePosition/count_per_in; }
 
+    public CatType_Point returnRobotPointInches() {
+        return new CatType_Point(robotGlobalXCoordinatePosition/count_per_in,
+                robotGlobalYCoordinatePosition/count_per_in);
+    }
 
     public void resetPos() {
         verticalRightEncoderWheelPosition = 0;
@@ -248,17 +249,16 @@ public class CatOdoPositionUpdate
      */
     public double returnOrientation() { return Math.toDegrees(robotOrientationRadians); }
 
-    // TODO:  Do we really need these??  Can't we just change encoder direction????
     public int returnVerticalLeftEncoderPosition() {
-        return (leftEncoderValue * verticalLeftEncoderPositionMultiplier);
+        return leftEncoderValue;
     }
 
     public int returnVerticalRightEncoderPosition() {
-        return (rightEncoderValue * verticalRightEncoderPositionMultiplier);
+        return rightEncoderValue;
     }
 
     public int returnHorizontalEncoderPosition() {
-        return (horizontalEncoderValue * horizontalEncoderPositionMultiplier);
+        return horizontalEncoderValue;
     }
 
 

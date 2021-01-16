@@ -302,7 +302,7 @@ public class MainAutonomous extends LinearOpMode
 
         //drives to pick up second wobble goal
         robot.driveOdo.quickDrive(-40,60,0.7,0,5.0);
-        robot.driveOdo.quickDrive(-30,28,0.6,-20,7.0);
+        robot.driveOdo.quickDrive(-36,26,0.6,-20,7.0);
         robot.tail.closeGrabber();
         robot.robotWait(.5);
         robot.tail.setArmUp();
