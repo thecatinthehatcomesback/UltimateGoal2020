@@ -412,6 +412,8 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
         }
 
         if (!keepDriving) {
+            Log.d("catbot", String.format("Translate TargetX/Y/Θ: %.2f %.2f %.1f; time: %.2f timeout %.2f done",
+                    targetX, targetY, targetTheta, runTime.seconds(), timeout));
             if (isNonStop){
                 isDone = true;
                 return true;
