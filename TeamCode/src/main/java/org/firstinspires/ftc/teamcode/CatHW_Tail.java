@@ -76,6 +76,7 @@ public class CatHW_Tail extends CatHW_Subsystem
 
         tailLift.setTargetPosition(0);
         tailLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        closeGrabber();
     }
 
 

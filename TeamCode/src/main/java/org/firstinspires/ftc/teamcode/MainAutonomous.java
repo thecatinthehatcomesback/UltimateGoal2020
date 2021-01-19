@@ -178,15 +178,10 @@ public class MainAutonomous extends LinearOpMode
         robot.driveOdo.quickDrive(4,48,0.5,5,5.0);
         //shoots rings
         delayTimer.reset();
-        while(delayTimer.seconds()<0.25){
-            robot.launcher.openLauncher();
-        }
-       //robot.robotWait(0.25);
+        robot.launcher.openLauncher();
         robot.jaws.setTransferPower(.4);
-        while(delayTimer.seconds()<3.0){
-            robot.launcher.openLauncher();
-        }
-        //robot.robotWait(6.0);
+
+        robot.robotWait(3.0);
         robot.jaws.setTransferPower(0);
         robot.launcher.closeLauncher();
         delayTimer.reset();
@@ -293,7 +288,7 @@ public class MainAutonomous extends LinearOpMode
     public void driveFour(){
         //drives to position to drop first wobble goal and places first wobble goal
         robot.launcher.powerOn();
-        robot.driveOdo.quickDrive(5,111,1.0,-180,5.0);
+        robot.driveOdo.quickDrive(5,116,1.0,-180,5.0);
         robot.tail.setArmDown();
         robot.robotWait(1);
         robot.tail.openGrabber();
@@ -302,7 +297,7 @@ public class MainAutonomous extends LinearOpMode
 
         //drives to pick up second wobble goal
         robot.driveOdo.quickDrive(-40,60,0.7,0,5.0);
-        robot.driveOdo.quickDrive(-30,28,0.6,-20,7.0);
+        robot.driveOdo.quickDrive(-36,28,0.6,-20,7.0);
         robot.tail.closeGrabber();
         robot.robotWait(.5);
         robot.tail.setArmUp();
@@ -315,22 +310,16 @@ public class MainAutonomous extends LinearOpMode
         robot.driveOdo.quickDrive(-17,34,0.4,0,5.0);
         robot.driveOdo.quickDrive(-17,34,0.4,20,5.0);
         delayTimer.reset();
-        while(delayTimer.seconds()<0.25){
-            robot.launcher.openLauncher();
-        }
-        //robot.robotWait(0.25);
-        robot.jaws.setTransferPower(.6);
-        while(delayTimer.seconds()<2){
-            robot.launcher.openLauncher();
-        }
-        //robot.robotWait(6.0);
+        robot.launcher.openLauncher();
+        robot.jaws.setTransferPower(.7);
+        robot.driveOdo.quickDrive(-17,36,0.4,20,5.0);
+
+        robot.robotWait(3.0);
         robot.jaws.setTransferPower(0);
         robot.launcher.closeLauncher();
-        delayTimer.reset();
-        robot.launcher.powerOff();
 
         //drives to drop off second wobble goal and backs up to the line
-        robot.driveOdo.quickDrive(5,105,1.0,-180,5.0);
+        robot.driveOdo.quickDrive(5,107,1.0,-180,5.0);
         robot.tail.setArmDown();
         robot.robotWait(1);
         robot.tail.openGrabber();
