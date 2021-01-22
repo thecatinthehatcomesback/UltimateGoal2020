@@ -68,6 +68,9 @@ public class CatHW_Launcher extends CatHW_Subsystem
         RobotConstants.LAUNCH_PID.d = 0;
         launcher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,RobotConstants.LAUNCH_PID);
 
+        //sets resets aimer
+        aimR();
+
     }
 
 
