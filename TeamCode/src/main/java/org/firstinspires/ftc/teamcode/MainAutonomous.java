@@ -54,8 +54,7 @@ public class MainAutonomous extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException {
 
-
-/*
+        /*
         Initialize the setDrivePowers system variables.  The init() methods of our hardware class
         does all the work:
          */
