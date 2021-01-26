@@ -29,9 +29,11 @@ public class CatHW_Tail extends CatHW_Subsystem
     private static final int ARM_DOWN = 680;
     private static final int ARM_MIDDLE = 200;
     private static final int ARM_UP = 0;
+    private double timeDelay;
+    private ElapsedTime delayingTimer;
 
     // Motors:
-    public DcMotor tailLift     = null;
+    public DcMotor tailMover = null;
     public Servo grabberServo   = null;
 
     /* local OpMode members. */
@@ -52,30 +54,30 @@ public class CatHW_Tail extends CatHW_Subsystem
     public void init() {
 
         // Define and Initialize Motors and Servos: //
-        tailLift        = hwMap.dcMotor.get("tail_lift");
+        tailMover = hwMap.dcMotor.get("tail_lift");
         grabberServo    = hwMap.servo.get("grabber_servo");
 
         // Set Motor and Servo Directions: //
-        tailLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        tailMover.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        tailLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        tailLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        int prevEncoder = tailLift.getCurrentPosition();
-        tailLift.setPower(-0.15);
+        tailMover.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        tailMover.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        int prevEncoder = tailMover.getCurrentPosition();
+        tailMover.setPower(-0.15);
         mainHW.opMode.sleep (300);
-        Log.d("catbot", String.format("tail lift power %.2f  current position %2d prev %2d", tailLift.getPower(), tailLift.getCurrentPosition(),prevEncoder));
+        Log.d("catbot", String.format("tail lift power %.2f  current position %2d prev %2d", tailMover.getPower(), tailMover.getCurrentPosition(),prevEncoder));
         runtime.reset();
-        while((Math.abs(prevEncoder - tailLift.getCurrentPosition()) > 10)&& (runtime.seconds()<3.0)){
-           prevEncoder = tailLift.getCurrentPosition();
+        while((Math.abs(prevEncoder - tailMover.getCurrentPosition()) > 10)&& (runtime.seconds()<3.0)){
+           prevEncoder = tailMover.getCurrentPosition();
            mainHW.opMode.sleep(300);
-            Log.d("catbot", String.format("tail lift power %.2f  current position %2d prev %2d", tailLift.getPower(), tailLift.getCurrentPosition(),prevEncoder));
+            Log.d("catbot", String.format("tail lift power %.2f  current position %2d prev %2d", tailMover.getPower(), tailMover.getCurrentPosition(),prevEncoder));
         }
-        tailLift.setPower(0.0);
+        tailMover.setPower(0.0);
         // Set Motor and Servo Modes: //
-        tailLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        tailMover.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        tailLift.setTargetPosition(0);
-        tailLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        tailMover.setTargetPosition(0);
+        tailMover.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         closeGrabber();
     }
 
@@ -91,20 +93,29 @@ public class CatHW_Tail extends CatHW_Subsystem
     //}
 
     public void setArmDown (){
-
-        tailLift.setTargetPosition(ARM_DOWN);
-        tailLift.setPower(0.3);
+        timeDelay = 0;
+        tailMover.setTargetPosition(ARM_DOWN);
+        tailMover.setPower(0.3);
     }
-    public void setArmMiddle(){
 
-        tailLift.setTargetPosition(ARM_MIDDLE);
-        tailLift.setPower(0.3);
+    public void setArmDown (double delay){
+        timeDelay = delay;
+        delayingTimer.reset();
+
+        tailMover.setTargetPosition(ARM_DOWN);
+        tailMover.setPower(0.0);
+    }
+
+    public void setArmMiddle(){
+        timeDelay = 0;
+        tailMover.setTargetPosition(ARM_MIDDLE);
+        tailMover.setPower(0.3);
 
     }
     public  void setArmUp(){
-
-        tailLift.setTargetPosition(ARM_UP);
-        tailLift.setPower(0.3);
+        timeDelay = 0;
+        tailMover.setTargetPosition(ARM_UP);
+        tailMover.setPower(0.3);
     }
 
     //Toggle Power
@@ -133,9 +144,9 @@ public class CatHW_Tail extends CatHW_Subsystem
     }
 
     public void checkMotor(){
-        if(!tailLift.isBusy()){
-            if(tailLift.getTargetPosition() == ARM_UP){
-                tailLift.setPower(0);
+        if(!tailMover.isBusy()){
+            if(tailMover.getTargetPosition() == ARM_UP){
+                tailMover.setPower(0);
 
             }
         }
@@ -148,11 +159,16 @@ public class CatHW_Tail extends CatHW_Subsystem
     //----------------------------------------------------------------------------------------------
     @Override
     public boolean isDone() {
-        Log.d("catbot", String.format("tail lift power %.2f,", tailLift.getPower()));
+        Log.d("catbot", String.format("tail lift power %.2f,", tailMover.getPower()));
+        if ( (timeDelay > 0) && (delayingTimer.seconds() > timeDelay) ) {
+            tailMover.setPower(0.3);
+            timeDelay = 0;
+        }
         /* isDone stuff for CatHW_Jaws */
-        double TIMEOUT = 3.0;
+        double TIMEOUT = 5.0;
         checkMotor();
-        return !(tailLift.isBusy() && (runtime.seconds() < TIMEOUT));
+        return !(tailMover.isBusy() && (runtime.seconds() < TIMEOUT));
+
 
     }
 }// End of class bracket

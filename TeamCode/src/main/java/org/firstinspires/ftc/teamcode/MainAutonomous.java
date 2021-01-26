@@ -282,9 +282,9 @@ public class MainAutonomous extends LinearOpMode
     public void driveFour(){
         //drives to position to drop first wobble goal and places first wobble goal
         robot.launcher.powerOn();
-        robot.driveOdo.quickDrive(5,116,9.0,-180,5.0);
-        robot.tail.setArmDown();
-        robot.robotWait(1);
+        robot.driveOdo.translateDrive(5,116,9.0,-180,5.0);
+        robot.tail.setArmDown(2.0);
+        robot.driveOdo.waitUntilDone(robot.driveOdo, robot.tail);
         robot.tail.openGrabber();
         robot.robotWait(.5);
         robot.driveOdo.quickDrive(5,105,1.0,-180,5.0);
