@@ -30,7 +30,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
     public Servo stopper   = null;
     public Servo aimer   = null;
     /// TODO make 0.58 a constaint
-    private double launchPower = 0.5;
+    private double launchRPM = 2550;
     private boolean isOn = false;
     private double aimerPosition =0.0;
     /* local OpMode members. */
@@ -69,6 +69,9 @@ public class CatHW_Launcher extends CatHW_Subsystem
         RobotConstants.LAUNCH_PID.f = 14;
         launcher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,RobotConstants.LAUNCH_PID);
 
+        //sets resets aimer
+        aimR();
+
     }
 
 
@@ -92,25 +95,25 @@ public class CatHW_Launcher extends CatHW_Subsystem
     public void powerOn() {
         isOn = true;
         launcher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,RobotConstants.LAUNCH_PID);
-        launcher.setPower(launchPower);
+        launcher.setVelocity(launchRPM / 60 * 28);
     }
 
     public void updatePower () {
         if (isOn) {
-            launcher.setPower(launchPower);
+            launcher.setVelocity(launchRPM / 60 * 28);
         }
     }
 
     public void presetPowerShot () {
-        launchPower = 0.47;
+        launchRPM = 2400;
     }
 
-    public double getLaunchPower () {
-        return launchPower;
+    public double getLaunchRPM() {
+        return launchRPM;
     }
 
     public void presetGoal () {
-        launchPower = 0.54;
+        launchRPM = 2550;
     }
 
     public void powerOff() {
@@ -118,16 +121,12 @@ public class CatHW_Launcher extends CatHW_Subsystem
         launcher.setPower(0.0);
     }
 
-    public double getPower () {
-        return launchPower;
-    }
-
     public void increasePower () {
-        launchPower = launchPower + 0.02;
+        launchRPM = launchRPM + 50;
     }
 
     public void decreasePower () {
-        launchPower = launchPower - 0.02;
+        launchRPM = launchRPM - 50;
     }
 
     /**

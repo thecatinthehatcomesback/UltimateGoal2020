@@ -271,7 +271,7 @@ public class TestAimTeleOp extends LinearOpMode
             telemetry.addData("Right Front Power:", "%.2f", rightFront);
             telemetry.addData("Left Back Power:", "%.2f", leftBack);
             telemetry.addData("Right Back Power:", "%.2f", rightBack);
-            telemetry.addData("Launch Power","%.2f", robot.launcher.getLaunchPower());
+            telemetry.addData("Launch Power","%.2f", robot.launcher.getLaunchRPM());
             //telemetry.addData("Intake Power:","%.2f", robot.jaws.leftJawMotor.getPower());
 
             telemetry.addData("X Position", "%.2f", robot.driveOdo.updatesThread.positionUpdate.returnXInches());
@@ -286,7 +286,7 @@ public class TestAimTeleOp extends LinearOpMode
             telemetry.addData("aimerPosition", "%.2f", robot.launcher.getAimerPosition());
             telemetry.update();
 
-            dashboardTelemetry.addData("Launcher", "power (%.2f)", robot.launcher.getLaunchPower());
+            dashboardTelemetry.addData("Launcher", "power (%.2f)", robot.launcher.getLaunchRPM());
             dashboardTelemetry.addData("rpm vel","%.1f" ,robot.launcher.launcher.getVelocity()* 60 / 28);
             PIDFCoefficients coeff = robot.launcher.launcher.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
             dashboardTelemetry.addData("PID   set","%.2f  %.2f  %.2f  %.2f",RobotConstants.LAUNCH_PID.p,RobotConstants.LAUNCH_PID.i,RobotConstants.LAUNCH_PID.d,RobotConstants.LAUNCH_PID.f);
