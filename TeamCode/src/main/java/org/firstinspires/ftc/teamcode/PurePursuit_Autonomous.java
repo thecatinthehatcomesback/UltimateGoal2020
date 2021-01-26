@@ -58,8 +58,8 @@ public class PurePursuit_Autonomous extends LinearOpMode
 
         //simpleDrivePath.add(new CurvePoint(0, 0,0));
         simpleDrivePath.add(new CatType_CurvePoint(0, 100, 0));
-        simpleDrivePath.add(new CatType_CurvePoint(72, 100, 90));
-        simpleDrivePath.add(new CatType_CurvePoint(72, 10, 180));
+        simpleDrivePath.add(new CatType_CurvePoint(50, 100, 90));
+        simpleDrivePath.add(new CatType_CurvePoint(50, 10, 180));
 
         robot.driveOdo.pursuitDrive(simpleDrivePath, .7, 15.0, 16);
         robot.driveOdo.waitUntilDone();
@@ -68,7 +68,7 @@ public class PurePursuit_Autonomous extends LinearOpMode
         simpleDrivePath.clear();
         simpleDrivePath.add(new CatType_CurvePoint(0, 0,270));
         simpleDrivePath.add(new CatType_CurvePoint(0, 100, 360));
-        simpleDrivePath.add(new CatType_CurvePoint(72, 100, 360 + 90));
+        simpleDrivePath.add(new CatType_CurvePoint(60, 100, 360 + 90));
 
         robot.driveOdo.pursuitDrive(simpleDrivePath, .7, 16);
         robot.driveOdo.waitUntilDone();
