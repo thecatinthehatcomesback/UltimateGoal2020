@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -14,6 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * @author FTC Team #10273, The Cat in the Hat Comes Back
  */
 @Autonomous(name="Odometry Test", group="CatAuto")
+@Disabled
 public class OdoPositionTest extends LinearOpMode
 {
     /* Declare OpMode members. */

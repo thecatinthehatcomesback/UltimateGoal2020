@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -245,7 +247,8 @@ public class MainTeleOp extends LinearOpMode
 
             dashboardTelemetry.addData("Launcher", "power (%.2f)", robot.launcher.getLaunchPower());
             dashboardTelemetry.addData("rpm vel","%.1f" ,robot.launcher.launcher.getVelocity()* 60 / 28);
-            // dashboardTelemetry.addData("PID    ","%.5f  %.5f  %.5f  %.5f",coef.p,coef.i,coef.d,coef.f);
+            PIDFCoefficients cof = robot.launcher.launcher.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
+            dashboardTelemetry.addData("PID running","%.5f  %.5f  %.5f  %.5f", cof.p, cof.i, cof.d, cof.f);
             dashboardTelemetry.addData("PID set","%.5f  %.5f  %.5f  %.5f",RobotConstants.LAUNCH_PID.p,RobotConstants.LAUNCH_PID.i,RobotConstants.LAUNCH_PID.d,RobotConstants.LAUNCH_PID.f);
             dashboardTelemetry.addData("High","%4d ",2800);
             dashboardTelemetry.addData("Low","%4d ",1800);

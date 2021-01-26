@@ -6,8 +6,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 /**
  * CatHW_DriveOdo.java
  *
@@ -412,8 +410,12 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
         }
 
         if (!keepDriving) {
-            Log.d("catbot", String.format("Translate TargetX/Y/Θ: %.2f %.2f %.1f; time: %.2f timeout %.2f done",
-                    targetX, targetY, targetTheta, runTime.seconds(), timeout));
+            Log.d("catbot", String.format("Translate TargetX/Y/Θ: %.2f %.2f %.1f; current %.2f %.2f %.1f time: %.2f timeout %.2f done",
+                    targetX, targetY, targetTheta,
+                    updatesThread.positionUpdate.returnXInches(),
+                    updatesThread.positionUpdate.returnYInches(),
+                    updatesThread.positionUpdate.returnOrientation(),
+                    runTime.seconds(), timeout));
             if (isNonStop){
                 isDone = true;
                 return true;

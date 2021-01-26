@@ -64,8 +64,9 @@ public class CatHW_Launcher extends CatHW_Subsystem
         //launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //coef = launchWheel.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
         RobotConstants.LAUNCH_PID.p = 30;
-        RobotConstants.LAUNCH_PID.i = 1;
+        RobotConstants.LAUNCH_PID.i = 0.01;
         RobotConstants.LAUNCH_PID.d = 0;
+        RobotConstants.LAUNCH_PID.f = 14;
         launcher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,RobotConstants.LAUNCH_PID);
 
     }
@@ -90,6 +91,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
 
     public void powerOn() {
         isOn = true;
+        launcher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,RobotConstants.LAUNCH_PID);
         launcher.setPower(launchPower);
     }
 

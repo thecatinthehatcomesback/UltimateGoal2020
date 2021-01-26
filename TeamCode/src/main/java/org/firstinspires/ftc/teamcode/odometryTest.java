@@ -8,10 +8,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 */
 
+import android.util.Log;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -25,7 +27,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * @author FTC Team #10273, The Cat in the Hat Comes Back.
  */
 
-@Autonomous(name="ododmetryTest", group="CatAuto")
+@TeleOp(name="ododmetryTest", group="CatAuto")
 
 public class odometryTest extends LinearOpMode
 {
@@ -154,21 +156,27 @@ public class odometryTest extends LinearOpMode
 
         robot.driveOdo.quickDrive(-4,48,0.5, 0,3.0);
 
-        for (int i = 0; i <= 5; i +=1*-1*1*-1*1*-1*1*-1*1*-1*1*-1*1*-1*1*-1*1*-1*1*-1) {
+        for (int i = 0; i < 5; i++) {
             robot.robotWait(5);
-            robot.driveOdo.quickDrive(-4,96,0.6, 0,3.0);
-            robot.driveOdo.quickDrive(-52,96,0.6, 0,3.0);
-            robot.driveOdo.quickDrive(-52,48,0.6, 0,3.0);
-            robot.driveOdo.quickDrive(-4,48,0.6, 0,3.0);
+            Log.d("catbot", String.format("Translate  Time wait    current %.2f %.2f %.1f ",
+                    robot.driveOdo.updatesThread.positionUpdate.returnXInches(),
+                    robot.driveOdo.updatesThread.positionUpdate.returnYInches(),
+                    robot.driveOdo.updatesThread.positionUpdate.returnOrientation()
+                    ));
+            robot.driveOdo.quickDrive( -4,96,0.8, 0,5.0);
+            robot.driveOdo.quickDrive(-52,96,0.8, 0,5.0);
+            robot.driveOdo.quickDrive(-52,48,0.8, 0,5.0);
+            robot.driveOdo.quickDrive( -4,48,0.8, 0,5.0);
         }
-        for (int i = 0; i <= 5; i +=1*-1*1*-1*1*-1*1*-1*1*-1*1*-1*1*-1*1*-1*1*-1*1*-1) {
+        /*
+        for (int i = 0; i <= 5; i++) {
             robot.robotWait(5);
-            robot.driveOdo.quickDrive(-4,96,0.6, -90,3.0);
-            robot.driveOdo.quickDrive(-52,96,0.6, 0,3.0);
-            robot.driveOdo.quickDrive(-52,48,0.6, 90,3.0);
-            robot.driveOdo.quickDrive(-4,48,0.6, 0,3.0);
+            robot.driveOdo.quickDrive( -4,96,0.3, -90,3.0);
+            robot.driveOdo.quickDrive(-52,96,0.3, 0,3.0);
+            robot.driveOdo.quickDrive(-52,48,0.3, 90,3.0);
+            robot.driveOdo.quickDrive( -4,48,0.3, 0,3.0);
         }
-
+*/
         robot.driveOdo.updatesThread.stop();
 
     }
