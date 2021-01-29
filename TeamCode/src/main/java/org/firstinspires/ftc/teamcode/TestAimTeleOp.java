@@ -282,7 +282,7 @@ public class TestAimTeleOp extends LinearOpMode
             //        robot.driveClassic.rightFrontMotor.getCurrentPosition(),
             //      robot.driveClassic.leftRearMotor.getCurrentPosition(),
             //    robot.driveClassic.rightRearMotor.getCurrentPosition());
-            telemetry.addData("Tail P/E/T", "%.2f %d %d", robot.tail.tailLift.getPower(),robot.tail.tailLift.getCurrentPosition(), robot.tail.tailLift.getTargetPosition());
+            telemetry.addData("Tail P/E/T", "%.2f %d %d", robot.tail.tailMover.getPower(),robot.tail.tailMover.getCurrentPosition(), robot.tail.tailMover.getTargetPosition());
             telemetry.addData("aimerPosition", "%.2f", robot.launcher.getAimerPosition());
             telemetry.update();
 
