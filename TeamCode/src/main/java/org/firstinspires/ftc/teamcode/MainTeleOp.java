@@ -157,7 +157,7 @@ public class MainTeleOp extends LinearOpMode
             if(gamepad2.dpad_left) {
                 robot.launcher.aimL();
             } else if(gamepad2.dpad_right) {
-                robot.launcher.aimR();
+                robot.launcher.aimHigh();
             }
             robot.launcher.updatePower();
             if(gamepad2.b){

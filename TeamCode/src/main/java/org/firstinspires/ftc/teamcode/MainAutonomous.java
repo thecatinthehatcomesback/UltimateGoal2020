@@ -48,6 +48,7 @@ public class MainAutonomous extends LinearOpMode
     private ElapsedTime delayTimer = new ElapsedTime();
     private double timeDelay;
     private boolean isRedAlliance = true;
+    private boolean isPowerShot = true;
 
 
 
@@ -101,15 +102,18 @@ public class MainAutonomous extends LinearOpMode
                 }
                 delayTimer.reset();
             }
+            if (gamepad1.b && (delayTimer.seconds() > 0.8)) {
+                isPowerShot = !isPowerShot;
+                delayTimer.reset();
+            }
 
             //Allow the intake to run in autonomous
             robot.jaws.setJawPower(gamepad1.right_trigger - (gamepad1.left_trigger * 0.3));
-            if(robot.jaws.getJawPower() > 0.05){
+            if (robot.jaws.getJawPower() > 0.05) {
                 robot.jaws.setTransferPower(0.6);
-            }else{
+            } else {
                 robot.jaws.setTransferPower(0);
             }
-
 
 
             /**
@@ -138,8 +142,13 @@ public class MainAutonomous extends LinearOpMode
             } else {
                 telemetry.addData("Alliance: ", "Blue");
             }
-            telemetry.addData("Num of Rings", "%s",robot.eyes.getNumRings().toString());
-            dashboardTelemetry.addData("Num of Rings", "%s",robot.eyes.getNumRings().toString());
+            if (isPowerShot) {
+                telemetry.addData("Goal: ", "Power Shot");
+            } else {
+                telemetry.addData("Goal: ", "High Goal");
+            }
+            telemetry.addData("Num of Rings", "%s", robot.eyes.getNumRings().toString());
+            dashboardTelemetry.addData("Num of Rings", "%s", robot.eyes.getNumRings().toString());
             dashboardTelemetry.addData("Analysis", "%d", robot.eyes.pipeline.getAnalysis());
 
             dashboardTelemetry.update();
@@ -155,14 +164,13 @@ public class MainAutonomous extends LinearOpMode
         }
         CatHW_Vision.UltimateGoalPipeline.numRings numRings = robot.eyes.getNumRings();
 
-            /**
+        /**
          * Runs after hit start:
          * DO STUFF FOR the OPMODE!!!
          */
 
 
-
-            /**
+        /**
          * Init the IMU after play so that it is not offset after
          * remaining idle for a minute or two...
          */
@@ -173,19 +181,26 @@ public class MainAutonomous extends LinearOpMode
         robot.robotWait(timeDelay);
         //powers on launcher
         robot.launcher.powerOn();
+        if (isPowerShot) {
+            robot.launcher.presetPowerShot();
+            robot.launcher.aimR();
+
+        } else {
+            robot.launcher.aimHigh();
+        }
         robot.robotWait(1);
         //drives to position to shoot rings
-        robot.driveOdo.quickDrive(4,48,0.5,5,5.0);
-        //shoots rings
-        delayTimer.reset();
-        robot.launcher.openLauncher();
-        robot.jaws.setTransferPower(.3);
+        robot.driveOdo.quickDrive(4, 48, 0.5, 0, 5.0);
 
-        robot.robotWait(3.0);
-        robot.jaws.setTransferPower(0);
-        robot.launcher.closeLauncher();
-        delayTimer.reset();
-        robot.launcher.powerOff();
+        //shoots rings
+        if (isPowerShot) {
+            robot.launcher.shootPowerShots();
+        } else {
+            robot.launcher.shootRings();
+        }
+        robot.launcher.aimHigh();
+        robot.driveOdo.quickDrive(1,1,0.4,0,5);
+        robot.robotWait(2);
 
         numRings = CatHW_Vision.UltimateGoalPipeline.numRings.ONE;
         switch (numRings){
@@ -193,7 +208,7 @@ public class MainAutonomous extends LinearOpMode
                 driveNone();
                 break;
             case ONE:
-                driveOne();
+               // driveOne();
                 break;
             case FOUR:
                 driveFour();

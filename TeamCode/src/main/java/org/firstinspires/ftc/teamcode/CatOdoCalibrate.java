@@ -49,7 +49,7 @@ public class CatOdoCalibrate extends LinearOpMode
         }
         telemetry.update();
         robot.init(hardwareMap, this, true);
-       robot.driveOdo.IMU_Init();
+        robot.driveOdo.IMU_Init();
 
         // Finished!  Now tell the driver:
         telemetry.addData("Status", "Initialized...  BOOM!");

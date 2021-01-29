@@ -70,7 +70,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
         launcher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,RobotConstants.LAUNCH_PID);
 
         //sets resets aimer
-        aimR();
+        aimHigh();
 
     }
 
@@ -106,14 +106,20 @@ public class CatHW_Launcher extends CatHW_Subsystem
 
     public void presetPowerShot () {
         launchRPM = 2400;
+        updatePower();
     }
 
     public double getLaunchRPM() {
         return launchRPM;
     }
 
+    public double getCurrentRPM(){
+        return (launcher.getVelocity()* 60 / 28);
+    }
+
     public void presetGoal () {
         launchRPM = 2550;
+        updatePower();
     }
 
     public void powerOff() {
@@ -141,12 +147,53 @@ public class CatHW_Launcher extends CatHW_Subsystem
     /**
      * right and left for the aimer.
      */
-    public void aimL () {
-        aimer.setPosition(1.0);
+    public void aimL ()   { aimer.setPosition(.75); }
+    public void aimM()     {aimer.setPosition(.65);}
+    public void aimR()     {aimer.setPosition(.55);}
+    public void aimHigh() { aimer.setPosition(0.0);}
+
+    public void shootPowerShots(){
+        aimR();
+        openLauncher();
+        mainHW.jaws.setTransferPower(.5);
+        waitForShot();
+        mainHW.jaws.setTransferPower(0);
+        aimM();
+        mainHW.robotWait(.5);
+        mainHW.jaws.setTransferPower(.5);
+        waitForShot();
+        mainHW.jaws.setTransferPower(0);
+        aimL();
+        mainHW.robotWait(.5);
+        mainHW.jaws.setTransferPower(.5);
+        waitForShot();
+        aimHigh();
+        powerOff();
     }
 
-    public void aimR () {
-        aimer.setPosition(0.0);
+    public void shootRings(){
+        openLauncher();
+        mainHW.jaws.setTransferPower(.5);
+        waitForShot();
+        waitForShot();
+        waitForShot();
+        mainHW.jaws.setTransferPower(0);
+        closeLauncher();
+        powerOff();
+    }
+    public void waitForShot (){
+        ElapsedTime timeOut = new ElapsedTime();
+        double prevRPM = getCurrentRPM();
+        double currRPM = getCurrentRPM();
+        timeOut.reset();
+        while((prevRPM - currRPM) < 200){
+            prevRPM = currRPM;
+            mainHW.robotWait(.1);
+            currRPM = getCurrentRPM();
+            if(timeOut.seconds() > 1){
+                break;
+            }
+        }
     }
 
     public void ajustL () {
