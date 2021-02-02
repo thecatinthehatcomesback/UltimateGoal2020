@@ -30,7 +30,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
     public Servo stopper   = null;
     public Servo aimer   = null;
     /// TODO make 0.58 a constaint
-    private double launchRPM = 2550;
+    private double launchRPM = 2350;
     private boolean isOn = false;
     private double aimerPosition =0.0;
     /* local OpMode members. */
@@ -171,7 +171,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
         powerOff();
     }
 
-    public void shootRings(){
+    public void shootHighGoal(){
         openLauncher();
         mainHW.jaws.setTransferPower(.5);
         waitForShot();

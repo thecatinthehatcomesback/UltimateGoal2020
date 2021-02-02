@@ -196,19 +196,17 @@ public class MainAutonomous extends LinearOpMode
         if (isPowerShot) {
             robot.launcher.shootPowerShots();
         } else {
-            robot.launcher.shootRings();
+            robot.launcher.shootHighGoal();
         }
         robot.launcher.aimHigh();
-        robot.driveOdo.quickDrive(1,1,0.4,0,5);
         robot.robotWait(2);
 
-        numRings = CatHW_Vision.UltimateGoalPipeline.numRings.ONE;
         switch (numRings){
             case NONE:
                 driveNone();
                 break;
             case ONE:
-               // driveOne();
+                driveOne();
                 break;
             case FOUR:
                 driveFour();
@@ -305,7 +303,7 @@ public class MainAutonomous extends LinearOpMode
 
         //drives to pick up second wobble goal
         robot.driveOdo.quickDrive(-40,60,0.9,0,5.0);
-        robot.driveOdo.quickDrive(-40,24,0.6,-20,7.0);
+        robot.driveOdo.quickDrive(-40,26,0.6,-20,7.0);
         robot.tail.closeGrabber();
         robot.robotWait(.5);
         robot.tail.setArmUp();

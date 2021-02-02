@@ -52,6 +52,7 @@ public class CatHW_Tail extends CatHW_Subsystem
      * Initialize standard Hardware interfaces.
      */
     public void init() {
+        delayingTimer = new ElapsedTime();
 
         // Define and Initialize Motors and Servos: //
         tailMover = hwMap.dcMotor.get("tail_lift");
