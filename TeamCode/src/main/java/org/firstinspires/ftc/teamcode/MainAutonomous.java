@@ -116,7 +116,7 @@ public class MainAutonomous extends LinearOpMode
             }
 
 
-            /**
+            /*
              * LED code:
              */
 
@@ -131,7 +131,7 @@ public class MainAutonomous extends LinearOpMode
             }
 
 
-            /**
+            /*
              * Telemetry while waiting for PLAY:
              */
 
@@ -156,7 +156,7 @@ public class MainAutonomous extends LinearOpMode
             telemetry.update();
 
 
-            /**
+            /*
              * We don't need a "waitForStart()" since we've been running our own
              * loop all this time so that we can make some changes.
              */
@@ -164,13 +164,13 @@ public class MainAutonomous extends LinearOpMode
         }
         CatHW_Vision.UltimateGoalPipeline.numRings numRings = robot.eyes.getNumRings();
 
-        /**
+        /*
          * Runs after hit start:
          * DO STUFF FOR the OPMODE!!!
          */
 
 
-        /**
+        /*
          * Init the IMU after play so that it is not offset after
          * remaining idle for a minute or two...
          */
@@ -190,7 +190,7 @@ public class MainAutonomous extends LinearOpMode
         }
         robot.robotWait(1);
         //drives to position to shoot rings
-        robot.driveOdo.quickDrive(4, 48, 0.5, 0, 5.0);
+        robot.driveOdo.quickDrive(4, 48, 0.5, 5, 5.0);
 
         //shoots rings
         if (isPowerShot) {
@@ -218,7 +218,7 @@ public class MainAutonomous extends LinearOpMode
     }
     public void driveNone(){
         //drives to position to drop first wobble goal and places first wobble goal
-        robot.driveOdo.quickDrive(-4,84,0.7,-90,3.0);
+        robot.driveOdo.quickDrive(-4,80,0.7,-90,3.0);
         robot.tail.setArmDown();
         robot.robotWait(1);
         robot.tail.openGrabber();
@@ -235,7 +235,7 @@ public class MainAutonomous extends LinearOpMode
         robot.robotWait(1);
 
         //drives to position to drop second wobble goal
-        robot.driveOdo.quickDrive(-4,76,0.5,-90,4.0);
+        robot.driveOdo.quickDrive(-4,70,0.5,-90,4.0);
 
         //places second wobble goal
         robot.tail.setArmDown();
