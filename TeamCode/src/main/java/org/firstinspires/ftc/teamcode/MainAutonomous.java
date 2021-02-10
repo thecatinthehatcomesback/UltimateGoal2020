@@ -48,7 +48,7 @@ public class MainAutonomous extends LinearOpMode
     private ElapsedTime delayTimer = new ElapsedTime();
     private double timeDelay;
     private boolean isRedAlliance = true;
-    private boolean isPowerShot = true;
+    private boolean isPowerShot = false;
 
 
 
@@ -190,7 +190,7 @@ public class MainAutonomous extends LinearOpMode
         }
         robot.robotWait(1);
         //drives to position to shoot rings
-        robot.driveOdo.quickDrive(4, 48, 0.5, 5, 5.0);
+        robot.driveOdo.quickDrive(4, 48, 0.5, 7, 5.0);
 
         //shoots rings
         if (isPowerShot) {
@@ -218,7 +218,7 @@ public class MainAutonomous extends LinearOpMode
     }
     public void driveNone(){
         //drives to position to drop first wobble goal and places first wobble goal
-        robot.driveOdo.quickDrive(-4,80,0.7,-90,3.0);
+        robot.driveOdo.quickDrive(-4,81,0.7,-90,3.0);
         robot.tail.setArmDown();
         robot.robotWait(1);
         robot.tail.openGrabber();
@@ -235,7 +235,7 @@ public class MainAutonomous extends LinearOpMode
         robot.robotWait(1);
 
         //drives to position to drop second wobble goal
-        robot.driveOdo.quickDrive(-4,70,0.5,-90,4.0);
+        robot.driveOdo.quickDrive(-4,71,0.5,-90,4.0);
 
         //places second wobble goal
         robot.tail.setArmDown();
@@ -256,7 +256,7 @@ public class MainAutonomous extends LinearOpMode
 
         //drives to position to grab second wobble goal
         robot.driveOdo.quickDrive(-40,60,0.6,0,5.0);
-        robot.driveOdo.quickDrive(-36,26,0.6,-15,5.0);
+        robot.driveOdo.quickDrive(-36,26,0.4,-15,5.0);
 
         //grabs second wobble goal
         robot.tail.closeGrabber();
@@ -283,7 +283,7 @@ public class MainAutonomous extends LinearOpMode
         robot.launcher.closeLauncher();
 
         //drives to position to place second wobble goal and places second wobble goal
-        robot.driveOdo.quickDrive(-30,81,0.6,180,5.0);
+        robot.driveOdo.quickDrive(-30,82.5,0.6,180,5.0);
         robot.tail.setArmDown();
         robot.robotWait(1);
         robot.tail.openGrabber();
