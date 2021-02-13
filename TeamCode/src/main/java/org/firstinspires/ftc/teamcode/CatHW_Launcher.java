@@ -188,7 +188,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
         timeOut.reset();
         while((prevRPM - currRPM) < 200){
             prevRPM = currRPM;
-            mainHW.robotWait(.1);
+            mainHW.robotWait(.05);
             currRPM = getCurrentRPM();
             if(timeOut.seconds() > 1){
                 break;

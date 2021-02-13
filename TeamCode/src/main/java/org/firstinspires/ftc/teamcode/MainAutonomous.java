@@ -48,7 +48,7 @@ public class MainAutonomous extends LinearOpMode
     private ElapsedTime delayTimer = new ElapsedTime();
     private double timeDelay;
     private boolean isRedAlliance = true;
-    private boolean isPowerShot = true;
+    private boolean isPowerShot = false;
 
 
 
@@ -190,7 +190,7 @@ public class MainAutonomous extends LinearOpMode
         }
         robot.robotWait(1);
         //drives to position to shoot rings
-        robot.driveOdo.quickDrive(4, 48, 0.5, 5, 5.0);
+        robot.driveOdo.quickDrive(4, 48, 0.5, 7, 5.0);
 
         //shoots rings
         if (isPowerShot) {
@@ -199,7 +199,7 @@ public class MainAutonomous extends LinearOpMode
             robot.launcher.shootHighGoal();
         }
         robot.launcher.aimHigh();
-        robot.robotWait(2);
+
 
         switch (numRings){
             case NONE:
@@ -294,44 +294,45 @@ public class MainAutonomous extends LinearOpMode
     public void driveFour(){
         //drives to position to drop first wobble goal and places first wobble goal
         robot.launcher.powerOn();
-        robot.driveOdo.translateDrive(5,116,9.0,-180,5.0);
-        robot.tail.setArmDown(2.0);
+        robot.driveOdo.translateDrive(8,114,1.0,-155,5.0); //x = 5, theta = -180
+        robot.tail.setArmDown(1.0);
         robot.driveOdo.waitUntilDone(robot.driveOdo, robot.tail);
         robot.tail.openGrabber();
-        robot.robotWait(.5);
+        robot.robotWait(.2);
         robot.driveOdo.quickDrive(5,105,1.0,-180,5.0);
 
         //drives to pick up second wobble goal
-        robot.driveOdo.quickDrive(-40,60,0.9,0,5.0);
-        robot.driveOdo.quickDrive(-40,26,0.6,-20,7.0);
+        robot.driveOdo.quickDrive(-38,60,0.9,0,5.0);
+        robot.driveOdo.quickDrive(-33,26,0.3,-20,7.0); //was x= -40
         robot.tail.closeGrabber();
-        robot.robotWait(.5);
+        robot.robotWait(.4); //was .5
         robot.tail.setArmUp();
-        robot.robotWait(1.0);
+        robot.robotWait(.4); //was 1.0
 
         //drives to pick up rings
-        robot.driveOdo.quickDrive(-17,32,0.6,0,5.0);
+        robot.driveOdo.quickDrive(-20,32,0.6,0,5.0);
         robot.jaws.setJawPower(1.0);
-        robot.jaws.setTransferPower(0.6);
-        robot.driveOdo.quickDrive(-17,34,0.6,0,5.0);
-        robot.driveOdo.quickDrive(-17,34,0.6,20,5.0);
+        robot.jaws.setTransferPower(0.7); //was 0.6
+        robot.launcher.openLauncher();
+        robot.driveOdo.quickDrive(-17,34,0.7,0,5.0);
+        robot.driveOdo.quickDrive(-17,34,0.7,20,5.0);
 
         //shoots rings
         delayTimer.reset();
-        robot.launcher.openLauncher();
+
         robot.jaws.setTransferPower(.7);
         robot.driveOdo.quickDrive(-17,40,0.3,20,5.0);
 
-        robot.robotWait(3.0);
+        robot.robotWait(2.7); //was 3
         robot.jaws.setTransferPower(0);
         robot.launcher.closeLauncher();
 
         //drives to drop off second wobble goal and backs up to the line
-        robot.driveOdo.quickDrive(5,107,1.0,-180,5.0);
+        robot.driveOdo.quickDrive(7,107,1.0,-165,5.0);
         robot.tail.setArmDown();
-        robot.robotWait(1);
+        robot.robotWait(.8); //was 1
         robot.tail.openGrabber();
-        robot.robotWait(.5);
+        robot.robotWait(.3); //was 0.5
         robot.driveOdo.quickDrive(5,75,1.0,-180,3.0);
 
 

@@ -133,9 +133,9 @@ public class CatOdoPowerUpdate
         // Distance left to target calculation.
         distanceToTarget = distanceBetween(currentX, currentY, targetX, targetY);
 
-        if (currentPower >= (1 * (distanceToTarget / rampDownDistance))) {
+        if (currentPower >= (1 * (distanceToTarget / rampDownDistance)-.2)) {
             // Ramp down if within the rampDownDistance.
-            currentPower = 1 * (distanceToTarget / rampDownDistance);
+            currentPower = 1 * ((distanceToTarget / rampDownDistance)-.2);
 
         } else {
             // Ramp up power.
