@@ -190,7 +190,7 @@ public class MainAutonomous extends LinearOpMode
         }
         robot.robotWait(1);
         //drives to position to shoot rings
-        robot.driveOdo.quickDrive(4, 48, 0.5, 7, 5.0);
+        robot.driveOdo.quickDrive(5, 60, 0.75, 0, 5.0);
 
         //shoots rings
         if (isPowerShot) {
@@ -225,8 +225,10 @@ public class MainAutonomous extends LinearOpMode
         robot.robotWait(.5);
 
         //drives to position to grab second wobble goal
+        robot.driveOdo.setLooseTolerance();
         robot.driveOdo.quickDrive(-30,37,0.7,0,5.0);
-        robot.driveOdo.quickDrive(-29,27,0.7,0,5.0);
+        robot.driveOdo.quickDrive(-31,27,0.4,0,5.0);
+        robot.driveOdo.setNormalTolerance();
 
         //Grabs second wobble goal
         robot.tail.closeGrabber();
@@ -256,7 +258,9 @@ public class MainAutonomous extends LinearOpMode
 
         //drives to position to grab second wobble goal
         robot.driveOdo.quickDrive(-40,60,0.6,0,5.0);
-        robot.driveOdo.quickDrive(-36,26,0.4,-15,5.0);
+        robot.driveOdo.setLooseTolerance();
+        robot.driveOdo.quickDrive(-36,26,0.3,-15,5.0);
+        robot.driveOdo.setNormalTolerance();
 
         //grabs second wobble goal
         robot.tail.closeGrabber();
@@ -270,20 +274,20 @@ public class MainAutonomous extends LinearOpMode
         robot.jaws.setJawPower(1.0);
         robot.jaws.setTransferPower(0.6);
         robot.driveOdo.quickDrive(-22,34,0.7,0,5.0);
-        robot.robotWait(1.0);
+        robot.robotWait(.7);
 
         //goes to position to shoot ring and shoots ring
-        robot.driveOdo.quickDrive(-22,34,0.7,20,5.0);
+        robot.driveOdo.quickDrive(-22,34,0.7,22,5.0);
         delayTimer.reset();
         robot.launcher.openLauncher();
         robot.jaws.setTransferPower(.7);
 
-        robot.robotWait(2.0);
+        robot.robotWait(1.5);
         robot.jaws.setTransferPower(0);
         robot.launcher.closeLauncher();
 
         //drives to position to place second wobble goal and places second wobble goal
-        robot.driveOdo.quickDrive(-30,82.5,0.6,180,5.0);
+        robot.driveOdo.quickDrive(-22,82.5,0.6,180,5.0);
         robot.tail.setArmDown();
         robot.robotWait(1);
         robot.tail.openGrabber();

@@ -173,6 +173,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
 
     public void shootHighGoal(){
         openLauncher();
+        mainHW.robotWait(.7);
         mainHW.jaws.setTransferPower(.5);
         waitForShot();
         waitForShot();

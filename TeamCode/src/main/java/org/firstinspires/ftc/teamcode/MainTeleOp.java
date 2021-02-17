@@ -77,6 +77,7 @@ public class MainTeleOp extends LinearOpMode
         buttontime.reset();
 
         robot.tail.openGrabber();
+        robot.launcher.togglePower();
 
 
         // Run infinitely until the end of the match (driver presses STOP)

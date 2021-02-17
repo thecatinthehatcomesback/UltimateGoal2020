@@ -61,6 +61,8 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
 
     private boolean isNonStop;
 
+    private double tolerance = 0.5; //inches
+
     /** Enumerated type for the style of drive the robot will make. */
     private enum DRIVE_METHOD {
         TRANSLATE,
@@ -119,7 +121,12 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
         currentMethod = DRIVE_METHOD.TRANSLATE;
     }
 
-
+    public void setNormalTolerance(){
+            tolerance = 0.5;
+    }
+    public void setLooseTolerance(){
+            tolerance= 1;
+    }
 
     //----------------------------------------------------------------------------------------------
     // Driving Chassis Methods:
@@ -292,7 +299,7 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
 
                 // Check if ready to end without the isNonStop.
                 if (!isNonStop) {
-                    if ((Math.abs(targetY - getY) < .5 && Math.abs(targetX - getX) < .5) &&
+                    if ((Math.abs(targetY - getY) < tolerance && Math.abs(targetX - getX) < tolerance) &&
                             (Math.abs(getTheta - targetTheta) < 5)) {
 
                         keepDriving = false;
