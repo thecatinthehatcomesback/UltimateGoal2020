@@ -259,14 +259,7 @@ public class MainTeleOp extends LinearOpMode
         }
 
         robot.driveOdo.updatesThread.stop();
+        robot.eyes.stop();
     }
-
-
-
-    //----------------------------------------------------------------------------------------------
-    // Multiple Driver Control Methods:
-    //----------------------------------------------------------------------------------------------
-
-
 
 }

@@ -57,6 +57,7 @@ public class CatHW_Tail extends CatHW_Subsystem
         // Define and Initialize Motors and Servos: //
         tailMover = hwMap.dcMotor.get("tail_lift");
         grabberServo    = hwMap.servo.get("grabber_servo");
+        openGrabber();
 
         // Set Motor and Servo Directions: //
         tailMover.setDirection(DcMotorSimple.Direction.FORWARD);
