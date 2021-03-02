@@ -173,6 +173,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
 
     public void shootHighGoal(){
         openLauncher();
+        mainHW.robotWait(.7);
         mainHW.jaws.setTransferPower(.5);
         waitForShot();
         waitForShot();
@@ -190,7 +191,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
             prevRPM = currRPM;
             mainHW.robotWait(.05);
             currRPM = getCurrentRPM();
-            if(timeOut.seconds() > 1){
+            if((timeOut.seconds() > 1) || !mainHW.opMode.opModeIsActive()){
                 break;
             }
         }

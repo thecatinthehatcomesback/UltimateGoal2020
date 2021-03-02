@@ -75,6 +75,7 @@ public class MainTeleOp extends LinearOpMode
         buttontime.reset();
 
         robot.tail.openGrabber();
+        robot.launcher.togglePower();
 
 
         // Run infinitely until the end of the match (driver presses STOP)
@@ -256,14 +257,7 @@ public class MainTeleOp extends LinearOpMode
         }
 
         robot.driveOdo.updatesThread.stop();
+        robot.eyes.stop();
     }
-
-
-
-    //----------------------------------------------------------------------------------------------
-    // Multiple Driver Control Methods:
-    //----------------------------------------------------------------------------------------------
-
-
 
 }

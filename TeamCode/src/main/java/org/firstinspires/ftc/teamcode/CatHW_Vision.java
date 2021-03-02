@@ -1,15 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.util.Log;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -24,7 +18,6 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Deque;
-import java.util.List;
 
 /**
  * CatHW_Vision.java
@@ -209,9 +202,11 @@ public class CatHW_Vision extends CatHW_Subsystem
                 FtcDashboard.getInstance().startCameraStream(webcam, 10);
             }
         });
+    }
+    public void stop(){
+        webcam.closeCameraDevice();
 
     }
-
 
     //----------------------------------------------------------------------------------------------
     // Open CV Metthods:
