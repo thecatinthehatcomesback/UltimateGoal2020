@@ -23,7 +23,6 @@ public class MainTeleOp extends LinearOpMode
 {
     /* Declare OpMode members. */
     private ElapsedTime elapsedGameTime = new ElapsedTime();
-    private ElapsedTime stoneReleaseTime = new ElapsedTime();
 
     /* Declare OpMode members. */
     CatHW_Async robot;  // Use our new mecanum async hardware
@@ -62,7 +61,6 @@ public class MainTeleOp extends LinearOpMode
 
         // Go! (Presses PLAY)
         elapsedGameTime.reset();
-        stoneReleaseTime.reset();
         double driveSpeed;
         double leftFront;
         double rightFront;

@@ -437,7 +437,7 @@ public class CatHW_DriveClassic extends CatHW_DriveBase
 
             case turn:
 
-                int zVal = getCurrentAngle();
+                float zVal = getCurrentAngle();
 
                 // Log message:
                 Log.d("catbot", String.format("TURN  target %d, current %d  %s",

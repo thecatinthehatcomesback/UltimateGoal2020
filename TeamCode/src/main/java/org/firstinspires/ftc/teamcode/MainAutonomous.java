@@ -335,14 +335,6 @@ public class MainAutonomous extends LinearOpMode
         robot.robotWait(.3); //was 0.5
         robot.driveOdo.quickDrive(5,75,1.0,-180,3.0);
 
-
-
-
-
-
-
-
-
     }
 
 }
