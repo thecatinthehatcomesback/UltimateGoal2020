@@ -61,6 +61,7 @@ public class Test_TeleOp extends LinearOpMode
 
         // Wait for PLAY:
         waitForStart();
+        robot.driveOdo.updatesThread.positionUpdate.useIMUCorrection = true;
 
         if(CatHW_Async.isRedAlliance) {
             //robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_LAVA_PALETTE);

@@ -320,7 +320,7 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
                         turnPow = -.9;
                     }
                 }
-                turnPow += turnRate * - 0.001;
+                turnPow += turnRate * - 0.0025;
                 Log.d("catbot", String.format("turn target %.1f, current %.1f  %s Power %.3f D:%.3f",
                         targetTheta, zVal, clockwiseTurn ? "CW" : "CCW", turnPow, turnRate * -0.003));
                 leftFrontMotor.setPower(turnPow);

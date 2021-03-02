@@ -53,6 +53,7 @@ public class CatOdoPositionUpdate
     private DcMotorEx horizontalEncoder = null;
     ExpansionHubEx controlHub   = null;
     BNO055IMU imu;
+    public boolean useIMUCorrection = false;
 
 
     // Expansion hubs:
@@ -220,9 +221,11 @@ public class CatOdoPositionUpdate
         if(changeInRobotOrientation != 0){
             IMUTimer.reset();
         }
-        if(IMUTimer.seconds()>IMULagTime){
-            IMUTimer.reset();
-            robotOrientationRadians = IMUAngle;
+        if(useIMUCorrection){
+            if(IMUTimer.seconds()>IMULagTime){
+                IMUTimer.reset();
+                robotOrientationRadians = IMUAngle;
+            }
         }
 
         // Calculate velocity:
