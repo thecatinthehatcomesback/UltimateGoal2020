@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -23,7 +24,7 @@ public class MainTeleOp extends LinearOpMode
 {
     /* Declare OpMode members. */
     private ElapsedTime elapsedGameTime = new ElapsedTime();
-    private ElapsedTime stoneReleaseTime = new ElapsedTime();
+
 
     /* Declare OpMode members. */
     CatHW_Async robot;  // Use our new mecanum async hardware
@@ -46,14 +47,20 @@ public class MainTeleOp extends LinearOpMode
         FtcDashboard dashboard = FtcDashboard.getInstance();
         Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
+
+
         // Initialize the hardware
         robot.init(hardwareMap, this, true);
+        robot.driveClassic.IMU_Init();
+
         // Finished!  Now tell the driver...
         telemetry.addData("Status", "Initialized...  BOOM!");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        robot.driveOdo.updatesThread.positionUpdate.useIMUCorrection = true;
+
         if (CatHW_Async.isRedAlliance) {
             //robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_LAVA_PALETTE);
         } else {
@@ -62,7 +69,6 @@ public class MainTeleOp extends LinearOpMode
 
         // Go! (Presses PLAY)
         elapsedGameTime.reset();
-        stoneReleaseTime.reset();
         double driveSpeed;
         double leftFront;
         double rightFront;
@@ -72,6 +78,10 @@ public class MainTeleOp extends LinearOpMode
         boolean alreadyStone = true;
         boolean endGame = false;
         boolean under10Sec = false;
+        boolean turningMode = false;
+        double targetAngle = 35;
+        double baseTargetAngle = 35;
+
 
         ElapsedTime buttontime = new ElapsedTime();
         buttontime.reset();
@@ -86,6 +96,35 @@ public class MainTeleOp extends LinearOpMode
             //--------------------------------------------------------------------------------------
             // Driver 1 Controls:
             //--------------------------------------------------------------------------------------
+            if(gamepad1.y && (turningMode == false)){
+                turningMode = true;
+                targetAngle = baseTargetAngle - 10;
+                robot.driveOdo.turn(targetAngle,5);
+                robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
+            }
+            if(gamepad1.a && (turningMode == false)){
+                turningMode = true;
+                targetAngle = baseTargetAngle;
+                robot.driveOdo.turn(targetAngle,5);
+                robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+            }
+            if(turningMode){
+                if(robot.driveOdo.isDone()){
+                    turningMode = false;
+                    robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+                }
+                if(Math.abs(gamepad1.left_stick_y) > 0.5 || Math.abs(gamepad1.left_stick_x) > 0.5
+                        ||Math.abs(gamepad1.right_stick_y) > 0.5 || Math.abs(gamepad1.right_stick_x) > 0.5 ){
+                    turningMode = false;
+                    robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RED);
+                }
+            }
+            if(Math.abs(targetAngle-robot.driveOdo.updatesThread.positionUpdate.returnOrientation()) > 5){
+                robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RED);
+            }
+            if(gamepad1.b){
+                baseTargetAngle = robot.driveOdo.updatesThread.positionUpdate.returnOrientation();
+            }
 
             // Drive train speed control:
             if (gamepad1.left_bumper) {
@@ -117,9 +156,11 @@ public class MainTeleOp extends LinearOpMode
             rightFront = rightFront * SF * driveSpeed;
             leftBack = leftBack * SF * driveSpeed;
             rightBack = rightBack * SF * driveSpeed;
-            // DRIVE!!!
-            robot.driveClassic.setDrivePowers(leftFront, rightFront, leftBack, rightBack);
+                // DRIVE!!!
+            if (!turningMode) {
 
+                robot.driveClassic.setDrivePowers(leftFront, rightFront, leftBack, rightBack);
+            }
             // Jaws Control:
             if (gamepad1.left_bumper) {
                 robot.jaws.setJawPower(gamepad1.right_trigger - (gamepad1.left_trigger));

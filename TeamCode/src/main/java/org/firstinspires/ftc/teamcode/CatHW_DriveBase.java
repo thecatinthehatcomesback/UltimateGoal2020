@@ -233,9 +233,9 @@ public class CatHW_DriveBase  extends CatHW_Subsystem
     /**
      * @return the robot's current orientation.
      */
-    public int getCurrentAngle() {
+    public float getCurrentAngle() {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        return -(int) angles.firstAngle;
+        return -angles.firstAngle;
     }
 
 

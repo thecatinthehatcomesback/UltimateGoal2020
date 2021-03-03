@@ -2,12 +2,17 @@ package org.firstinspires.ftc.teamcode;
 
 import android.util.Log;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.ReadWriteFile;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import org.openftc.revextensions2.ExpansionHubEx;
 import org.openftc.revextensions2.RevBulkData;
@@ -36,10 +41,21 @@ public class CatOdoPositionUpdate
     // Attributes:
     //----------------------------------------------------------------------------------------------
 
+    //constants
+    static final double IMULagTime = 0.2; //seconds
+    ElapsedTime IMUTimer = new ElapsedTime();
+    int IMUWraps = 0;
+    double prevIMU = 0;
+
     // Odometry wheels:
     private DcMotorEx verticalEncoderLeft = null;
     private DcMotorEx verticalEncoderRight = null;
     private DcMotorEx horizontalEncoder = null;
+    ExpansionHubEx controlHub   = null;
+    BNO055IMU imu;
+    public boolean useIMUCorrection = false;
+
+
     // Expansion hubs:
     public HardwareMap hwMap = null;
 
@@ -103,6 +119,9 @@ public class CatOdoPositionUpdate
 
         robotEncoderWheelDistance = Double.parseDouble(ReadWriteFile.readFile(wheelBaseSeparationFile).trim()) * COUNTS_PER_INCH;
         this.horizontalEncoderTickPerDegreeOffset = Double.parseDouble(ReadWriteFile.readFile(horizontalTickOffsetFile).trim());
+        controlHub   = hwMap.get(ExpansionHubEx.class, "Control Hub 1");
+        imu = hwMap.get(BNO055IMU.class, "imu");
+
         time.reset();
     }
 
@@ -134,6 +153,8 @@ public class CatOdoPositionUpdate
 
         robotEncoderWheelDistance = Double.parseDouble(ReadWriteFile.readFile(wheelBaseSeparationFile).trim()) * COUNTS_PER_INCH;
         this.horizontalEncoderTickPerDegreeOffset = Double.parseDouble(ReadWriteFile.readFile(horizontalTickOffsetFile).trim());
+        controlHub   = hwMap.get(ExpansionHubEx.class, "Control Hub 1");
+        imu = hwMap.get(BNO055IMU.class, "imu");
     }
 
 
@@ -147,7 +168,6 @@ public class CatOdoPositionUpdate
      */
     public void globalCoordinatePositionUpdate() {
         // Do a bulk read of encoders:
-        ExpansionHubEx controlHub   = hwMap.get(ExpansionHubEx.class, "Control Hub 1");
 
         RevBulkData bulkDataControl = controlHub.getBulkInputData();
         //TODO check the bulk data later for where odo ports are
@@ -187,6 +207,26 @@ public class CatOdoPositionUpdate
         previousVerticalLeftEncoderWheelPosition = verticalLeftEncoderWheelPosition;
         previousVerticalRightEncoderWheelPosition = verticalRightEncoderWheelPosition;
         prevNormalEncoderWheelPosition = normalEncoderWheelPosition;
+        //keeps track of IMU wraps
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
+        double IMUAngle = -angles.firstAngle;
+        if((prevIMU < Math.toRadians(-90)) && (IMUAngle > Math.toRadians(90))){
+            IMUWraps--;
+        }else if((prevIMU > Math.toRadians(90)) && (IMUAngle <Math.toRadians(-90))){
+            IMUWraps++;
+        }
+        prevIMU = IMUAngle;
+        IMUAngle = IMUAngle + (IMUWraps * Math.toRadians(360));
+        //reset theta from IMU
+        if(changeInRobotOrientation != 0){
+            IMUTimer.reset();
+        }
+        if(useIMUCorrection){
+            if(IMUTimer.seconds()>IMULagTime){
+                IMUTimer.reset();
+                robotOrientationRadians = IMUAngle;
+            }
+        }
 
         // Calculate velocity:
         double velocityTimer = time.seconds();

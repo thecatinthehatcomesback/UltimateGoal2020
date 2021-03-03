@@ -164,6 +164,8 @@ public class MainAutonomous extends LinearOpMode
 
         }
         CatHW_Vision.UltimateGoalPipeline.numRings numRings = robot.eyes.getNumRings();
+        robot.driveOdo.updatesThread.positionUpdate.useIMUCorrection = false;
+
 
         /*
          * Runs after hit start:
@@ -334,6 +336,7 @@ public class MainAutonomous extends LinearOpMode
         robot.tail.openGrabber();
         robot.robotWait(.3); //was 0.5
         robot.driveOdo.quickDrive(5,75,1.0,-180,3.0);
+
     }
 
 }
