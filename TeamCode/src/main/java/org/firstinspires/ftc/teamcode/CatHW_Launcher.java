@@ -105,7 +105,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
     }
 
     public void presetPowerShot () {
-        launchRPM = 2400;
+        launchRPM = 2150;
         updatePower();
     }
 
@@ -118,7 +118,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
     }
 
     public void presetGoal () {
-        launchRPM = 2550;
+        launchRPM = 2350;
         updatePower();
     }
 
@@ -176,6 +176,9 @@ public class CatHW_Launcher extends CatHW_Subsystem
         mainHW.robotWait(.7);
         mainHW.jaws.setTransferPower(.5);
         waitForShot();
+        mainHW.jaws.setTransferPower(.0);
+        mainHW.robotWait(.3);
+        mainHW.jaws.setTransferPower(.5);
         waitForShot();
         waitForShot();
         mainHW.jaws.setTransferPower(0);

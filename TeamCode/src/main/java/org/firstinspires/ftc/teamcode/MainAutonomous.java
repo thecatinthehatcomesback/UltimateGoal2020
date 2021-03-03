@@ -191,7 +191,7 @@ public class MainAutonomous extends LinearOpMode
         }
         robot.robotWait(1);
         //drives to position to shoot rings
-        robot.driveOdo.quickDrive(5, 60, 0.75, 5, 5.0);
+        robot.driveOdo.quickDrive(5, 59, 0.75, 0, 5.0);
 
         //shoots rings
         if (isPowerShot) {
@@ -237,7 +237,7 @@ public class MainAutonomous extends LinearOpMode
         robot.robotWait(1);
 
         //drives to position to drop second wobble goal
-        robot.driveOdo.quickDrive(-8,71,0.5,-90,4.0);
+        robot.driveOdo.quickDrive(-8,71,0.6,-90,5.0);
 
         //places second wobble goal
         robot.tail.setArmDown();
@@ -308,7 +308,7 @@ public class MainAutonomous extends LinearOpMode
 
         //drives to pick up second wobble goal
         robot.driveOdo.quickDrive(-45,60,1.0,0,5.0);
-        robot.driveOdo.quickDrive(-36,26,0.5,-20,7.0); //was x= -40
+        robot.driveOdo.quickDrive(-34,26,0.5,-20,7.0); //was x= -40
         robot.driveOdo.setNormalTolerance();
         robot.tail.closeGrabber();
         robot.robotWait(.4); //was .5
@@ -320,8 +320,8 @@ public class MainAutonomous extends LinearOpMode
         robot.jaws.setJawPower(1.0);
         robot.jaws.setTransferPower(0.7); //was 0.6
         robot.launcher.openLauncher();
-        robot.driveOdo.quickDrive(-20,34,0.7,17,5.0);
-        robot.driveOdo.quickDrive(-19,40,0.3,16,5.0);
+        robot.driveOdo.quickDrive(-20,34,0.7,19,5.0);
+        robot.driveOdo.quickDrive(-19,40,0.3,18,5.0);
 
         robot.robotWait(2.7); //was 3
         robot.jaws.setTransferPower(0);
