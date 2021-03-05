@@ -63,7 +63,8 @@ public class MainAutonomous extends LinearOpMode
         Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
         robot.init(hardwareMap, this, true);
-
+        robot.driveOdo.updatesThread.positionUpdate.useIMUCorrection = false;
+        robot.driveClassic.IMU_Init();
 
 
 /*
@@ -164,7 +165,7 @@ public class MainAutonomous extends LinearOpMode
 
         }
         CatHW_Vision.UltimateGoalPipeline.numRings numRings = robot.eyes.getNumRings();
-        robot.driveOdo.updatesThread.positionUpdate.useIMUCorrection = false;
+
 
 
         /*
@@ -178,7 +179,6 @@ public class MainAutonomous extends LinearOpMode
          * remaining idle for a minute or two...
          */
 
-        robot.driveClassic.IMU_Init();
 
         // Time Delay:
         robot.robotWait(timeDelay);
