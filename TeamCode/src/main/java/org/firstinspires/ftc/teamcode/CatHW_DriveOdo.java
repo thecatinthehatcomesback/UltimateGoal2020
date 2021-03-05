@@ -254,6 +254,13 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
     public void turn(double theta, double timeoutS ){
         currentMethod = DRIVE_METHOD.TURN;
         timeout = timeoutS;
+        double currentTheta = updatesThread.positionUpdate.returnOrientation();
+        while((theta - currentTheta) < -180){
+            theta += 360;
+        }
+        while((theta - currentTheta) > 180){
+            theta -= 360;
+        }
         targetTheta = theta;
         clockwiseTurn = theta >  updatesThread.positionUpdate.returnOrientation();
         runTime.reset();
@@ -294,10 +301,10 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
 
 
 
-                if ((zVal >= targetTheta) && (clockwiseTurn)) {
+                if ((zVal >= (targetTheta - 1.5)) && (clockwiseTurn)) {
                     keepDriving = false;
                 }
-                if ((zVal <= targetTheta) && (!clockwiseTurn)) {
+                if ((zVal <= (targetTheta + 1.5)) && (!clockwiseTurn)) {
                     keepDriving = false;
                 }
                 double turnPow = -(zVal - targetTheta) / 30.0;
@@ -320,7 +327,7 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
                         turnPow = -.9;
                     }
                 }
-                turnPow += turnRate * - 0.0025;
+                turnPow += turnRate * - 0.003;
                 Log.d("catbot", String.format("turn target %.1f, current %.1f  %s Power %.3f D:%.3f",
                         targetTheta, zVal, clockwiseTurn ? "CW" : "CCW", turnPow, turnRate * -0.003));
                 leftFrontMotor.setPower(turnPow);

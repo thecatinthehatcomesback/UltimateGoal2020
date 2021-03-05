@@ -59,7 +59,7 @@ public class CatHW_DriveBase  extends CatHW_Subsystem
     static boolean isDone;
 
     // The IMU sensor object:
-    BNO055IMU imu;
+    private static BNO055IMU imu = null;
     // State used for updating telemetry:
     private Orientation angles;
 
@@ -224,10 +224,12 @@ public class CatHW_DriveBase  extends CatHW_Subsystem
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
-        imu = hwMap.get(BNO055IMU.class, "imu");
-        //the initialize method is taking a whole second
-        imu.initialize(parameters);
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 250);
+        if(imu == null) {
+            imu = hwMap.get(BNO055IMU.class, "imu");
+            //the initialize method is taking a whole second
+            imu.initialize(parameters);
+            imu.startAccelerationIntegration(new Position(), new Velocity(), 250);
+        }
     }
 
     /**

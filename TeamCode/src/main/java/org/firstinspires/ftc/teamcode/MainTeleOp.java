@@ -105,6 +105,13 @@ public class MainTeleOp extends LinearOpMode
             if(gamepad1.a && (turningMode == false)){
                 turningMode = true;
                 targetAngle = baseTargetAngle;
+                double currentTheta = robot.driveOdo.updatesThread.positionUpdate.returnOrientation();
+                while((targetAngle - currentTheta) < -180){
+                    targetAngle += 360;
+                }
+                while((targetAngle - currentTheta) > 180){
+                    targetAngle -= 360;
+                }
                 robot.driveOdo.turn(targetAngle,5);
                 robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.BLUE);
             }
@@ -122,7 +129,7 @@ public class MainTeleOp extends LinearOpMode
             if(Math.abs(targetAngle-robot.driveOdo.updatesThread.positionUpdate.returnOrientation()) > 5){
                 robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RED);
             }
-            if(gamepad1.b){
+            if(gamepad1.ps){
                 baseTargetAngle = robot.driveOdo.updatesThread.positionUpdate.returnOrientation();
             }
 
