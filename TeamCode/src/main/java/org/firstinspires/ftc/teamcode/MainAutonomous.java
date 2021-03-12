@@ -151,9 +151,13 @@ public class MainAutonomous extends LinearOpMode
                 telemetry.addData("Goal: ", "High Goal");
             }
             telemetry.addData("Num of Rings", "%s", robot.eyes.getNumRings().toString());
+            telemetry.addData("X/Y/Theta Position", "%.2f %.2f %.2f",
+                    robot.driveOdo.updatesThread.positionUpdate.returnXInches(),
+                    robot.driveOdo.updatesThread.positionUpdate.returnYInches(),
+                    robot.driveOdo.updatesThread.positionUpdate.returnOrientation());
+
             dashboardTelemetry.addData("Num of Rings", "%s", robot.eyes.getNumRings().toString());
             dashboardTelemetry.addData("Analysis", "%d", robot.eyes.pipeline.getAnalysis());
-
             dashboardTelemetry.update();
 
             telemetry.update();
