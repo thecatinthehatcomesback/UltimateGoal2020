@@ -64,6 +64,7 @@ public class MainAutonomous extends LinearOpMode
 
         robot.init(hardwareMap, this, true);
         robot.driveOdo.updatesThread.positionUpdate.useIMUCorrection = false;
+        robot.driveClassic.IMU_Reset();
         robot.driveClassic.IMU_Init();
 
 
