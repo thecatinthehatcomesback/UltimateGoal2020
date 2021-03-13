@@ -231,7 +231,9 @@ public class CatHW_DriveBase  extends CatHW_Subsystem
             imu.startAccelerationIntegration(new Position(), new Velocity(), 250);
         }
     }
-
+    public void IMU_Reset(){
+        imu = null;
+    }
     /**
      * @return the robot's current orientation.
      */

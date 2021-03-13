@@ -63,7 +63,9 @@ public class MainAutonomous extends LinearOpMode
         Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
         robot.init(hardwareMap, this, true);
-
+        robot.driveOdo.updatesThread.positionUpdate.useIMUCorrection = false;
+        robot.driveClassic.IMU_Reset();
+        robot.driveClassic.IMU_Init();
 
 
 /*
@@ -149,9 +151,13 @@ public class MainAutonomous extends LinearOpMode
                 telemetry.addData("Goal: ", "High Goal");
             }
             telemetry.addData("Num of Rings", "%s", robot.eyes.getNumRings().toString());
+            telemetry.addData("X/Y/Theta Position", "%.2f %.2f %.2f",
+                    robot.driveOdo.updatesThread.positionUpdate.returnXInches(),
+                    robot.driveOdo.updatesThread.positionUpdate.returnYInches(),
+                    robot.driveOdo.updatesThread.positionUpdate.returnOrientation());
+
             dashboardTelemetry.addData("Num of Rings", "%s", robot.eyes.getNumRings().toString());
             dashboardTelemetry.addData("Analysis", "%d", robot.eyes.pipeline.getAnalysis());
-
             dashboardTelemetry.update();
 
             telemetry.update();
@@ -164,7 +170,7 @@ public class MainAutonomous extends LinearOpMode
 
         }
         CatHW_Vision.UltimateGoalPipeline.numRings numRings = robot.eyes.getNumRings();
-        robot.driveOdo.updatesThread.positionUpdate.useIMUCorrection = false;
+
 
 
         /*
@@ -178,7 +184,6 @@ public class MainAutonomous extends LinearOpMode
          * remaining idle for a minute or two...
          */
 
-        robot.driveClassic.IMU_Init();
 
         // Time Delay:
         robot.robotWait(timeDelay);

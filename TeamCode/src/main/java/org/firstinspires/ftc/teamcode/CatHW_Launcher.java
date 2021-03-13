@@ -128,11 +128,11 @@ public class CatHW_Launcher extends CatHW_Subsystem
     }
 
     public void increasePower () {
-        launchRPM = launchRPM + 50;
+        launchRPM = launchRPM + 30;
     }
 
     public void decreasePower () {
-        launchRPM = launchRPM - 50;
+        launchRPM = launchRPM - 30;
     }
 
     /**
@@ -144,7 +144,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
 
     public void openLauncher () { stopper.setPosition(0.8);
     }
-    /**
+    /*
      * right and left for the aimer.
      */
     public void aimL ()   { aimer.setPosition(.75); }

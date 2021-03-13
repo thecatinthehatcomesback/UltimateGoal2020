@@ -52,6 +52,7 @@ public class MainTeleOp extends LinearOpMode
         // Initialize the hardware
         robot.init(hardwareMap, this, true);
         robot.driveClassic.IMU_Init();
+        robot.driveOdo.updatesThread.positionUpdate.useIMUCorrection = true;
 
         // Finished!  Now tell the driver...
         telemetry.addData("Status", "Initialized...  BOOM!");
@@ -59,7 +60,6 @@ public class MainTeleOp extends LinearOpMode
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        robot.driveOdo.updatesThread.positionUpdate.useIMUCorrection = true;
 
         if (CatHW_Async.isRedAlliance) {
             //robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_LAVA_PALETTE);
@@ -96,13 +96,13 @@ public class MainTeleOp extends LinearOpMode
             //--------------------------------------------------------------------------------------
             // Driver 1 Controls:
             //--------------------------------------------------------------------------------------
-            if(gamepad1.y && (turningMode == false)){
+            if(gamepad1.y && (turningMode == false)){ // turn for auto aim at power shot
                 turningMode = true;
                 targetAngle = baseTargetAngle - 10;
                 robot.driveOdo.turn(targetAngle,5);
                 robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
             }
-            if(gamepad1.a && (turningMode == false)){
+            if(gamepad1.a && (turningMode == false)){  // turn for auto aim
                 turningMode = true;
                 targetAngle = baseTargetAngle;
                 double currentTheta = robot.driveOdo.updatesThread.positionUpdate.returnOrientation();
@@ -115,6 +115,20 @@ public class MainTeleOp extends LinearOpMode
                 robot.driveOdo.turn(targetAngle,5);
                 robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.BLUE);
             }
+            if(gamepad1.dpad_left && (turningMode == false)){ // turn left 5 degrees
+                turningMode = true;
+                double currentTheta = robot.driveOdo.updatesThread.positionUpdate.returnOrientation();
+                targetAngle = currentTheta - 5;
+                robot.driveOdo.turn(targetAngle,2);
+                robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
+            }
+            if(gamepad1.dpad_right && (turningMode == false)){ // turn right 5 degrees
+                turningMode = true;
+                double currentTheta = robot.driveOdo.updatesThread.positionUpdate.returnOrientation();
+                targetAngle = currentTheta + 5;
+                robot.driveOdo.turn(targetAngle,2);
+                robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
+            }
             if(turningMode){
                 if(robot.driveOdo.isDone()){
                     turningMode = false;
@@ -126,7 +140,7 @@ public class MainTeleOp extends LinearOpMode
                     robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RED);
                 }
             }
-            if(Math.abs(targetAngle-robot.driveOdo.updatesThread.positionUpdate.returnOrientation()) > 5){
+            if(Math.abs(targetAngle-robot.driveOdo.updatesThread.positionUpdate.returnOrientation()) > 4){
                 robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RED);
             }
             if(gamepad1.ps){
