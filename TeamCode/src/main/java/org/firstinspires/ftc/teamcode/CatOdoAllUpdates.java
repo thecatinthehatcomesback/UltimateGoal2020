@@ -1,7 +1,20 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+
+import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
+import static org.firstinspires.ftc.teamcode.CatHW_Vision.mmPerInch;
 
 /**
  * CatOdoAllUpdates.java
@@ -26,6 +39,8 @@ public class CatOdoAllUpdates implements Runnable
     private boolean isRunning = true;
     /** The amount of time the thread will rest before running its tasks again. */
     private int sleepTime = 25;
+
+    private OpenGLMatrix lastLocation = null;
 
     /* Classes that will run off this thread. */
     CatOdoPositionUpdate positionUpdate;
@@ -88,6 +103,36 @@ public class CatOdoAllUpdates implements Runnable
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+    }
+    public void logVuforia(){
+        // check all the trackable targets to see which one (if any) is visible.
+        boolean targetVisible = false;
+        CatHW_Vision eyes = CatHW_Async.getInstance().eyes;
+        for (VuforiaTrackable trackable : eyes.allTrackables) {
+            if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
+                //telemetry.addData("Visible Target", trackable.getName());
+                targetVisible = true;
+
+                // getUpdatedRobotLocation() will return null if no new information is available since
+                // the last time that call was made, or if the trackable is not currently visible.
+                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+                if (robotLocationTransform != null) {
+                    lastLocation = robotLocationTransform;
+                }
+                break;
+            }
+        }
+
+        // Provide feedback as to where the robot is located (if we know).
+        if (targetVisible) {
+            // express position (translation) of robot in inches.
+            VectorF translation = lastLocation.getTranslation();
+
+            // express the rotation of the robot in degrees.
+            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+            Log.d("catbot", String.format("pos x/y/theta %.1f / %.1f / %.1f", translation.get(0)/ mmPerInch, translation.get(1) / mmPerInch, rotation.thirdAngle));
+
         }
     }
 }

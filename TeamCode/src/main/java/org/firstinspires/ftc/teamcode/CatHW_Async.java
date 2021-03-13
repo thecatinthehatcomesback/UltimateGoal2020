@@ -29,7 +29,7 @@ public class CatHW_Async
     /** Local OpMode members. */
     HardwareMap hwMap = null;
     LinearOpMode opMode = null;
-
+    private static CatHW_Async myInstance = null;
 
     /** Other Hardware subSystems */
     CatHW_Jaws jaws = null;
@@ -43,7 +43,9 @@ public class CatHW_Async
 
     /* Constructor */
     public CatHW_Async() {}
-
+    public static CatHW_Async getInstance(){
+        return myInstance;
+    }
 
     /**
      * Initialize all the standard Hardware interfaces as well as all the subsystem hardware
@@ -60,6 +62,8 @@ public class CatHW_Async
         // Save a reference to hardware map and opMode
         hwMap = ahwMap;
         opMode = theOpMode;
+
+        myInstance = this;
 
         // Give Telemetry for each system we begin to init:
         opMode.telemetry.addData("Initialize", "Jaws...");

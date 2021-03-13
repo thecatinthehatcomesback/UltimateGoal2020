@@ -180,9 +180,11 @@ public class CatHW_Vision extends CatHW_Subsystem
 
     private HardwareMap hwMap   = null;
     private VuforiaLocalizer vuforia = null;
+    private VuforiaTrackables targetsUltimateGoal = null;
+    public List<VuforiaTrackable> allTrackables = null;
     // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
     // We will define some constants and conversions here
-    private static final float mmPerInch        = 25.4f;
+    public static final float mmPerInch         = 25.4f;
     private static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
 
     // Constants for perimeter targets
@@ -223,6 +225,8 @@ public class CatHW_Vision extends CatHW_Subsystem
     }
     public void stop(){
         webcam.closeCameraDevice();
+        if(targetsUltimateGoal != null){targetsUltimateGoal.deactivate();}
+
     }
 
     private void initVuforia () {
@@ -253,7 +257,7 @@ public class CatHW_Vision extends CatHW_Subsystem
 
         // Load the data sets for the trackable objects. These particular data
         // sets are stored in the 'assets' part of our application.
-        VuforiaTrackables targetsUltimateGoal = this.vuforia.loadTrackablesFromAsset("UltimateGoal");
+        targetsUltimateGoal = this.vuforia.loadTrackablesFromAsset("UltimateGoal");
         //VuforiaTrackable blueTowerGoalTarget = targetsUltimateGoal.get(0);
         //blueTowerGoalTarget.setName("Blue Tower Goal Target");
         VuforiaTrackable redTowerGoalTarget = targetsUltimateGoal.get(1);
@@ -266,7 +270,7 @@ public class CatHW_Vision extends CatHW_Subsystem
         frontWallTarget.setName("Front Wall Target");
 
         // For convenience, gather together all the trackable objects in one easily-iterable collection */
-        List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+        allTrackables = new ArrayList<VuforiaTrackable>();
         allTrackables.addAll(targetsUltimateGoal);
 
         /**

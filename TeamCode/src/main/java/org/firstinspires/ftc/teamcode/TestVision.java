@@ -52,6 +52,8 @@ public class TestVision extends LinearOpMode
         Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
         robot.init(hardwareMap, this, true, true);
+        robot.driveClassic.IMU_Reset();
+
 
         /*
         Init Delay Option Select:
@@ -104,19 +106,7 @@ public class TestVision extends LinearOpMode
             }
 
 
-            /*
-             * LED code:
-             */
 
-            if (robot.eyes.getNumRings() == CatHW_Vision.UltimateGoalPipeline.numRings.NONE) {
-                robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_LAVA_PALETTE);
-            }
-            if (robot.eyes.getNumRings() == CatHW_Vision.UltimateGoalPipeline.numRings.ONE) {
-                robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_OCEAN_PALETTE);
-            }
-            if (robot.eyes.getNumRings() == CatHW_Vision.UltimateGoalPipeline.numRings.FOUR) {
-                robot.lights.setDefaultColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_PARTY_PALETTE);
-            }
 
 
             /*
@@ -135,9 +125,9 @@ public class TestVision extends LinearOpMode
             } else {
                 telemetry.addData("Goal: ", "High Goal");
             }
-            telemetry.addData("Num of Rings", "%s", robot.eyes.getNumRings().toString());
-            dashboardTelemetry.addData("Num of Rings", "%s", robot.eyes.getNumRings().toString());
-            dashboardTelemetry.addData("Analysis", "%d", robot.eyes.pipeline.getAnalysis());
+            //telemetry.addData("Num of Rings", "%s", robot.eyes.getNumRings().toString());
+            //dashboardTelemetry.addData("Num of Rings", "%s", robot.eyes.getNumRings().toString());
+            //dashboardTelemetry.addData("Analysis", "%d", robot.eyes.pipeline.getAnalysis());
 
             dashboardTelemetry.update();
 
@@ -158,19 +148,11 @@ public class TestVision extends LinearOpMode
         //powers on launcher
         //robot.launcher.powerOn();
         //drives to position to shoot rings
-        robot.driveOdo.quickDrive(0, 85, 0.75, 45, 5.0);
-        // Is this what you wanted???
-        robot.driveOdo.quickDrive(-40, 85, 0.75, 45, 5.0);
 
-        //shoots rings
-        if (isPowerShot) {
-            robot.launcher.shootPowerShots();
-        } else {
-            robot.launcher.shootHighGoal();
-        }
-        robot.launcher.aimHigh();
-
-
+        robot.driveOdo.quickDrive(-5,95,.7,45,5);
+        robot.robotWait(5);
+        robot.driveOdo.quickDrive(-40,95,.4,45,5);
+        robot.robotWait(3);
 
         robot.driveOdo.updatesThread.stop();
         robot.eyes.stop();
