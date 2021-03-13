@@ -315,10 +315,6 @@ public class MainTeleOp extends LinearOpMode
             dashboardTelemetry.addData("PID set","%.5f  %.5f  %.5f  %.5f",RobotConstants.LAUNCH_PID.p,RobotConstants.LAUNCH_PID.i,RobotConstants.LAUNCH_PID.d,RobotConstants.LAUNCH_PID.f);
             dashboardTelemetry.addData("High","%4d ",2800);
             dashboardTelemetry.addData("Low","%4d ",1800);
-
-
-
-
             dashboardTelemetry.update();
         }
 
