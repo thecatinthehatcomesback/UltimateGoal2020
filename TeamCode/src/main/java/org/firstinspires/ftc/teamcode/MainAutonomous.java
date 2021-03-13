@@ -62,7 +62,7 @@ public class MainAutonomous extends LinearOpMode
         FtcDashboard dashboard = FtcDashboard.getInstance();
         Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
-        robot.init(hardwareMap, this, true);
+        robot.init(hardwareMap, this, true, false);
         robot.driveOdo.updatesThread.positionUpdate.useIMUCorrection = false;
         robot.driveClassic.IMU_Reset();
         robot.driveClassic.IMU_Init();

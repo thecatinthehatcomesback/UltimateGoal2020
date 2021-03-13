@@ -32,7 +32,7 @@ public class Test_MotorTeleOp extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException {
         // Initialize the hardware
-        robot.init(hardwareMap, this, false);
+        robot.init(hardwareMap, this, false, false);
 
         // Define and Initialize Extra Motors: //
 

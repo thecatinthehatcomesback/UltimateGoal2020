@@ -54,7 +54,7 @@ public class CatHW_Async
      * @param isInitOdo in case using odometry style drive.
      * @throws InterruptedException in case of error.
      */
-    public void init(HardwareMap ahwMap, LinearOpMode theOpMode, boolean isInitOdo)
+    public void init(HardwareMap ahwMap, LinearOpMode theOpMode, boolean isInitOdo, boolean useVuforia)
             throws InterruptedException {
 
         // Save a reference to hardware map and opMode
@@ -101,7 +101,7 @@ public class CatHW_Async
         opMode.telemetry.addData("Initialize", "Eyes...");
         opMode.telemetry.update();
         eyes = new CatHW_Vision(this);
-        eyes.initVision(hwMap);
+        eyes.initVision(hwMap, useVuforia);
 
         opMode.telemetry.addData("Initialize", "All Done...  BOOM!");
         opMode.telemetry.update();

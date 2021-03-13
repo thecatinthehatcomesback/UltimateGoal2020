@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -26,7 +26,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * @author FTC Team #10273, The Cat in the Hat Comes Back.
  */
 
-@TeleOp(name="TestVision", group="CatAuto")
+@Autonomous(name="TestVision", group="CatAuto")
 
 public class TestVision extends LinearOpMode
 {
@@ -51,11 +51,9 @@ public class TestVision extends LinearOpMode
         FtcDashboard dashboard = FtcDashboard.getInstance();
         Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
-        robot.init(hardwareMap, this, true);
+        robot.init(hardwareMap, this, true, true);
 
-
-
-/*
+        /*
         Init Delay Option Select:
          */
 
@@ -152,24 +150,17 @@ public class TestVision extends LinearOpMode
              */
 
         }
-        CatHW_Vision.UltimateGoalPipeline.numRings numRings = robot.eyes.getNumRings();
 
         robot.driveClassic.IMU_Init();
 
         // Time Delay:
         robot.robotWait(timeDelay);
         //powers on launcher
-        robot.launcher.powerOn();
-        if (isPowerShot) {
-            robot.launcher.presetPowerShot();
-            robot.launcher.aimR();
-
-        } else {
-            robot.launcher.aimHigh();
-        }
-        robot.robotWait(1);
+        //robot.launcher.powerOn();
         //drives to position to shoot rings
-        robot.driveOdo.quickDrive(5, 60, 0.75, 5, 5.0);
+        robot.driveOdo.quickDrive(0, 85, 0.75, 45, 5.0);
+        // Is this what you wanted???
+        robot.driveOdo.quickDrive(-40, 85, 0.75, 45, 5.0);
 
         //shoots rings
         if (isPowerShot) {

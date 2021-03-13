@@ -52,7 +52,7 @@ public class odometryTest extends LinearOpMode
         FtcDashboard dashboard = FtcDashboard.getInstance();
         Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
-        robot.init(hardwareMap, this, true);
+        robot.init(hardwareMap, this, true, false);
 
 
 

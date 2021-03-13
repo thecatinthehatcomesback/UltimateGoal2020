@@ -47,7 +47,7 @@ public class TestAimTeleOp extends LinearOpMode
         Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
         // Initialize the hardware
-        robot.init(hardwareMap, this, true);
+        robot.init(hardwareMap, this, true, false);
         // Finished!  Now tell the driver...
         telemetry.addData("Status", "Initialized...  BOOM!");
         telemetry.update();

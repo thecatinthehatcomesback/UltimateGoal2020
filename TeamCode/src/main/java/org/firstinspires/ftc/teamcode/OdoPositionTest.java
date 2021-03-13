@@ -33,7 +33,7 @@ public class OdoPositionTest extends LinearOpMode
         Initialize the setDrivePowers system variables.  The init() methods of our hardware class
         does all the work:
          */
-        robot.init(hardwareMap, this, true);
+        robot.init(hardwareMap, this, true, false);
 
 
 

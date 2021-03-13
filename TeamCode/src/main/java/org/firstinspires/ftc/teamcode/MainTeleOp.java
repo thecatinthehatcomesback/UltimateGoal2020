@@ -50,7 +50,7 @@ public class MainTeleOp extends LinearOpMode
 
 
         // Initialize the hardware
-        robot.init(hardwareMap, this, true);
+        robot.init(hardwareMap, this, true, false);
         robot.driveClassic.IMU_Init();
         robot.driveOdo.updatesThread.positionUpdate.useIMUCorrection = true;
 
