@@ -148,9 +148,9 @@ public class CatHW_Launcher extends CatHW_Subsystem
      * right and left for the aimer.
      */
     public void aimL ()   { aimer.setPosition(.75); }
-    public void aimM()     {aimer.setPosition(.65);}
-    public void aimR()     {aimer.setPosition(.55);}
-    public void aimHigh() { aimer.setPosition(0.0);}
+    public void aimM ()    { aimer.setPosition(.65); }
+    public void aimR ()    { aimer.setPosition(.55); }
+    public void aimHigh () { aimer.setPosition(0.0); }
 
     public void shootPowerShots(){
         aimR();

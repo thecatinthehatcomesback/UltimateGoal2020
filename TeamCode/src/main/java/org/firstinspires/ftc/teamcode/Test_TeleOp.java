@@ -51,7 +51,7 @@ public class Test_TeleOp extends LinearOpMode
         telemetry.addData("Status: ", "Initializing...");
         telemetry.update();
         // Initialize the hardware
-        robot.init(hardwareMap, this, true);
+        robot.init(hardwareMap, this, true, false);
         robot.driveClassic.IMU_Init();
 
 
