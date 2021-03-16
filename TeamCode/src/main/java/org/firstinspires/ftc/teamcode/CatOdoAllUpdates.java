@@ -98,6 +98,7 @@ public class CatOdoAllUpdates implements Runnable
         while(isRunning) {
             positionUpdate.globalCoordinatePositionUpdate();
             powerUpdate.updatePower();
+            //logVuforia();
             try {
                 Thread.sleep(sleepTime);
             } catch (InterruptedException e) {
@@ -109,6 +110,14 @@ public class CatOdoAllUpdates implements Runnable
         // check all the trackable targets to see which one (if any) is visible.
         boolean targetVisible = false;
         CatHW_Vision eyes = CatHW_Async.getInstance().eyes;
+        if(eyes == null){
+            return;
+        }
+        if(eyes.allTrackables == null){
+            return;
+        }
+        Log.d("catbot", String.format("Vuforia Logging"));
+
         for (VuforiaTrackable trackable : eyes.allTrackables) {
             if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
                 //telemetry.addData("Visible Target", trackable.getName());

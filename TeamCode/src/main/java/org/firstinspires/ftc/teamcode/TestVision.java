@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 */
 
+import android.util.Log;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -15,6 +17,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+
+import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
+import static org.firstinspires.ftc.teamcode.CatHW_Vision.mmPerInch;
 
 /**
  * TestVision.java
@@ -38,6 +50,8 @@ public class TestVision extends LinearOpMode
     private double timeDelay;
     private boolean isRedAlliance = true;
     private boolean isPowerShot = false;
+    private OpenGLMatrix lastLocation = null;
+
 
 
 
@@ -125,6 +139,42 @@ public class TestVision extends LinearOpMode
             } else {
                 telemetry.addData("Goal: ", "High Goal");
             }
+            telemetry.addData("X/Y/Theta Position", "%.2f %.2f %.2f",
+                    robot.driveOdo.updatesThread.positionUpdate.returnXInches(),
+                    robot.driveOdo.updatesThread.positionUpdate.returnYInches(),
+                    robot.driveOdo.updatesThread.positionUpdate.returnOrientation());
+
+            boolean targetVisible = false;
+            for (VuforiaTrackable trackable : robot.eyes.allTrackables) {
+                if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
+                    telemetry.addData("Visible Target", trackable.getName());
+                    targetVisible = true;
+
+                    // getUpdatedRobotLocation() will return null if no new information is available since
+                    // the last time that call was made, or if the trackable is not currently visible.
+                    OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+                    if (robotLocationTransform != null) {
+                        lastLocation = robotLocationTransform;
+                    }
+                    break;
+                }
+            }
+
+            // Provide feedback as to where the robot is located (if we know).
+            if (targetVisible) {
+                // express position (translation) of robot in inches.
+                VectorF translation = lastLocation.getTranslation();
+                telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
+                        translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
+
+                // express the rotation of the robot in degrees.
+                Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+                telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+                telemetry.addData("Rot (deg)", "%.1f", rotation.thirdAngle + 142);
+            }
+            else {
+                telemetry.addData("Visible Target", "none");
+            }
             //telemetry.addData("Num of Rings", "%s", robot.eyes.getNumRings().toString());
             //dashboardTelemetry.addData("Num of Rings", "%s", robot.eyes.getNumRings().toString());
             //dashboardTelemetry.addData("Analysis", "%d", robot.eyes.pipeline.getAnalysis());
@@ -153,6 +203,7 @@ public class TestVision extends LinearOpMode
         robot.robotWait(5);
         robot.driveOdo.quickDrive(-40,95,.4,45,5);
         robot.robotWait(3);
+        robot.driveOdo.quickDrive(0,0,.8,0,5);
 
         robot.driveOdo.updatesThread.stop();
         robot.eyes.stop();

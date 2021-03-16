@@ -190,7 +190,7 @@ public class CatHW_Vision extends CatHW_Subsystem
     // Constants for perimeter targets
     private static final float halfField = 72 * mmPerInch;
     private static final float quadField  = 36 * mmPerInch;
-    private static final float fullField  = 144 * mmPerInch;
+    private static final float fullField  = 142 * mmPerInch;
 
     /* Constructor */
     public CatHW_Vision(CatHW_Async mainHardware){
@@ -224,7 +224,7 @@ public class CatHW_Vision extends CatHW_Subsystem
         }
     }
     public void stop(){
-        webcam.closeCameraDevice();
+        if(webcam != null){webcam.closeCameraDevice();}
         if(targetsUltimateGoal != null){targetsUltimateGoal.deactivate();}
 
     }
@@ -308,8 +308,8 @@ public class CatHW_Vision extends CatHW_Subsystem
         //        .translation(halfField, quadField, mmTargetHeight)
         //        .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0 , -90)));
         redTowerGoalTarget.setLocation(OpenGLMatrix
-                .translation(-(20 * mmPerInch), (fullField - (8 * mmPerInch)), mmTargetHeight)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 180)));
+                .translation(-(20 * mmPerInch), (fullField - (12 * mmPerInch)), mmTargetHeight)
+                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 0)));
 
         //
         // Create a transformation matrix describing where the phone is on the robot.
@@ -345,7 +345,7 @@ public class CatHW_Vision extends CatHW_Subsystem
 
         OpenGLMatrix robotFromCamera = OpenGLMatrix
                 .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES, -45, 0, 0));
+                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 0, 90, 0));
 
         /**  Let all the trackable listeners know where the phone is.  */
         for (VuforiaTrackable trackable : allTrackables) {
