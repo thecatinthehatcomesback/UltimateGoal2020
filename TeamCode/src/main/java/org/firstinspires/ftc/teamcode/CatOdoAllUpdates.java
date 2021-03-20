@@ -106,42 +106,4 @@ public class CatOdoAllUpdates implements Runnable
             }
         }
     }
-    public void logVuforia(){
-        // check all the trackable targets to see which one (if any) is visible.
-        boolean targetVisible = false;
-        CatHW_Vision eyes = CatHW_Async.getInstance().eyes;
-        if(eyes == null){
-            return;
-        }
-        if(eyes.allTrackables == null){
-            return;
-        }
-        Log.d("catbot", String.format("Vuforia Logging"));
-
-        for (VuforiaTrackable trackable : eyes.allTrackables) {
-            if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
-                //telemetry.addData("Visible Target", trackable.getName());
-                targetVisible = true;
-
-                // getUpdatedRobotLocation() will return null if no new information is available since
-                // the last time that call was made, or if the trackable is not currently visible.
-                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
-                if (robotLocationTransform != null) {
-                    lastLocation = robotLocationTransform;
-                }
-                break;
-            }
-        }
-
-        // Provide feedback as to where the robot is located (if we know).
-        if (targetVisible) {
-            // express position (translation) of robot in inches.
-            VectorF translation = lastLocation.getTranslation();
-
-            // express the rotation of the robot in degrees.
-            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-            Log.d("catbot", String.format("pos x/y/theta %.1f / %.1f / %.1f", translation.get(0)/ mmPerInch, translation.get(1) / mmPerInch, rotation.thirdAngle));
-
-        }
-    }
 }
