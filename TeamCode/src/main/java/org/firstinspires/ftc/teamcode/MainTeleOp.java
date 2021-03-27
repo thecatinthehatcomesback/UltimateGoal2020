@@ -217,16 +217,19 @@ public class MainTeleOp extends LinearOpMode
                 robot.launcher.togglePower();
                 buttontime.reset();
             }
-            if(gamepad2.dpad_left) {
-                robot.launcher.aimL();
-            } else if(gamepad2.dpad_right) {
-                robot.launcher.aimHigh();
-            }
-            robot.launcher.updatePower();
+
             if(gamepad2.b){
-                robot.launcher.openLauncher();
-            } else {
-                robot.launcher.closeLauncher();
+                robot.launcher.launch();
+            }
+            if(gamepad2.dpad_left && buttontime.milliseconds()>150){
+                robot.launcher.setTargetAngle(robot.launcher.getTargetAngle()+2);
+                buttontime.reset();
+
+            }
+            if(gamepad2.dpad_right && buttontime.milliseconds()>150){
+                robot.launcher.setTargetAngle(robot.launcher.getTargetAngle()-2);
+                buttontime.reset();
+
             }
             // Tail/Stacker lift motor controls:
             if(-gamepad2.left_stick_y>.75){
@@ -247,33 +250,11 @@ public class MainTeleOp extends LinearOpMode
 
 
             // Intake controls:
-            if (gamepad2.left_bumper) {
-                robot.jaws.setTransferPower(-1.0);
-            }else if (gamepad2.right_bumper) {
-                if (gamepad2.b) {
-                    robot.jaws.setTransferPower(0.6);
-                } else {
-                    robot.jaws.setTransferPower(1.0);
-                }
-            }else {
-                robot.jaws.setTransferPower(0.0);
+            if(gamepad2.left_bumper){
+                robot.jaws.transferDown();
+            }else if(gamepad2.right_bumper){
+                robot.jaws.transferUp();
             }
-
-            if (gamepad1.right_trigger > 0.05 && gamepad1.right_trigger > gamepad1.left_trigger) {
-                if (gamepad2.b) {
-                    robot.jaws.setTransferPower(0.6);
-                } else {
-                    robot.jaws.setTransferPower(1.0);
-                }
-            } else if (gamepad2.right_trigger > 0.05 && gamepad2.right_trigger > gamepad2.left_trigger) {
-                if (gamepad2.b) {
-                    robot.jaws.setTransferPower(0.6);
-                } else {
-                    robot.jaws.setTransferPower(1.0);
-                }
-            }
-
-
 
             // If driver 1 isn't using jaws, let driver 2 set Jaws Control:
             if (gamepad1.right_trigger - (gamepad1.left_trigger) == 0) {

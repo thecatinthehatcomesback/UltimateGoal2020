@@ -105,8 +105,8 @@ public class CatHW_DriveOdo extends CatHW_DriveBase
         super.init();
 
         // Define and Initialize Motors and Expansion Hub: //
-        leftOdometry     = hwMap.dcMotor.get("right_rear_motor");
-        rightOdometry    = hwMap.dcMotor.get("right_front_motor");
+        leftOdometry     = hwMap.dcMotor.get("left_rear_motor");
+        rightOdometry    = hwMap.dcMotor.get("left_front_motor");
         backOdometry     = hwMap.dcMotor.get("intake");
 
         // Set odometry modes: //

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -27,7 +28,9 @@ public class CatHW_Jaws extends CatHW_Subsystem
 
     // Motors: //
     public DcMotor intakeMotor = null;
-    public DcMotor transferMotor = null;
+    public Servo transferServo = null;
+    static final double transferUp = 0.6;
+    static final double transferDown = 0.2;
 
 
     // Timers: //
@@ -51,12 +54,7 @@ public class CatHW_Jaws extends CatHW_Subsystem
         // Set motor modes: //
         intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        transferMotor = hwMap.dcMotor.get("transfer");
-        transferMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        // Set motor modes: //
-        transferMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        transferServo = hwMap.servo.get("transfer");
     }
 
 
@@ -70,49 +68,34 @@ public class CatHW_Jaws extends CatHW_Subsystem
      * @param power at which the motors will spin.
      */
     public void setJawPower(double power) {
-        intakeMotor.setPower(power);
+        if(transferServo.getPosition() == transferDown){
+            intakeMotor.setPower(power);
+        }else{
+            intakeMotor.setPower(0);
+        }
     }
     public double getJawPower() {
         return intakeMotor.getPower();
     }
-
-    /**
-     * Turn off both jaws motors.
-     */
-    public void turnOffJaws() {
-        intakeMotor.setPower(0.0);
-    }
-
 
     //----------------------------------------------------------------------------------------------
     // transfer Methods:
     //----------------------------------------------------------------------------------------------
 
     /**
-     * Set the power of both transfer motors.
-     *
-     * @param power at which the motors will spin.
+     * Set the transfer to up and down.
      */
-    public void setTransferPower(double power) {
-        transferMotor.setPower(power);
-    }
+    public void transferUp() { transferServo.setPosition(transferUp); }
 
-
-    /**
-     * Turn off both Transfer motors.
-     */
-    public void turnOffTransfer() {
-        transferMotor.setPower(0.0);
-    }
+    public void transferDown() { transferServo.setPosition(transferDown); }
 
     //----------------------------------------------------------------------------------------------
     // isDone Method:
     //----------------------------------------------------------------------------------------------
     @Override
     public boolean isDone() {
-        Log.d("catbot", String.format(" intake power %.2f,", transferMotor.getPower()));
         /* isDone stuff for CatHW_Jaws */
         double TIMEOUT = 3.0;
-        return !(transferMotor.isBusy() && (runtime.seconds() < TIMEOUT));
+        return !((runtime.seconds() < TIMEOUT));
     }
 }
