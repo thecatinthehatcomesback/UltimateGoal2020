@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import android.util.Log;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -43,7 +42,7 @@ import static org.firstinspires.ftc.teamcode.CatHW_Vision.mmPerInch;
 public class TestVision extends LinearOpMode
 {
 
-/* Declare OpMode members. */
+    /* Declare OpMode members. */
 
     CatHW_Async robot  = new CatHW_Async();    // All the hardware classes init here.
     private ElapsedTime delayTimer = new ElapsedTime();
@@ -192,6 +191,8 @@ public class TestVision extends LinearOpMode
 
         }
 
+
+
         telemetry.addData("Before IMU","1");
         telemetry.update();
         robot.driveClassic.IMU_Init();
@@ -233,7 +234,7 @@ public class TestVision extends LinearOpMode
             logVuforia();
         }
         robotWait(3);
-        robot.driveOdo.translateDrive(0,0,.8,0,5);
+        robot.driveOdo.translateDrive(-4,8,.8,0,5);
         while (robot.driveOdo.isBusy()) {
             // return if the main hardware's opMode is no longer active.
             if (!opModeIsActive()) {

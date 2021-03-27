@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -306,6 +307,7 @@ public class TestVuforiaNav extends LinearOpMode {
         }
 
         // Disable Tracking when we are done;
-        targetsUltimateGoal.deactivate();
+
+        FtcDashboard.getInstance().startCameraStream(vuforia, 0);
     }
 }
