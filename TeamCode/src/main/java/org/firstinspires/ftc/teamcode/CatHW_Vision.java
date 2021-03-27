@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.util.Log;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -22,6 +25,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
+import java.security.cert.TrustAnchor;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -181,6 +185,10 @@ public class CatHW_Vision extends CatHW_Subsystem
     private VuforiaLocalizer vuforia = null;
     private VuforiaTrackables targetsUltimateGoal = null;
     public List<VuforiaTrackable> allTrackables = null;
+    private OpenGLMatrix lastLocation = null;
+    double vuforiaX = 0;
+    double vuforiaY = 0;
+    boolean isVuforiaValid = false;
     // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
     // We will define some constants and conversions here
     public static final float mmPerInch         = 25.4f;
@@ -375,5 +383,45 @@ public class CatHW_Vision extends CatHW_Subsystem
      */
     public UltimateGoalPipeline.numRings getNumRings() {
         return pipeline.avgValue;
+    }
+
+
+    public void updateVuforia(){
+        // check all the trackable targets to see which one (if any) is visible.
+        boolean targetVisible = false;
+
+        for (VuforiaTrackable trackable : allTrackables) {
+            if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
+                //telemetry.addData("Visible Target", trackable.getName());
+                targetVisible = true;
+
+                // getUpdatedRobotLocation() will return null if no new information is available since
+                // the last time that call was made, or if the trackable is not currently visible.
+                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+                if (robotLocationTransform != null) {
+                    lastLocation = robotLocationTransform;
+                }
+                break;
+            }
+        }
+
+        // Provide feedback as to where the robot is located (if we know).
+        if (targetVisible) {
+            // express position (translation) of robot in inches.
+            VectorF translation = lastLocation.getTranslation();
+
+            // express the rotation of the robot in degrees.
+            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+            Log.d("catbot", String.format("pos x/y/theta %.1f / %.1f / %.1f", translation.get(0)/ mmPerInch, translation.get(1) / mmPerInch, rotation.thirdAngle));
+            isVuforiaValid = true;
+            vuforiaX = translation.get(0)/ mmPerInch;
+            vuforiaY = translation.get(1) / mmPerInch;
+
+
+        }else{
+            isVuforiaValid = false;
+            vuforiaX = 0;
+            vuforiaY = 0;
+        }
     }
 }

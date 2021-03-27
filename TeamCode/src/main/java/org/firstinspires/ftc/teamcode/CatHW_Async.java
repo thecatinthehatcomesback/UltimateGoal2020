@@ -41,6 +41,8 @@ public class CatHW_Async
     CatHW_Vision eyes = null;
     CatHW_Lights lights = null;
 
+
+
     /* Constructor */
     public CatHW_Async() {}
     public static CatHW_Async getInstance(){
@@ -124,6 +126,7 @@ public class CatHW_Async
         ElapsedTime delayTimer = new ElapsedTime();
         while (opMode.opModeIsActive() && (delayTimer.seconds() < seconds)) {
             opMode.idle();
+            eyes.updateVuforia();
         }
     }
 }

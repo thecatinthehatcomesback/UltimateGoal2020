@@ -226,6 +226,11 @@ public class CatOdoPositionUpdate
                 IMUTimer.reset();
                 robotOrientationRadians = IMUAngle;
             }
+            if(CatHW_Async.getInstance().eyes.isVuforiaValid){
+                robotGlobalXCoordinatePosition = CatHW_Async.getInstance().eyes.vuforiaX * count_per_in;
+                robotGlobalYCoordinatePosition = CatHW_Async.getInstance().eyes.vuforiaY * count_per_in;
+
+            }
         }
 
         // Calculate velocity:
