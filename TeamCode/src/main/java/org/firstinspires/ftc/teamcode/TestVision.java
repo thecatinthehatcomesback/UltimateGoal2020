@@ -206,7 +206,16 @@ public class TestVision extends LinearOpMode
         //robot.launcher.powerOn();
         //drives to position to shoot rings
 
-        robot.driveOdo.translateDrive(-5,95,.7,45,5);
+        robot.driveOdo.translateDrive(-40,60,.7,0,5);
+
+        while (robot.driveOdo.isBusy()) {
+            // return if the main hardware's opMode is no longer active.
+            if (!opModeIsActive()) {
+                return;
+            }
+            logVuforia();
+        }
+        robot.driveOdo.translateDrive(-40,60,.7,45,5);
         while (robot.driveOdo.isBusy()) {
             // return if the main hardware's opMode is no longer active.
             if (!opModeIsActive()) {
@@ -215,7 +224,7 @@ public class TestVision extends LinearOpMode
             logVuforia();
         }
         robotWait(5);
-        robot.driveOdo.translateDrive(-40,95,.4,45,5);
+        robot.driveOdo.translateDrive(-0,60,.4,45,5);
         while (robot.driveOdo.isBusy()) {
             // return if the main hardware's opMode is no longer active.
             if (!opModeIsActive()) {
