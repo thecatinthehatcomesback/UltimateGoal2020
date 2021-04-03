@@ -38,10 +38,11 @@ public class CatHW_Launcher extends CatHW_Subsystem
     private launchStateMachine launchSM = null;
 
     //8192 ticks of the encoder and 64 tooth to 18 tooth gear
-    static final double ticksPerDegree = 8192*(64/18)/360;
-    static final double firePosistion = 0.5;
-    static final double backPosistion = 0.2;
+    static final double ticksPerDegree = 8192*(64/18)/360*1.2;
+    static final double firePosistion = 0.77;
+    static final double backPosistion = 0.38;
 
+    public static CatHW_Launcher instance = null;
 
 
 
@@ -62,9 +63,12 @@ public class CatHW_Launcher extends CatHW_Subsystem
         turretAim       = hwMap.get(CRServo.class,"aimer");
         turretEncoder   = hwMap.get(DcMotor.class,"right_front_motor");
 
+
         // Set Motor Directions: //
-        launcher.setDirection(DcMotorSimple.Direction.REVERSE);
+        launcher.setDirection(DcMotorSimple.Direction.FORWARD);
         launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        turretAim.setDirection(DcMotorSimple.Direction.FORWARD);
+
 
         // Set Motor and Servo Modes: //
         //launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -80,6 +84,8 @@ public class CatHW_Launcher extends CatHW_Subsystem
         currentAngle = 0;
         turretEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         launchSM = new launchStateMachine();
+
+        instance = this;
 
     }
 
@@ -225,6 +231,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
     class launchStateMachine{
          private LaunchStates state = LaunchStates.IDLE;
          private ElapsedTime timer = new ElapsedTime();
+
          public void update(){
              switch(state){
                  case IDLE:

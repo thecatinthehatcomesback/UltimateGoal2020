@@ -194,6 +194,7 @@ public class CatOdoPositionUpdate
         double rawHorizontalChange = normalEncoderWheelPosition - prevNormalEncoderWheelPosition;
         double horizontalChange = rawHorizontalChange - (changeInRobotOrientation *
                 horizontalEncoderTickPerDegreeOffset);
+        Log.d("catbot",String.format("odo Stuff %.2f %.2f %.2f", leftChange, rightChange, horizontalChange));
 
         double p = ((rightChange + leftChange) / 2);
         double n = horizontalChange;
@@ -226,11 +227,11 @@ public class CatOdoPositionUpdate
                 IMUTimer.reset();
                 robotOrientationRadians = IMUAngle;
             }
-            if(CatHW_Async.getInstance().eyes.isVuforiaValid){
+            /*if(CatHW_Async.getInstance().eyes.isVuforiaValid){
                 robotGlobalXCoordinatePosition = CatHW_Async.getInstance().eyes.vuforiaX * count_per_in;
                 robotGlobalYCoordinatePosition = CatHW_Async.getInstance().eyes.vuforiaY * count_per_in;
 
-            }
+            }*/
         }
 
         // Calculate velocity:
@@ -253,7 +254,12 @@ public class CatOdoPositionUpdate
         isUpdated = true;
     }
 
-    public double returnXInches() { return robotGlobalXCoordinatePosition/count_per_in; }
+    public double returnXInches() {
+        Log.d("catbot",String.format("X inches %.2f %.2f",robotGlobalXCoordinatePosition,count_per_in));
+
+        return robotGlobalXCoordinatePosition/count_per_in;
+
+    }
 
     public double returnYInches() { return robotGlobalYCoordinatePosition/count_per_in; }
 

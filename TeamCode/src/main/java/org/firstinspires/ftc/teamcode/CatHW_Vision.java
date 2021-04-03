@@ -413,7 +413,7 @@ public class CatHW_Vision extends CatHW_Subsystem
             // express the rotation of the robot in degrees.
             Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
             Log.d("catbot", String.format("pos x/y/theta %.1f / %.1f / %.1f", translation.get(0)/ mmPerInch, translation.get(1) / mmPerInch, rotation.thirdAngle));
-            isVuforiaValid = true;
+            //isVuforiaValid = true;
             vuforiaX = translation.get(0)/ mmPerInch;
             vuforiaY = translation.get(1) / mmPerInch;
 

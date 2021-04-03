@@ -29,8 +29,8 @@ public class CatHW_Jaws extends CatHW_Subsystem
     // Motors: //
     public DcMotor intakeMotor = null;
     public Servo transferServo = null;
-    static final double transferUp = 0.6;
-    static final double transferDown = 0.2;
+    static final double transferUp = 0.71;
+    static final double transferDown = 0.23;
 
 
     // Timers: //

@@ -104,6 +104,9 @@ public class CatOdoAllUpdates implements Runnable
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            if(CatHW_Launcher.instance != null){
+                CatHW_Launcher.instance.doUpdates();
+            }
         }
     }
 }
