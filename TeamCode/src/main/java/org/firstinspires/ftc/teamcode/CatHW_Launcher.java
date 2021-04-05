@@ -237,14 +237,14 @@ public class CatHW_Launcher extends CatHW_Subsystem
                  case IDLE:
                      break;
                  case MOVINGFORWARD:
-                     if(timer.seconds()>0.2){
+                     if(timer.seconds()>0.3){
                          state = LaunchStates.MOVINGBACK;
                          fireServo.setPosition(backPosistion);
                          timer.reset();
                      }
                      break;
                  case MOVINGBACK:
-                     if(timer.seconds()>0.2){
+                     if(timer.seconds()>0.35){
                          state = LaunchStates.IDLE;
                          timer.reset();
                      }
