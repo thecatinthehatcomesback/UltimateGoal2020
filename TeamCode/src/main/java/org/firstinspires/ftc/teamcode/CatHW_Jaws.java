@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -28,6 +29,9 @@ public class CatHW_Jaws extends CatHW_Subsystem
     // Motors: //
     public DcMotor intakeMotor = null;
     public DcMotor transferMotor = null;
+    public Servo leftArm = null;
+    public Servo rightArm = null;
+
 
 
     // Timers: //
@@ -56,6 +60,12 @@ public class CatHW_Jaws extends CatHW_Subsystem
 
         // Set motor modes: //
         transferMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        leftArm = hwMap.get(Servo.class,"leftArm");
+        rightArm = hwMap.get(Servo.class,"rightArm");
+        leftArm.setPosition(0);
+        rightArm.setPosition(.75);
+
 
     }
 

@@ -189,9 +189,10 @@ public class MainTeleOp extends LinearOpMode
                 robot.jaws.setJawPower(gamepad1.right_trigger - (gamepad1.left_trigger * 0.3));
             }
 
-            // Open/Close Foundation Fingers:
+            // Arm servos
+            robot.jaws.leftArm.setPosition(-gamepad2.right_stick_y*.6);
+            robot.jaws.rightArm.setPosition(0.75-(-gamepad2.right_stick_y*.6));
 
-            // Capstone servo:
 
 
 
