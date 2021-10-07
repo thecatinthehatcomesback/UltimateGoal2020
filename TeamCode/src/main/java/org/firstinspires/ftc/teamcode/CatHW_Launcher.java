@@ -39,8 +39,8 @@ public class CatHW_Launcher extends CatHW_Subsystem
 
     //8192 ticks of the encoder and 64 tooth to 18 tooth gear
     static final double ticksPerDegree = 8192*(64/18)/360*1.2;
-    static final double firePosistion = 0.77;
-    static final double backPosistion = 0.38;
+    static final double firePosistion = 0.2;
+    static final double backPosistion = 0.77;
 
     public static CatHW_Launcher instance = null;
 
@@ -65,7 +65,7 @@ public class CatHW_Launcher extends CatHW_Subsystem
 
 
         // Set Motor Directions: //
-        launcher.setDirection(DcMotorSimple.Direction.FORWARD);
+        launcher.setDirection(DcMotorSimple.Direction.REVERSE);
         launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         turretAim.setDirection(DcMotorSimple.Direction.FORWARD);
 
@@ -205,17 +205,24 @@ public class CatHW_Launcher extends CatHW_Subsystem
     public double getTargetAngle(){
         return targetAngle;
     }
-    //this is called in a seperate thread multiple times per second
+    //this is called in a separate thread multiple times per second
     public void doUpdates(){
         //calculate turret angle
         currentAngle = turretEncoder.getCurrentPosition()/ticksPerDegree;
-        //update the turret posistion and motor
-        if(Math.abs(currentAngle-targetAngle)<1.0){
-            turretAim.setPower(0);
+        //update the turret position and motor
+        if(Math.abs(currentAngle-targetAngle)<7.0){
+            if(Math.abs(currentAngle-targetAngle)<3.0) {
+                turretAim.setPower(0);
+            }else if(currentAngle>targetAngle){
+                turretAim.setPower(0.2);
+            } else {
+                turretAim.setPower(-0.2);
+            }
+
         }else if(currentAngle>targetAngle){
-            turretAim.setPower(-0.5);
+            turretAim.setPower(0.3);
         }else{
-            turretAim.setPower(0.5);
+            turretAim.setPower(-0.3);
         }
         //update launcher servo
         launchSM.update();
@@ -237,14 +244,14 @@ public class CatHW_Launcher extends CatHW_Subsystem
                  case IDLE:
                      break;
                  case MOVINGFORWARD:
-                     if(timer.seconds()>0.3){
+                     if(timer.seconds()>0.5){
                          state = LaunchStates.MOVINGBACK;
                          fireServo.setPosition(backPosistion);
                          timer.reset();
                      }
                      break;
                  case MOVINGBACK:
-                     if(timer.seconds()>0.35){
+                     if(timer.seconds()>0.55){
                          state = LaunchStates.IDLE;
                          timer.reset();
                      }

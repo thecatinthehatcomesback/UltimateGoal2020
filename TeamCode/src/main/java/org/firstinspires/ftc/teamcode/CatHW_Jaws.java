@@ -1,14 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import android.util.Log;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
 /**
@@ -68,11 +64,11 @@ public class CatHW_Jaws extends CatHW_Subsystem
      * @param power at which the motors will spin.
      */
     public void setJawPower(double power) {
-        if(transferServo.getPosition() == transferDown){
+        //if(transferServo.getPosition() == transferDown){
             intakeMotor.setPower(power);
-        }else{
-            intakeMotor.setPower(0);
-        }
+        //}else{
+          //  intakeMotor.setPower(0);
+        //}
     }
     public double getJawPower() {
         return intakeMotor.getPower();

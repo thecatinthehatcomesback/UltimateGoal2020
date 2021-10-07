@@ -186,7 +186,12 @@ public class MainTeleOp extends LinearOpMode
             if (gamepad1.left_bumper) {
                 robot.jaws.setJawPower(gamepad1.right_trigger - (gamepad1.left_trigger));
             } else {
-                robot.jaws.setJawPower(gamepad1.right_trigger - (gamepad1.left_trigger * 0.3));
+                if ((gamepad1.right_trigger > 0.1) || (gamepad1.left_trigger > 0.1)) {
+                    robot.jaws.setJawPower(gamepad1.right_trigger - (gamepad1.left_trigger * 0.3));
+                } else {
+                    // If driver 1 isn't using jaws, let driver 2 set Jaws Control:
+                    robot.jaws.setJawPower(gamepad2.right_trigger - (gamepad2.left_trigger * 0.3));
+                }
             }
 
             // Open/Close Foundation Fingers:
@@ -221,13 +226,13 @@ public class MainTeleOp extends LinearOpMode
             if(gamepad2.b){
                 robot.launcher.launch();
             }
-            if(gamepad2.dpad_left && buttontime.milliseconds()>150){
-                robot.launcher.setTargetAngle(robot.launcher.getTargetAngle()+2);
+            if(gamepad2.dpad_left && buttontime.milliseconds()>50){
+                robot.launcher.setTargetAngle(robot.launcher.getTargetAngle()+5);
                 buttontime.reset();
 
             }
-            if(gamepad2.dpad_right && buttontime.milliseconds()>150){
-                robot.launcher.setTargetAngle(robot.launcher.getTargetAngle()-2);
+            if(gamepad2.dpad_right && buttontime.milliseconds()>50){
+                robot.launcher.setTargetAngle(robot.launcher.getTargetAngle()-5);
                 buttontime.reset();
 
             }
@@ -256,10 +261,6 @@ public class MainTeleOp extends LinearOpMode
                 robot.jaws.transferUp();
             }
 
-            // If driver 1 isn't using jaws, let driver 2 set Jaws Control:
-            if (gamepad1.right_trigger - (gamepad1.left_trigger) == 0) {
-                robot.jaws.setJawPower(gamepad2.right_trigger - (gamepad2.left_trigger * 0.3));
-            }
 
 
 
@@ -275,7 +276,7 @@ public class MainTeleOp extends LinearOpMode
             telemetry.addData("Right Front Power:", "%.2f", rightFront);
             telemetry.addData("Left Back Power:", "%.2f", leftBack);
             telemetry.addData("Right Back Power:", "%.2f", rightBack);
-            telemetry.addData("Launch RPM","%.0f", robot.launcher.getLaunchRPM());
+            telemetry.addData("Launch RPM","set: %.0f   Cur: %.0f", robot.launcher.getLaunchRPM(),robot.launcher.getCurrentRPM());
 
             telemetry.addData("X Position", "%.2f", robot.driveOdo.updatesThread.positionUpdate.returnXInches());
             telemetry.addData("Y Position", "%.2f", robot.driveOdo.updatesThread.positionUpdate.returnYInches());
@@ -286,6 +287,8 @@ public class MainTeleOp extends LinearOpMode
             //      robot.driveClassic.leftRearMotor.getCurrentPosition(),
             //    robot.driveClassic.rightRearMotor.getCurrentPosition());
             telemetry.addData("Tail P/E/T", "%.2f %d %d", robot.tail.tailMover.getPower(),robot.tail.tailMover.getCurrentPosition(), robot.tail.tailMover.getTargetPosition());
+
+            telemetry.addData("intake power","%.2f", robot.jaws.getJawPower());
 
             telemetry.update();
 
